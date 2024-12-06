@@ -1,0 +1,243 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  width: 773px;
+  height: 157px;
+  text-align: center;
+  margin: 50px 0 50px 0;
+}
+.title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 43.2px;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+.text {
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 35px;
+}
+.box2 {
+  background-color: #e9eef3;
+  width: 1100px;
+  height: 481px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.line {
+  width: 90%;
+  background-color: #697581;
+}
+.subtitles {
+  margin: 0 0 -30px 20px;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 35px;
+  color: #0064ff;
+}
+.subtext {
+  font-size: 24px;
+  margin: 0 0 0 20px;
+  font-weight: 600;
+  color: #455363;
+}
+.box3 {
+  display: flex;
+  justify-content: space-between;
+  width: 1100px;
+  margin-top: 30px;
+}
+.chest1 {
+  width: 544px;
+  height: 543px;
+  border-radius: 30px;
+  background-color: #e9eef3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.chest2 {
+  width: 532px;
+  height: 543px;
+  border-radius: 30px;
+  background-color: #c3c8cd;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.subtitles2 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  width: 290px;
+  height: 64px;
+  text-align: left;
+}
+.subtitles3 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  width: 290px;
+  height: 64px;
+  text-align: left;
+  margin-bottom: 80px;
+}
+.text2 {
+  color: #455363;
+  font-size: 24px;
+  font-weight: 600;
+  width: 410px;
+  line-height: 31.2px;
+  letter-spacing: -0.02em;
+}
+.subchest {
+  width: 410px;
+  height: 370px;
+}
+.button1 {
+  background-color: #0064ff;
+  width: 300px;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  border-radius: 98px;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration: none;
+}
+.containImg {
+  background-color: #e9eef3;
+  width: 1100px;
+  height: 494px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+}
+.chest3 {
+  width: 532px;
+  height: 543px;
+  border-radius: 30px;
+  background-color: #181a20;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.NationsTitle {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  width: 410px;
+  color: #181a20;
+}
+.containerNations {
+  display: flex;
+  height: 544px;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.balance {
+  font-size: 32px;
+  font-weight: 700;
+  width: 200px;
+  margin: -150px 0 -150px -200px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #f2f4f8;
+}
+.buttonDownload {
+  width: 244px;
+  height: 65px;
+  border-radius: 97px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  color: #f2f4f8;
+  background-color: #0064ff;
+  cursor: pointer;
+  transition: 1s;
+}
+.buttonDownload:hover {
+  color: #0064ff;
+  background-color: #e9eef3;
+}
+.posventaSubtitle {
+  width: 862px;
+  height: 80px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 33.6px;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+.containerPosventa {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.titlePosventa {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 43.2px;
+  letter-spacing: -0.03em;
+  text-align: center;
+  width: 450px;
+}
+.textPosventa {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 26.88px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #455363;
+  width: 862px;
+}
+.container2 {
+  display: flex;
+  width: 1100px;
+  justify-content: space-between;
+}
+.box4 {
+  width: 544px;
+  border-radius: 30px;
+  background-color: #e9eef3;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.box5 {
+  width: 532px;
+  height: 1278px;
+}
+.chest4 {
+  height: 100%;
+}
+.cultureText {
+  width: 402px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 31.2px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #455363;
+}

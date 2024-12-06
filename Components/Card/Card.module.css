@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 85%;
+  height: 450px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  margin: 15px;
+  transition: 0.5s;
+  &:hover {
+    transform: translateY(-6px);
+    -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.65);
+    -moz-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.65);
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.65);
+  }
+}
+.image {
+  border-radius: 24px;
+  width: 100%;
+  height: auto;
+  transform: scale(0.7);
+  margin: -80px 0 -80px 0;
+}
+.content {
+  margin: 20px 16px 0 16px;
+}
+.title {
+  font-weight: 700;
+  font-size: 21px;
+}
+.button {
+  margin-top: 35px;
+  text-align: start;
+  color: #0064ff;
+  cursor: pointer;
+}
+.links{
+  text-decoration: none;
+}

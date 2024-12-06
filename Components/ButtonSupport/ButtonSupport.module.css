@@ -1,0 +1,24 @@
+.button {
+  background-color: #181a20;
+  width: 280x;
+  height: 201px;
+  border-radius: 30px;
+  transition: 0.5s;
+  &:hover {
+    background-color: #0064ff;
+    cursor: pointer;
+  }
+}
+.img {
+  position: relative;
+  left: 230px;
+  top: 25px;
+}
+.text {
+  width: 270px;
+  margin: 70px 0 0 30px;
+  height: 28px;
+  font-weight: 700;
+  font-size: 24px;
+  color: #f2f4f8;
+}

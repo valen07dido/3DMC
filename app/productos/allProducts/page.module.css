@@ -1,0 +1,30 @@
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: start;
+}
+.links {
+  text-decoration: none;
+  color: #181a20;
+}
+.cardContainer {
+  margin-top: 0px;
+}
+.globalContainer {
+  margin-top: 0px;
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.title {
+  font-size: 48px;
+  color: #181a20;
+  font-weight: 700;
+  line-height: 43.2px;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
