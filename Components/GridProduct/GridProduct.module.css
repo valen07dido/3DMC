@@ -1,0 +1,42 @@
+.gridContainer {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+  grid-gap: 20px; /* Espacio entre los elementos */
+  margin-top: 20px;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.cartas {
+  width: 100%; /* Hace que la carta ocupe todo el espacio disponible dentro de la celda */
+  max-width: 200px; /* Controla el tamaño máximo de la carta */
+  margin: 10px;
+  transition: transform 0.2s;
+}
+
+.cartas:hover {
+  transform: scale(1.05); /* Efecto de hover para resaltar la carta */
+}
+
+@media screen and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas medianas */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr; /* 1 columna en pantallas pequeñas */
+  }
+}

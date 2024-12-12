@@ -1,14 +1,17 @@
 "use client";
 import Image from "next/image";
 import styles from "@/Components/NavBar/NavBar.module.css";
-import logo from "@/public/logo-header.png";
+import logo from "@/public/logos/logo_horizontal_sin_fondo.png";
 import { IoSearchSharp } from "react-icons/io5";
 import { GoMail } from "react-icons/go";
 import { PiShoppingCart } from "react-icons/pi";
+import { FiUser } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import { IoIosMenu } from "react-icons/io";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Carousel from "../Carousel/Carousel";
+import GridProduct from "../GridProduct/GridProduct";
 
 const NavBar = () => {
   const pathname = usePathname();
@@ -59,53 +62,8 @@ const NavBar = () => {
                 {activePanel === "productos" && (
                   <div className={styles.hidden}>
                     <h1 className={styles.title}>Productos</h1>
-                    <div className={styles.menu}>
-                      <div className={styles.boxText}>
-                        <h4 className={styles.text}>Por categoría</h4>
-                        <Link href="/" className={styles.bold}>
-                          Balanzas
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Cajas registradoras
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Conector de datos
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Etiquetas electronicas
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Impresores
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Insumos y accesorios
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Lectores
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Terminales interactivas
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Verificadores de precio
-                        </Link>
-                      </div>
-                      <div className={styles.boxText}>
-                        <h4 className={styles.text}>Por soluciones</h4>
-                        <Link href="/" className={styles.bold}>
-                          Supermercados
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Comercios
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Industrias
-                        </Link>
-                        <Link href="/" className={styles.bold}>
-                          Laboratorios
-                        </Link>
-                      </div>
-                    </div>
+
+                    <GridProduct />
                   </div>
                 )}
               </div>
@@ -124,55 +82,6 @@ const NavBar = () => {
                 {activePanel === "soporte" && (
                   <div className={styles.hidden}>
                     <h1 className={styles.title}>Soporte</h1>
-                    <div className={styles.boxText}>
-                      <Link href="/" className={styles.bold}>
-                        Atencion al cliente
-                      </Link>
-                      <Link href="/soporte/tutoriales" className={styles.bold}>
-                        Tutoriales
-                      </Link>
-                      <Link href="/" className={styles.bold}>
-                        Postventa
-                      </Link>
-                      <Link href="/" className={styles.text}>
-                        Red de Tecnicos
-                      </Link>
-                      <Link href="/" className={styles.text}>
-                        Repuestos
-                      </Link>
-                      <Link href="/" className={styles.text}>
-                        Certificados
-                      </Link>
-                      <Link href="/" className={styles.bold}>
-                        Activacion de Garantias
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </Link>
-            <Link className={styles.links} href="/socios">
-              <div
-                className={
-                  pathname == "/socios"
-                    ? styles.navigationActive
-                    : styles.navigation
-                }
-                onMouseEnter={() => handlePanelToggle("socios")}
-                onMouseLeave={() => handlePanelToggle("socios")}
-              >
-                Socios
-                {activePanel === "socios" && (
-                  <div className={styles.hidden}>
-                    <h1 className={styles.title}>Socios</h1>
-                    <div className={styles.boxText}>
-                      <Link href="/" className={styles.bold}>
-                        Ingresar
-                      </Link>
-                      <Link href="/" className={styles.bold}>
-                        Registrarse
-                      </Link>
-                    </div>
                   </div>
                 )}
               </div>
@@ -191,17 +100,6 @@ const NavBar = () => {
                 {activePanel === "nosotros" && (
                   <div className={styles.hidden}>
                     <h1 className={styles.title}>Nosotros</h1>
-                    <div className={styles.boxText}>
-                      <Link href="/" className={styles.bold}>
-                        Balance social
-                      </Link>
-                      <Link href="/" className={styles.bold}>
-                        Compliance
-                      </Link>
-                      <Link href="/" className={styles.bold}>
-                        Trabajá con nosotros
-                      </Link>
-                    </div>
                   </div>
                 )}
               </div>
@@ -224,17 +122,12 @@ const NavBar = () => {
                 <IoSearchSharp className={styles.icon} />
               </button>
               <button className={styles.buttons}>
-                <GoMail className={styles.icon} />
+                <FiUser className={styles.icon} />
               </button>
               <button className={styles.buttons}>
                 <PiShoppingCart className={styles.icon} />
               </button>
             </div>
-            {/* <div className={styles.containLanguage}>
-              <button className={styles.language}>ES</button>
-              <button className={styles.language}>EN</button>
-              <button className={styles.language}>PT</button>
-            </div> */}
           </div>
         </div>
       </nav>

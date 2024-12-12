@@ -1,7 +1,8 @@
 import CardConoceMas from "@/Components/CardConoceMas/CardConoceMas";
 import styles from "./page.module.css";
 import Carousel from "@/Components/Carousel/Carousel";
-import img1 from "@/public/Balanza-Report-NX.png";
+import img1 from "@/public/products/goku/goku1.png";
+import img2 from "@/public/products/groot/groot1.png";
 import itegra from "@/public/itegra.png";
 import empresa from "../public/empresa.png";
 import HorizontalCard from "@/Components/HorizontalCard/HorizontalCard";
@@ -14,7 +15,7 @@ export default function Home() {
       text: "Report",
     },
     {
-      img: "https://res.cloudinary.com/dpa8t14c2/image/upload/v1716421621/Kretz-Practica/v88xnomekrkhcvsnmayx.png",
+      img: img2,
       text: "Master",
     },
   ];
