@@ -3,8 +3,9 @@ import styles from "./page.module.css";
 import Carousel from "@/Components/Carousel/Carousel";
 import img1 from "@/public/products/goku/goku1.png";
 import img2 from "@/public/products/groot/groot1.png";
-import itegra from "@/public/itegra.png";
-import empresa from "../public/empresa.png";
+import img3 from "@/public/products/batman/batman1.png";
+import img4 from "../public/products/harry_potter/harrypotter1.png";
+import img5 from "../public/products/trex/trex1.png";
 import HorizontalCard from "@/Components/HorizontalCard/HorizontalCard";
 import MapComponent from "@/Components/Map/Map";
 
@@ -12,30 +13,30 @@ export default function Home() {
   const arr = [
     {
       img: img1,
-      text: "Report",
+      text: "Goku",
     },
     {
       img: img2,
-      text: "Master",
+      text: "Groot articulado",
     },
   ];
   const horizontalArr = [
     {
-      img: "https://res.cloudinary.com/dpa8t14c2/image/upload/v1722602500/Kretz-Practica/products/Pantallas/voiw1ujy4j2fnfmdjxbm.png",
-      title: "Kioskos interactivos",
-      text: "Contamos con terminales interactivas a la altura de cualquier necesidad: pantalla touch, lector de código de barras, impresora, posnet, etc.",
+      img: img5,
+      title: "T-REX",
+      text: "Un poderoso tiranosaurio para espantar a todas tus visitas!",
       orientation: "D",
     },
     {
-      img: itegra,
-      title: "Software",
-      text: "Adaptable al software de gestión de cada negocio.Incluye software para el diseño de etiquetas. Permite obtener estadísticas y reportes.",
+      img: img3,
+      title: "Batman",
+      text: "Figura de accion super-realista del caballero de la noche",
       orientation: "D",
     },
     {
-      img: empresa,
-      title: "Descubre el corazón de nuestra empresa.",
-      text: "Donde la innovación cobra vida y cada día damos forma a la excelencia.",
+      img: img4,
+      title: "Funko Harry Potter",
+      text: "Un Excelente adorno para tener en tu repisa y coleccionarlos",
       orientation: "I",
     },
   ];
@@ -68,17 +69,6 @@ export default function Home() {
             />
           </div>
         ))}
-      </div>
-      <div>
-        <div>
-          <h1 className={styles.title2}>Novedades</h1>
-        </div>
-        <div className={styles.carousel}>
-          <Carousel className={styles.carouselcomp} />
-        </div>
-      </div>
-      <div className={styles.products}>
-        <MapComponent />
       </div>
     </main>
   );

@@ -15,14 +15,14 @@
   transition: 1s;
   &:hover{
     color:#f2f4f8 ;
-    background-color: #0064ff;
+    background-color: #6F6E70;
   }
 }
 
 .buttoncont {
   width: 43px;
   height: 43px;
-  background-color: #0064ff;
+  background-color: #6F6E70;
   border-radius: 50%;
   display: flex;
   justify-content: center;

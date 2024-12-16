@@ -12,7 +12,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #C8C6C6;
   width: 888px;
   padding: 24px;
   gap: 24px;
@@ -51,7 +51,7 @@
 .inputs4:focus {
   border-color: #4285f4;
   box-shadow: 0 0 5px #4285f4;
-  background-color: #ffffff;
+  background-color: #C8C6C6;
 }
 .label {
   position: absolute;
@@ -88,7 +88,7 @@ textarea.inputs {
 .button {
   padding: 10px 20px;
   font-size: 16px;
-  color: #ffffff;
+  color: #C8C6C6;
   background-color: #4285f4;
   border: none;
   border-radius: 5px;

@@ -1,18 +1,18 @@
 .container {
-  background-color: #181A20;
+  background-color: #240046;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
 }
 .chest {
   display: flex;
   padding-top: 52px;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-bottom: 30px;
 }
 .Box1 {
-  background-color: #0055d8;
+  background-color: #0096c7;
   border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
   width: 416px;
   text-align: center;
   align-content: center;
@@ -49,7 +49,7 @@
 .chest3 {
   display: flex;
   justify-content: space-between;
-  background-color: #0064ff;
+  background-color: #023e8a;
   height: 100px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -63,7 +63,7 @@
 .icon {
   font-size: 21.03px;
   margin: 10px;
-  color: #0064FF;
+  color: #ffff;
   cursor: pointer;
 }
 
@@ -97,4 +97,29 @@
 
 .speach{
   color: #F2F4F8;
+}
+.logoContainer {
+  display: flex;
+  align-items: center; /* Alinea verticalmente la imagen y el lema */
+  gap: 10px; /* Espacio entre el logo y el lema */
+}
+
+.lema {
+  width: 400px;
+  font-size: 18px; /* Tamaño de fuente del lema */
+  color: #ffff; /* Color del lema */
+  font-weight: 400; /* Peso de la fuente (puedes ajustarlo) */
+}
+
+/* Responsividad */
+@media (max-width: 900px) {
+  .logoContainer {
+    flex-direction: column; /* En pantallas pequeñas, coloca el logo y lema en columna */
+    align-items: center;
+  }
+
+  .lema {
+    font-size: 16px; /* Tamaño más pequeño del lema en móviles */
+    margin-top: 10px; /* Separación entre el logo y el lema */
+  }
 }

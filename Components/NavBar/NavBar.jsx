@@ -68,17 +68,17 @@ const NavBar = () => {
                 )}
               </div>
             </Link>
-            <Link className={styles.links} href="/soporte">
+            <Link className={styles.links} href="/peticiones">
               <div
                 className={
-                  pathname == "/soporte"
+                  pathname == "/peticiones"
                     ? styles.navigationActive
                     : styles.navigation
                 }
-                onMouseEnter={() => handlePanelToggle("soporte")}
-                onMouseLeave={() => handlePanelToggle("soporte")}
+                onMouseEnter={() => handlePanelToggle("peticiones")}
+                onMouseLeave={() => handlePanelToggle("peticiones")}
               >
-                Soporte
+                Peticiones
                 {activePanel === "soporte" && (
                   <div className={styles.hidden}>
                     <h1 className={styles.title}>Soporte</h1>

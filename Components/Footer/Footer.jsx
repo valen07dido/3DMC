@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/Components/Footer/Footer.module.css";
 import Link from "next/link";
+import logo from "@/public/logos/3dmc.png";
 import {
   FaFacebook,
   FaYoutube,
@@ -9,6 +10,7 @@ import {
   FaInstagram,
   FaRegCopyright,
 } from "react-icons/fa";
+import Image from "next/image";
 
 const Footer = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -39,44 +41,16 @@ const Footer = () => {
 
   return (
     <div className={styles.container}>
-      {isMobile ? (
-        <div>
-          <button id="Company" onClick={handleOpen}>
-            oficina
-          </button>
-          {isOpenCompany && <p>holaempresa</p>}
-          <button id="Mexico" onClick={handleOpen}>
-            mexico
-          </button>
-          {isOpenMexico && <p>holamexico</p>}
+      <div className={styles.chest}>
+        <div className={styles.logoContainer}>
+          <Image src={logo} width={150} height={200} alt="logo" />
+          <span className={styles.lema}>
+            Impresión 3D profesional para transformar tus conceptos en productos
+            de alta calidad, ideales para cada necesidad.
+          </span>{" "}
+          {/* Lema agregado */}
         </div>
-      ) : (
-        <div className={styles.chest}>
-          <div className={styles.location}>
-            <p className={styles.title}>PLANTA INDUSTRIAL</p>
-            <p className={styles.text}>
-              Ruta Nacional N°9 km 276 / 2126 / Pueblo Esther / Santa Fe /
-              Argentina
-            </p>
-            <p className={styles.text}>Tel: 0054 341 492 7400</p>
-            <Link href="mailto:ventas@kretz.com.ar" className={styles.mail}>
-              ventas@kretz.com.ar
-            </Link>
-          </div>
-
-          <div className={styles.location}>
-            <p className={styles.title}>OFICINA MEXICO</p>
-            <p className={styles.text}>
-              Calle de la Nebulosa 3033, Jardines del Bosque 44520 Guadalajara,
-              Jal., México
-            </p>
-            <p className={styles.text}>Tel: +52 33 3673 0606</p>
-            <Link href="mailto:ventas@kretz.com.mx" className={styles.mail}>
-              ventas@kretz.com.mx
-            </Link>
-          </div>
-        </div>
-      )}
+      </div>
 
       <div className={styles.chest2}>
         <div className={styles.icons}>
@@ -89,21 +63,21 @@ const Footer = () => {
         <div className={styles.line}></div>
       </div>
 
-      <div className={styles.navbar2}>
+      {/* <div className={styles.navbar2}>
         <p className={styles.componentNav}>Preguntas Frecuentes</p>
         <p className={styles.componentNav}>Políticas de privacidad</p>
         <p className={styles.componentNav}>Políticas de devolución</p>
         <p className={styles.componentNav}>Términos y condiciones</p>
-      </div>
+      </div> */}
 
       <div className={styles.chest3}>
         <div className={styles.Box1}>
-          <h3 className={styles.speach}>Un mundo de soluciones</h3>
+          <h3 className={styles.speach}>3DMC impresiones 3D</h3>
         </div>
 
         <div className={styles.Box2}>
           <h4 className={styles.copyright}>
-            <FaRegCopyright /> Derechos reservados Kretz Global
+            <FaRegCopyright /> Derechos reservados 3DMC
           </h4>
         </div>
       </div>
@@ -112,4 +86,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

@@ -1,5 +1,5 @@
 .container{
-    background-color: #FFFFFF;
+    background-color: #C8C6C6;
     width: 1111px;
     margin: 10px;
     border-radius: 30px;
@@ -18,7 +18,7 @@
     font-weight: 400;
     font-size: 40px;
     border: none;
-    background-color: #FFFFFF;
+    background-color: #C8C6C6;
     color: #455363;
 }
 .answer{
