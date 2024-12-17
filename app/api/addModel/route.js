@@ -12,12 +12,12 @@ export async function POST(request) {
           description,
           image,
           categories,
-          solutions,
+          type,
           characteristics,
           carrousel
         } = item;
 
-        if (!name || !description || !image || !categories || !solutions || !characteristics) {
+        if (!name || !description || !image || !categories || !type || !characteristics) {
           throw new Error("Faltan datos en el objeto");
         }
 
@@ -30,13 +30,13 @@ export async function POST(request) {
         const characteristicsArray = `{${characteristics.map(char => `"${char.replace(/"/g, '""')}"`).join(',')}}`;
         
         await sql`
-          INSERT INTO "Models" (name, description, image, categories, solutions, characteristics, carrousel)
+          INSERT INTO "Models" (name, description, image, categories, type, characteristics, carrousel)
           VALUES (
             ${name},
             ${description},
             ${imageArray}, 
             ${categories},
-            ${solutions},
+            ${type},
             ${characteristicsArray}, 
             ${carrousel}
           );
@@ -56,12 +56,12 @@ export async function POST(request) {
         description,
         image,
         categories,
-        solutions,
+        type,
         characteristics,
         carrousel
       } = data;
 
-      if (!name || !description || !image || !categories || !solutions || !characteristics) {
+      if (!name || !description || !image || !categories || !type || !characteristics) {
         throw new Error("Faltan datos");
       }
 
@@ -77,13 +77,13 @@ export async function POST(request) {
       const characteristicsArray = `{${characteristics.map(char => `"${char.replace(/"/g, '""')}"`).join(',')}}`;
       
       await sql`
-        INSERT INTO "Models" (name, description, image, categories, solutions, characteristics, carrousel)
+        INSERT INTO "Models" (name, description, image, categories, type, characteristics, carrousel)
         VALUES (
           ${name},
           ${description},
           ${imageArray}, 
           ${categories},
-          ${solutions},
+          ${type},
           ${characteristicsArray}, 
           ${carrousel}
         );

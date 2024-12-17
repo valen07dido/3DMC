@@ -55,7 +55,8 @@ export default function Carousel() {
         }
 
         const data = await response.json();
-        const filteredData = data.filter(item => item.carrousel);
+        console.log(data)
+        const filteredData = data.products.filter(item => item.carrousel);
         setArray(filteredData);
       } catch (error) {
         console.error("Error al obtener los datos:", error);

@@ -7,7 +7,6 @@ import img3 from "@/public/products/batman/batman1.png";
 import img4 from "../public/products/harry_potter/harrypotter1.png";
 import img5 from "../public/products/trex/trex1.png";
 import HorizontalCard from "@/Components/HorizontalCard/HorizontalCard";
-import MapComponent from "@/Components/Map/Map";
 
 export default function Home() {
   const arr = [

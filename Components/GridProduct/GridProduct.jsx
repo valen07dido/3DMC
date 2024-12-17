@@ -27,7 +27,7 @@ const GridProduct = () => {
         }
 
         const data = await response.json();
-        const filteredData = data.filter((item) => item.carrousel);
+        const filteredData = data.products.filter((item) => item.carrousel);
         setArray(filteredData);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
