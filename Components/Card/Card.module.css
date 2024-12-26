@@ -1,41 +1,76 @@
+/* Contenedor principal de la tarjeta */
 .container {
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 85%;
   height: 450px;
-  background-color: #C8C6C6;
-  border-radius: 24px;
+  background-color: #3c6e71; /* Fondo más suave */
+  border-radius: 12px; /* Bordes más redondeados */
   margin: 15px;
-  transition: 0.5s;
-  &:hover {
-    cursor: pointer;
-    transform: translateY(-6px);
-    -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.65);
-    -moz-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.65);
-    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.65);
-  }
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Transiciones más suaves */
+  overflow: hidden; /* Asegurarse de que los elementos no se desborden */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera por defecto */
 }
+
+/* Efecto hover */
+.container:hover {
+  cursor: pointer;
+  transform: translateY(-6px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Sombra más fuerte */
+}
+
+/* Estilo de la imagen dentro de la tarjeta */
 .image {
-  border-radius: 24px;
+  border-radius: 12px;
   width: 100%;
-  height: auto;
-  transform: scale(0.7);
-  margin: -80px 0 -80px 0;
+  height: 300px; /* Fijo para mantener la proporción */
+  object-fit: cover; /* Asegura que la imagen cubra todo el área sin deformarse */
+  transform: scale(1); /* Revertir escala para evitar que se vea pequeña */
+  transition: transform 0.3s ease-in-out; /* Transición suave */
 }
+
+/* Transformación de la imagen cuando el cursor está sobre la tarjeta */
+.container:hover .image {
+  transform: scale(1.05); /* Un ligero zoom en la imagen cuando se pasa el cursor */
+}
+
+/* Contenedor de contenido (texto y botón) */
 .content {
-  margin: 20px 16px 0 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 15px;
+  padding-top: 10px;
+  text-align: left; /* Alinea los textos a la izquierda */
 }
+
+/* Título de la tarjeta */
 .title {
   font-weight: 700;
-  font-size: 21px;
+  font-size: 18px;
+  color: #333; /* Un color de texto más oscuro para mayor contraste */
+  margin-bottom: 15px; /* Espacio entre el título y el botón */
+  line-height: 1.2;
 }
+
+/* Estilo del botón "Ver Más" */
 .button {
-  margin-top: 35px;
-  text-align: start;
   color: #5465FF;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  transition: color 0.3s ease-in-out; /* Efecto de transición para el color */
 }
-.links{
+
+.button:hover {
+  color: #3a5cf5; /* Cambio de color al pasar el cursor */
+}
+
+/* Enlaces */
+.links {
   text-decoration: none;
+  color: inherit; /* Para heredar el color del elemento padre */
 }

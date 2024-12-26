@@ -1,0 +1,310 @@
+/* Contenedor principal de la página */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+  padding: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Detalles del producto */
+.productDetails {
+  text-align: center;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 60px;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor flexible para imagen y texto */
+.flex1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Título del producto */
+.name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Descripción del producto */
+.description {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Contenedor de la galería de imágenes */
+.gallery {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* Imagen seleccionada (vista grande) */
+.selectedImage {
+  flex-shrink: 0; /* Evita que la imagen se reduzca */
+}
+
+.selectedImage img {
+  width: 500px;
+  height: 500px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+/* Galería de miniaturas */
+.thumbnailGallery {
+  display: flex;
+  flex-direction: column; /* Alinea las miniaturas de arriba a abajo */
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 120px;
+  height: 500px; /* Asegura que la galería ocupe el espacio de la imagen */
+}
+
+/* Estilo para cada miniatura */
+.thumbnail {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Efecto de hover en miniaturas */
+.thumbnail:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-color: #0070f3;
+}
+
+/* Estilos para la carga y errores */
+.loading,
+.error,
+.noProduct {
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.loading {
+  color: #0070f3;
+}
+
+.error {
+  color: #f44336;
+}
+
+.noProduct {
+  color: #888;
+}
+
+/* Estilo de los enlaces o botones */
+.button {
+  padding: 12px 24px;
+  background-color: #0070f3;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background-color: #005bb5;
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(2px);
+}
+
+/* Añadir un fondo oscuro con opacidad al contenedor de errores o carga */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+/* Contenedor para la información del producto */
+.productInfo {
+    margin-top: 40px;
+    text-align: left;
+    color: #ccc;
+    font-size: 1.1rem;
+  }
+  
+  .productInfo h2 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  
+  .productInfo h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-top: 15px;
+  }
+  
+  .productInfo p,
+  .productInfo ul {
+    font-size: 1.1rem;
+    color: #ddd;
+  }
+  
+  .productInfo ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  /* Estilo para el precio */
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffff;
+  margin-top: 20px;
+}
+
+/* Estilos para los botones */
+.addToCartButton {
+  background-color: #2d9cdb;
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.addToCartButton:hover {
+  background-color: #1a76b6;
+}
+
+.viewCartButton {
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 1.2rem;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.viewCartButton:hover {
+  background-color: #e6e6e6;
+}
+
+/* Estilos para el carrito */
+.cartContainer {
+  padding: 30px;
+  background-color: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cartContainer h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Elementos de los productos en el carrito */
+.cartItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cartItemDetails {
+  flex: 1;
+  padding-left: 20px;
+}
+
+/* Imagen del carrito */
+.cartImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Botones del carrito */
+.button {
+  font-size: 1rem;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #e6e6e6;
+}
+
+/* Estilo para vaciar carrito y proceder al pago */
+.clearCartButton {
+  background-color: #ff4d4d;
+  color: white;
+  margin-right: 10px;
+}
+
+.checkoutButton {
+  background-color: #2d9cdb;
+  color: white;
+}

@@ -28,7 +28,7 @@ export async function GET(request) {
       AND "type" ILIKE ${`%${typeFilter}%`}
     `;
     const countResult = await countQuery;
-    const totalItems = parseInt(countResult.rows[0].count, 10);
+    const totalItems = parseInt(countResult.rows[0].count, 9);
     const totalPages = Math.ceil(totalItems / limit);
 
     const responseData = {

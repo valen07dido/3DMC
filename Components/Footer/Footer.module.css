@@ -5,9 +5,9 @@
 }
 .chest {
   display: flex;
-  padding-top: 52px;
+  padding-top: 10px;
   justify-content: space-evenly;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 .Box1 {
   background-color: #0096c7;
@@ -31,6 +31,7 @@
   flex-grow: 1;
   height: 1px;
   background-color: grey;
+  margin: 0 15px 0 0;
 }
 .navbar2 {
   display: flex;
@@ -45,6 +46,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 .chest3 {
   display: flex;
@@ -73,7 +75,7 @@
 
 .copyright {
   margin: 0 60px 0 0;
-  color: #F2F4F8;
+  color: #f2f4f8;
 }
 .componentNav {
   color: #cdd3de;
@@ -95,8 +97,8 @@
   color: #0064ff;
 }
 
-.speach{
-  color: #F2F4F8;
+.speach {
+  color: #f2f4f8;
 }
 .logoContainer {
   display: flex;

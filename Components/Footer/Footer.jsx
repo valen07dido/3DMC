@@ -42,21 +42,13 @@ const Footer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.chest}>
-        <div className={styles.logoContainer}>
-          <Image src={logo} width={150} height={200} alt="logo" />
-          <span className={styles.lema}>
-            Impresión 3D profesional para transformar tus conceptos en productos
-            de alta calidad, ideales para cada necesidad.
-          </span>{" "}
-          {/* Lema agregado */}
-        </div>
+
       </div>
 
       <div className={styles.chest2}>
         <div className={styles.icons}>
           <FaYoutube className={styles.icon} />
           <FaFacebook className={styles.icon} />
-          <FaLinkedin className={styles.icon} />
           <FaInstagram className={styles.icon} />
         </div>
 

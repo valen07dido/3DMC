@@ -6,31 +6,46 @@ export async function POST(request) {
     const data = await request.json();
 
     if (Array.isArray(data)) {
-      const results = await Promise.all(data.map(async (item) => {
-        const {
-          name,
-          description,
-          image,
-          categories,
-          type,
-          characteristics,
-          carrousel
-        } = item;
+      const results = await Promise.all(
+        data.map(async (item) => {
+          const {
+            name,
+            description,
+            image,
+            categories,
+            type,
+            characteristics,
+            carrousel,
+            price,
+          } = item;
 
-        if (!name || !description || !image || !categories || !type || !characteristics) {
-          throw new Error("Faltan datos en el objeto");
-        }
+          if (
+            !name ||
+            !description ||
+            !image ||
+            !categories ||
+            !type ||
+            !characteristics ||
+            !price
+          ) {
+            throw new Error("Faltan datos en el objeto");
+          }
 
-        const existingModels = await sql`SELECT * FROM "Models" WHERE "name" = ${name};`;
-        if (existingModels.rowCount > 0) {
-          return { error: `El modelo ${name} ya existe` };
-        }
+          const existingModels =
+            await sql`SELECT * FROM "Models" WHERE "name" = ${name};`;
+          if (existingModels.rowCount > 0) {
+            return { error: `El modelo ${name} ya existe` };
+          }
 
-        const imageArray = `{${image.map(img => `"${img.replace(/"/g, '""')}"`).join(',')}}`;
-        const characteristicsArray = `{${characteristics.map(char => `"${char.replace(/"/g, '""')}"`).join(',')}}`;
-        
-        await sql`
-          INSERT INTO "Models" (name, description, image, categories, type, characteristics, carrousel)
+          const imageArray = `{${image
+            .map((img) => `"${img.replace(/"/g, '""')}"`)
+            .join(",")}}`;
+          const characteristicsArray = `{${characteristics
+            .map((char) => `"${char.replace(/"/g, '""')}"`)
+            .join(",")}}`;
+
+          await sql`
+          INSERT INTO "Models" (name, description, image, categories, type, characteristics, carrousel, price)
           VALUES (
             ${name},
             ${description},
@@ -38,13 +53,15 @@ export async function POST(request) {
             ${categories},
             ${type},
             ${characteristicsArray}, 
-            ${carrousel}
+            ${carrousel},
+            ${price}
           );
         `;
-        return { success: `Modelo ${name} creado exitosamente` };
-      }));
+          return { success: `Modelo ${name} creado exitosamente` };
+        })
+      );
 
-      const errors = results.filter(result => result.error);
+      const errors = results.filter((result) => result.error);
       if (errors.length > 0) {
         return NextResponse.json(errors, { status: 400 });
       }
@@ -58,14 +75,23 @@ export async function POST(request) {
         categories,
         type,
         characteristics,
-        carrousel
+        carrousel,
+        price,
       } = data;
 
-      if (!name || !description || !image || !categories || !type || !characteristics) {
+      if (
+        !name ||
+        !description ||
+        !image ||
+        !categories ||
+        !type ||
+        !characteristics
+      ) {
         throw new Error("Faltan datos");
       }
 
-      const existingModels = await sql`SELECT * FROM "Models" WHERE "name" = ${name};`;
+      const existingModels =
+        await sql`SELECT * FROM "Models" WHERE "name" = ${name};`;
       if (existingModels.rowCount > 0) {
         return NextResponse.json(
           { error: "El modelo ya existe" },
@@ -73,11 +99,15 @@ export async function POST(request) {
         );
       }
 
-      const imageArray = `{${image.map(img => `"${img.replace(/"/g, '""')}"`).join(',')}}`;
-      const characteristicsArray = `{${characteristics.map(char => `"${char.replace(/"/g, '""')}"`).join(',')}}`;
-      
+      const imageArray = `{${image
+        .map((img) => `"${img.replace(/"/g, '""')}"`)
+        .join(",")}}`;
+      const characteristicsArray = `{${characteristics
+        .map((char) => `"${char.replace(/"/g, '""')}"`)
+        .join(",")}}`;
+
       await sql`
-        INSERT INTO "Models" (name, description, image, categories, type, characteristics, carrousel)
+        INSERT INTO "Models" (name, description, image, categories, type, characteristics, carrousel,price)
         VALUES (
           ${name},
           ${description},
@@ -86,10 +116,14 @@ export async function POST(request) {
           ${type},
           ${characteristicsArray}, 
           ${carrousel}
+          ${price}
         );
       `;
 
-      return NextResponse.json({ Create: "Modelo creado exitosamente" }, { status: 200 });
+      return NextResponse.json(
+        { Create: "Modelo creado exitosamente" },
+        { status: 200 }
+      );
     }
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
