@@ -1,43 +1,62 @@
-// pages/api/payment-preference.js
+import { NextResponse } from 'next/server';
 
-import mercadopago from "mercadopago";
-
-// Configura MercadoPago con tu access token
-mercadopago.configurations.setAccessToken("algun token"); // Reemplaza con tu token
-
-export async function handler(req, res) {
-  if (req.method === "POST") {
-    // Verifica que req.body.cart esté presente y sea un arreglo
-    if (!req.body || !Array.isArray(req.body.cart)) {
-      return res.status(400).json({ error: "El cuerpo de la solicitud está mal formado o falta el carrito." });
+export async function POST(request) {
+  try {
+    // Verifica si tienes configurado el Access Token
+    const ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN;
+    if (!ACCESS_TOKEN) {
+      return NextResponse.json(
+        { error: 'El Access Token de Mercado Pago no está configurado.' },
+        { status: 500 }
+      );
     }
 
+    // Obtén los datos del cuerpo de la solicitud
+    const body = await request.json();
+    if (!body.cart || !Array.isArray(body.cart) || body.cart.length === 0) {
+      return NextResponse.json(
+        { error: 'El carrito está vacío o no es válido.' },
+        { status: 400 }
+      );
+    }
+
+    // Construir la preferencia
     const preference = {
-      items: req.body.cart.map((item) => ({
-        title: item.name,
+      items: body.cart.map((item) => ({
+        title: item.title,
         unit_price: item.price,
         quantity: item.quantity,
       })),
       back_urls: {
-        success: "http://www.your-site.com/success",  // Cambia a la URL correcta
-        failure: "http://www.your-site.com/failure",  // Cambia a la URL correcta
-        pending: "http://www.your-site.com/pending",  // Cambia a la URL correcta
+        success: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+        failure: `${process.env.NEXT_PUBLIC_BASE_URL}/failure`,
+        pending: `${process.env.NEXT_PUBLIC_BASE_URL}/pending`,
       },
-      auto_return: "approved",  // Esto garantiza que el usuario será redirigido tras el pago
+      auto_return: 'approved',
     };
 
-    try {
-      // Crear preferencia de pago en MercadoPago
-      const response = await mercadopago.preferences.create(preference);
-      // Responder con el link de pago
-      return res.status(200).json({ init_point: response.body.init_point });
-    } catch (error) {
-      console.error("Error al crear la preferencia de pago:", error);
-      // En caso de error, devolver el mensaje de error
-      return res.status(500).json({ error: error.message });
+    // Llamada a la API de Mercado Pago
+    const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(preference),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al crear la preferencia: ${errorData.message}`);
     }
-  } else {
-    // Si la petición no es POST, devolver un error 405 (Método no permitido)
-    return res.status(405).json({ error: "Método no permitido" });
+
+    const responseData = await response.json();
+    return NextResponse.json({ preferenceId: responseData.id });
+  } catch (error) {
+    console.error('Error al procesar la solicitud de pago:', error);
+    return NextResponse.json(
+      { error: error.message || 'Error interno del servidor.' },
+      { status: 500 }
+    );
   }
 }
