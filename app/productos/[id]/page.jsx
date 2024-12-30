@@ -1,15 +1,46 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Slider from "react-slick"; // Importar react-slick
 import styles from "./page.module.css";
+import Card from "@/Components/Card/Card";
+import Link from "next/link";
 
 const Page = () => {
   const id = usePathname().split("/").pop(); // Obtener el ID de la URL
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]); // Estado para productos relacionados
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const router = useRouter();
+
+  // Configuración del carrusel
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    autoplay: true,
+    arrows: false,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
 
   // Función para manejar el carrito en localStorage
   const getCartFromLocalStorage = () => {
@@ -44,6 +75,7 @@ const Page = () => {
         if (Array.isArray(data) && data.length > 0) {
           setProduct(data[0]); // Asumimos que el primer elemento es el producto
           setSelectedImage(data[0].image[0]); // Establecer la primera imagen como la predeterminada
+          fetchRelatedProducts(data[0].categories); // Obtener productos relacionados
         } else {
           throw new Error("Product not found");
         }
@@ -51,6 +83,25 @@ const Page = () => {
         setError(error.message);
       } finally {
         setLoading(false);
+      }
+    };
+
+    const fetchRelatedProducts = async (category) => {
+      try {
+        const response = await fetch(`/api/getModel`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch related products");
+        }
+        const data = await response.json();
+
+        // Filtrar productos relacionados que pertenezcan a la misma categoría
+        const filteredProducts = data.products.filter(
+          (prod) => prod.categories === category && prod.id !== id
+        );
+
+        setRelatedProducts(filteredProducts);
+      } catch (error) {
+        console.error("Error fetching related products:", error);
       }
     };
 
@@ -70,12 +121,9 @@ const Page = () => {
             <p className={styles.description}>{product.description}</p>
           </div>
           <div className={styles.gallery}>
-            {/* Imagen seleccionada en vista más grande */}
             <div className={styles.selectedImage}>
               <img src={selectedImage} alt={product.name} />
             </div>
-
-            {/* Miniaturas para la galería de imágenes */}
             <div className={styles.thumbnailGallery}>
               {product.image.map((image, index) => (
                 <img
@@ -83,7 +131,7 @@ const Page = () => {
                   src={image}
                   alt={`Thumbnail ${index + 1}`}
                   className={styles.thumbnail}
-                  onClick={() => setSelectedImage(image)} // Cambiar la imagen grande al hacer clic
+                  onClick={() => setSelectedImage(image)}
                 />
               ))}
             </div>
@@ -99,7 +147,6 @@ const Page = () => {
             <p>
               <strong>Tipo:</strong> {product.type}
             </p>
-
             <h3>Características</h3>
             <ul>
               {product.characteristics.map((char, index) => (
@@ -113,12 +160,25 @@ const Page = () => {
           </button>
           <button
             className={styles.viewCartButton}
-            onClick={() => router.push("/cart")} // Redirigir al carrito
+            onClick={() => router.push("/cart")}
           >
             Ir al carrito
           </button>
         </div>
       </div>
+      {/* Carrusel de productos relacionados */}
+      {relatedProducts.length > 0 && (
+        <div className={styles.relatedProducts}>
+          <h2>Productos Relacionados</h2>
+          <Slider {...carouselSettings} className={styles.carousel}>
+            {relatedProducts.map((related) => (
+              <Link key={related.id} href={`/productos/${related.id}`}>
+                <Card title={related.name} img={related.image[0]} />
+              </Link>
+            ))}
+          </Slider>
+        </div>
+      )}
     </div>
   );
 };
