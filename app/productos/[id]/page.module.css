@@ -7,6 +7,7 @@
   margin-bottom: 60px;
   padding: 20px;
   max-width: 1200px;
+  min-height: 500px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -315,7 +316,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 .relatedProductCard {
   width: 30px;
@@ -325,4 +325,38 @@
 .relatedTitle{
   width: 60px;
   height: 60px;
+}
+.singleProduct {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+/* Estilos para la carga, error y "no producto" */
+.loading,
+.error,
+.noProduct {
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  padding: 20px; /* Añadir padding para respetar el espaciado */
+  max-width: 1000px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ajustar el color según el estado */
+.loading {
+  color: #0070f3;
+}
+
+.error {
+  color: #f44336;
+}
+
+.noProduct {
+  color: #888;
 }

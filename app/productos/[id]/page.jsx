@@ -9,7 +9,8 @@ import Link from "next/link";
 const Page = () => {
   const id = usePathname().split("/").pop(); // Obtener el ID de la URL
   const [loading, setLoading] = useState(false);
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState(null); // Usar null en lugar de [] para un producto
+  const [productExist, setProductExist] = useState(true); // Estado para controlar si el producto existe
   const [relatedProducts, setRelatedProducts] = useState([]); // Estado para productos relacionados
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
@@ -77,10 +78,12 @@ const Page = () => {
           setSelectedImage(data[0].image[0]); // Establecer la primera imagen como la predeterminada
           fetchRelatedProducts(data[0].categories); // Obtener productos relacionados
         } else {
-          throw new Error("Product not found");
+          setProductExist(false); // Si el producto no se encuentra, actualizamos el estado
+          setProduct(null); // Aseguramos que product sea null cuando no existe
         }
       } catch (error) {
         setError(error.message);
+        setProductExist(false); // También aseguramos que el producto no existe en caso de error
       } finally {
         setLoading(false);
       }
@@ -108,75 +111,122 @@ const Page = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!product) return <div>No product data found</div>;
+  // Manejo de los mensajes de carga y error
+  if (loading) {
+    return (
+      <div className={styles.loading}>
+        <h1>Cargando...</h1>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.error}>
+        <h1>Error: {error}</h1>
+      </div>
+    );
+  }
+
+  // Si no existe el producto
+  if (!productExist) {
+    return (
+      <div className={styles.noProduct}>
+        <h1>El producto no existe</h1>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
-      <div className={styles.productDetails}>
-        <div className={styles.flex1}>
-          <div>
-            <h1 className={styles.name}>{product.name}</h1>
-            <p className={styles.description}>{product.description}</p>
-          </div>
-          <div className={styles.gallery}>
-            <div className={styles.selectedImage}>
-              <img src={selectedImage} alt={product.name} />
+      {/* Detalles del producto */}
+      {product && (
+        <div className={styles.productDetails}>
+          <div className={styles.flex1}>
+            <div>
+              <h1 className={styles.name}>{product.name}</h1>
+              <p className={styles.description}>{product.description}</p>
             </div>
-            <div className={styles.thumbnailGallery}>
-              {product.image.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  className={styles.thumbnail}
-                  onClick={() => setSelectedImage(image)}
-                />
-              ))}
+            <div className={styles.gallery}>
+              <div className={styles.selectedImage}>
+                <img src={selectedImage} alt={product.name} />
+              </div>
+              <div className={styles.thumbnailGallery}>
+                {product.image.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Thumbnail ${index + 1}`}
+                    className={styles.thumbnail}
+                    onClick={() => setSelectedImage(image)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <div className={styles.productInfo}>
-            <h2>Detalles del Producto</h2>
-            <p>
-              <strong>Categoría:</strong> {product.categories}
-            </p>
-            <p>
-              <strong>Tipo:</strong> {product.type}
-            </p>
-            <h3>Características</h3>
-            <ul>
-              {product.characteristics.map((char, index) => (
-                <li key={index}>{char}</li>
-              ))}
-            </ul>
+          <div>
+            <div className={styles.productInfo}>
+              <h2>Detalles del Producto</h2>
+              <p>
+                <strong>Categoría:</strong> {product.categories}
+              </p>
+              <p>
+                <strong>Tipo:</strong> {product.type}
+              </p>
+              <h3>Características</h3>
+              <ul>
+                {product.characteristics.map((char, index) => (
+                  <li key={index}>{char}</li>
+                ))}
+              </ul>
+            </div>
+            <h1 className={styles.price}>${product.price}</h1>
+            <button className={styles.addToCartButton} onClick={addToCart}>
+              Añadir al carrito
+            </button>
+            <button
+              className={styles.viewCartButton}
+              onClick={() => router.push("/cart")}
+            >
+              Ir al carrito
+            </button>
           </div>
-          <h1 className={styles.price}>${product.price}</h1>
-          <button className={styles.addToCartButton} onClick={addToCart}>
-            Añadir al carrito
-          </button>
-          <button
-            className={styles.viewCartButton}
-            onClick={() => router.push("/cart")}
-          >
-            Ir al carrito
-          </button>
         </div>
-      </div>
+      )}
+
       {/* Carrusel de productos relacionados */}
-      {relatedProducts.length > 0 && (
+      {relatedProducts.length > 0 ? (
         <div className={styles.relatedProducts}>
           <h2>Productos Relacionados</h2>
-          <Slider {...carouselSettings} className={styles.carousel}>
-            {relatedProducts.map((related) => (
-              <Link key={related.id} href={`/productos/${related.id}`}>
-                <Card title={related.name} img={related.image[0]} />
+
+          {/* Solo renderizamos el Slider si hay más de 1 producto relacionado */}
+          {relatedProducts.length > 1 ? (
+            <Slider {...carouselSettings} className={styles.carousel}>
+              {relatedProducts.map((related) => (
+                <Link key={related.id} href={`/productos/${related.id}`}>
+                  <Card title={related.name} img={related.image[0]} />
+                </Link>
+              ))}
+            </Slider>
+          ) : (
+            // Si solo hay un producto, lo mostramos sin el Slider
+            <div className={styles.singleProduct}>
+              <Link
+                key={relatedProducts[0].id}
+                href={`/productos/${relatedProducts[0].id}`}
+              >
+                <Card
+                  title={relatedProducts[0].name}
+                  img={relatedProducts[0].image[0]}
+                />
               </Link>
-            ))}
-          </Slider>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className={styles.noRelatedProducts}>
+          <p>No hay productos relacionados para mostrar.</p>
         </div>
       )}
     </div>

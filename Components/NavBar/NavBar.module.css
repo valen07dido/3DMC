@@ -7,7 +7,7 @@
   }
 }
 .containerGlobal {
-  background: #240046;
+  background: #090089;
   height: 70px;
   display: flex;
   width: 100%;
@@ -68,7 +68,7 @@
   align-items: center;
 }
 .buttons {
-  background-color: #240046;
+  background-color: #090089;
   border: none;
   color: #cdd3de;
   width: 30px;
