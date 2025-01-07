@@ -7,7 +7,7 @@
   }
 }
 .containerGlobal {
-  background: linear-gradient(90deg, #0000ff, #6a5acd);
+  background: linear-gradient(90deg, #d3d3d1, #5c5c5d);
   height: 70px;
   display: flex;
   width: 100%;
@@ -151,7 +151,7 @@
   position: absolute;
   top: 70px;
   right: 20%;
-  background: linear-gradient(90deg, #0000ff, #6a5acd);
+  background: linear-gradient(90deg, #d3d3d1, #5c5c5d);
   padding: 8px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -175,7 +175,7 @@
   align-items: center;
   cursor: pointer;
   padding: 4px 0;
-  color: #f5f5f5d3;
+  color: #000;
 }
 
 .searchHistory li:hover {
