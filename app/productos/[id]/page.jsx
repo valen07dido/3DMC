@@ -5,6 +5,7 @@ import Slider from "react-slick"; // Importar react-slick
 import styles from "./page.module.css";
 import Card from "@/Components/Card/Card";
 import Link from "next/link";
+import Image from "next/image";
 
 const Page = () => {
   const id = usePathname().split("/").pop(); // Obtener el ID de la URL
@@ -149,12 +150,14 @@ const Page = () => {
             </div>
             <div className={styles.gallery}>
               <div className={styles.selectedImage}>
-                <img src={selectedImage} alt={product.name} />
+                <Image src={selectedImage} alt={product.name} width={200} height={200}/>
               </div>
               <div className={styles.thumbnailGallery}>
                 {product.image.map((image, index) => (
-                  <img
-                    key={index}
+                  <Image
+                  height={100}
+                  width={100}
+                  key={index}
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
                     className={styles.thumbnail}

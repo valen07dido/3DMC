@@ -19,12 +19,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
 }
 
 .cartas {
-  width: 100%; /* Hace que la carta ocupe todo el espacio disponible dentro de la celda */
-  max-width: 200px; /* Controla el tamaño máximo de la carta */
   margin: 10px;
   transition: transform 0.2s;
   border-radius: 20px;

@@ -3,6 +3,7 @@ import styles from "./GridProduct.module.css"; // Asegúrate de tener los estilo
 import Image from "next/image";
 import imageLoading from "@/public/loading.svg";
 import Slider from "react-slick"; // Importar react-slick
+import Link from "next/link";
 
 const GridProduct = () => {
   const url = process.env.NEXT_PUBLIC_API_URL;
@@ -13,7 +14,7 @@ const GridProduct = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${url}/api/getModel?t=${new Date().getTime()}`,
+          `/api/getModel?t=${new Date().getTime()}`,
           {
             method: "GET",
             headers: {
@@ -69,18 +70,20 @@ const GridProduct = () => {
   return (
     <div className={styles.gridContainer}>
       {loading ? (
-        <Image src={imageLoading} width={50} height={50} alt="Loading" />
+        <Image src={imageLoading} width={100} height={100} alt="Loading" />
       ) : (
         <Slider {...settings} className={styles.carousel}>
           {array.map((item, index) => (
-            <div key={index} className={styles.cardContainer}>
-              <img
+            <Link key={index} className={styles.cardContainer} href={`/productos/${item.id}`}>
+              <Image
+                height={200}
+                width={200}
                 src={item.image[0]}
                 alt={item.name}
                 className={styles.cartas}
               />
               <h3>{item.name}</h3>
-            </div>
+            </Link>
           ))}
         </Slider>
       )}

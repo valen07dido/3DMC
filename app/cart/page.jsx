@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import Image from "next/image";
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
@@ -58,7 +59,9 @@ const CartPage = () => {
         <h1>Carrito de Compras</h1>
         {cart.map((item) => (
           <div key={item.id} className={styles.cartItem}>
-            <img
+            <Image
+            width={500}
+            height={500}
               src={item.image[0]} // Asegúrate de que item.image tenga la estructura correcta
               alt={item.name}
               className={styles.cartImage}

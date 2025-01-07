@@ -2,7 +2,7 @@
 import Image from "next/image";
 import styles from "@/Components/NavBar/NavBar.module.css";
 import logo from "@/public/logos/logo_horizontal_sin_fondo.png";
-import { IoSearchSharp } from "react-icons/io5";
+import { IoSearchSharp, IoCloseSharp } from "react-icons/io5";
 import { GoMail } from "react-icons/go";
 import { PiShoppingCart } from "react-icons/pi";
 import { FiUser } from "react-icons/fi";
@@ -18,6 +18,9 @@ const NavBar = () => {
   const [activePanel, setActivePanel] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [search, setSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,6 +39,33 @@ const NavBar = () => {
   const handlePanelToggle = (name) => {
     setActivePanel(name === activePanel ? null : name);
   };
+
+  useEffect(() => {
+    const savedHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+    setSearchHistory(savedHistory);
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim() === "") return;
+  
+    // Verificar si el término de búsqueda ya está en el historial
+    if (!searchHistory.includes(searchTerm)) {
+      const updatedHistory = [searchTerm, ...searchHistory].slice(0, 5);
+      setSearchHistory(updatedHistory);
+      localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+    }
+  
+    setSearchTerm("");
+    setSearch(false); // Cambiado de setIsSearchVisible
+  };
+
+  const handleRemoveHistory = (term) => {
+    const updatedHistory = searchHistory.filter((item) => item !== term);
+    setSearchHistory(updatedHistory);
+    localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+  };
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -62,7 +92,6 @@ const NavBar = () => {
                 {activePanel === "productos" && (
                   <div className={styles.hidden}>
                     <h1 className={styles.title}>Productos</h1>
-
                     <GridProduct />
                   </div>
                 )}
@@ -116,10 +145,43 @@ const NavBar = () => {
               </div>
             </Link>
           </div>
+          {search && (
+            <div className={styles.searchBox}>
+              <form onSubmit={handleSearch}>
+                <input
+                  type="text"
+                  className={styles.searchInput}
+                  placeholder="Buscar..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </form>
+              <ul className={styles.searchHistory}>
+                {searchHistory.map((term, index) => (
+                  <li key={index}>
+                    <span onClick={() => setSearchTerm(term)}>{term}</span>
+                    <span
+                      className={styles.removeHistory}
+                      onClick={() => handleRemoveHistory(term)}
+                    >
+                      X
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className={styles.box3}>
             <div>
-              <button className={styles.buttons}>
-                <IoSearchSharp className={styles.icon} />
+              <button
+                className={styles.buttons}
+                onClick={() => setSearch(!search)} // Cambia el estado de la búsqueda al hacer clic
+              >
+                {search ? (
+                  <IoCloseSharp className={styles.icon} />
+                ) : (
+                  <IoSearchSharp className={styles.icon} />
+                )}
               </button>
               <button className={styles.buttons}>
                 <FiUser className={styles.icon} />

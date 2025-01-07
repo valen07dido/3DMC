@@ -7,6 +7,7 @@ import styles from "./Carousel.module.css";
 import Card from "@/Components/Card/Card";
 import Image from "next/image";
 import imageLoading from "@/public/loading.svg"
+import Link from "next/link";
 
 export default function Carousel() {
   var settings = {
@@ -41,7 +42,7 @@ export default function Carousel() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${url}/api/getModel?t=${new Date().getTime()}`,
+          `/api/getModel?t=${new Date().getTime()}`,
           {
             method: "GET",
             headers: {
@@ -71,17 +72,17 @@ export default function Carousel() {
   return (
     <div className={styles.carouselContainer}>
           {loading ? (
-      <Image src={imageLoading} width={50} height={50}/>
+      <Image src={imageLoading} width={50} height={50} alt="cargando"/>
     ) : (
       <Slider {...settings} className={styles.carousel}>
         {array.map((item, index) => (
-          <div key={index} className={styles.cardContainer}>
+          <Link  href={`/productos/${item.id}`} key={index} className={styles.cardContainer}>
             <Card
               img={item.image[0]}
               title={item.name}
               className={styles.cartas}
             />
-          </div>
+          </Link>
         ))}
       </Slider>)}
     </div>

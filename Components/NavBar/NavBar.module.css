@@ -7,7 +7,7 @@
   }
 }
 .containerGlobal {
-  background: #090089;
+  background: linear-gradient(90deg, #0000ff, #6a5acd);
   height: 70px;
   display: flex;
   width: 100%;
@@ -68,22 +68,26 @@
   align-items: center;
 }
 .buttons {
-  background-color: #090089;
+  background: none;
   border: none;
   color: #cdd3de;
   width: 30px;
   margin-inline: 2px;
   height: 70px;
+  transition: background-color 0.3s ease-in-out;
 }
+
 .icon {
   font-size: 20px;
   width: 20px;
   height: 70px;
   color: #f2f4f8;
+  transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
   &:hover {
     cursor: pointer;
     height: 66px;
     border-bottom: #f2f4f8 4px solid;
+    color: #6a5acd;
   }
 }
 
@@ -91,7 +95,7 @@
   position: absolute;
   right: 0%;
   top: 70px;
-  background-color: #C8C6C6E5;
+  background: linear-gradient(180deg, #c8c6c6e5, #ffffff);
   display: flex;
   width: 100%;
   min-height: 200px;
@@ -135,6 +139,70 @@
   display: flex;
   flex-direction: column;
 }
+.searchContainer {
+  position: relative;
+}
+.searchInput {
+  width: 300px;
+  border-radius: 20px;
+  padding: 10px;
+}
+.searchBox {
+  position: absolute;
+  top: 70px;
+  right: 20%;
+  background: linear-gradient(90deg, #0000ff, #6a5acd);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeSearch 0.5s ease-in-out;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchHistory {
+  margin-top: 8px;
+  list-style: none;
+  padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.searchHistory li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 0;
+  color: #f5f5f5d3;
+}
+
+.searchHistory li:hover {
+  color: #ffff;
+}
+
+.removeHistory {
+  margin-left: 8px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.removeHistory:hover {
+  color: rgb(255, 255, 255);
+}
+
+@keyframes fadeSearch {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 .iconMobile {
   font-size: 40px;
   color: #f2f4f8;
@@ -150,9 +218,9 @@
     flex-direction: column;
     align-items: flex-start;
   }
-.image{
-  margin: 0 0 0 10px;
-}
+  .image {
+    margin: 0 0 0 10px;
+  }
   .buttons {
     margin: 5px 10px;
   }
