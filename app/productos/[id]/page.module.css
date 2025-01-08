@@ -106,7 +106,7 @@
 .thumbnail:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  border-color: #0070f3;
+  border-color: #5c5c5d;
 }
 
 /* Estilos para la carga y errores */
@@ -120,58 +120,6 @@
   font-weight: bold;
 }
 
-.loading {
-  color: #0070f3;
-}
-
-.error {
-  color: #f44336;
-}
-
-.noProduct {
-  color: #888;
-}
-
-/* Estilo de los enlaces o botones */
-.button {
-  padding: 12px 24px;
-  background-color: #0070f3;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.button:hover {
-  background-color: #005bb5;
-  transform: translateY(-2px);
-}
-
-.button:active {
-  transform: translateY(2px);
-}
-
-/* Añadir un fondo oscuro con opacidad al contenedor de errores o carga */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-/* Contenedor para la información del producto */
 .productInfo {
   margin-top: 40px;
   text-align: left;
@@ -211,7 +159,7 @@
 
 /* Estilos para los botones */
 .addToCartButton {
-  background-color: #2d9cdb;
+  background-color: #5c5c5d;
   color: white;
   font-size: 1.2rem;
   padding: 12px 20px;
@@ -223,7 +171,8 @@
 }
 
 .addToCartButton:hover {
-  background-color: #1a76b6;
+  background-color: #c8c8c8;
+  color: #1e1e1e;
 }
 
 .viewCartButton {
@@ -241,74 +190,7 @@
   background-color: #e6e6e6;
 }
 
-/* Estilos para el carrito */
-.cartContainer {
-  padding: 30px;
-  background-color: #fff;
-  max-width: 1200px;
-  margin: 0 auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
 
-.cartContainer h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Elementos de los productos en el carrito */
-.cartItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: #f7f7f7;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.cartItemDetails {
-  flex: 1;
-  padding-left: 20px;
-}
-
-/* Imagen del carrito */
-.cartImage {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-/* Botones del carrito */
-.button {
-  font-size: 1rem;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.button:hover {
-  background-color: #e6e6e6;
-}
-
-/* Estilo para vaciar carrito y proceder al pago */
-.clearCartButton {
-  background-color: #ff4d4d;
-  color: white;
-  margin-right: 10px;
-}
-
-.checkoutButton {
-  background-color: #2d9cdb;
-  color: white;
-}
 .relatedProducts{
   width: 100%;
 }
@@ -332,7 +214,6 @@
   align-items: center;
   margin: 20px 0;
 }
-/* Estilos para la carga, error y "no producto" */
 .loading,
 .error,
 .noProduct {
@@ -348,15 +229,3 @@
   margin-right: auto;
 }
 
-/* Ajustar el color según el estado */
-.loading {
-  color: #0070f3;
-}
-
-.error {
-  color: #f44336;
-}
-
-.noProduct {
-  color: #888;
-}

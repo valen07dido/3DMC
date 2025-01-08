@@ -13,7 +13,7 @@
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "leaflet": "^1.9.4",
-    "mercadopago": "^2.1.0",
+    "mercadopago": "^1.5.10",
     "next": "^14.2.3",
     "node": "^18.20.2",
     "react": "^18.3.1",

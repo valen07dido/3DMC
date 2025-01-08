@@ -7,7 +7,7 @@
   width: 85%;
   height: 450px;
   background-color: #5c5c5d; /* Fondo más suave */
-  border-radius: 12px; /* Bordes más redondeados */
+  border-radius: 5px; /* Bordes más redondeados */
   margin: 15px;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Transiciones más suaves */
   overflow: hidden; /* Asegurarse de que los elementos no se desborden */
