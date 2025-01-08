@@ -1,41 +1,52 @@
-import mercadopago from "mercadopago";
-import { NextResponse } from "next/server";
+const mercadopago = require("mercadopago");
 
-// Configurar Mercado Pago con tu Access Token
+// Configura Mercado Pago con tu Access Token
 mercadopago.configure({
   access_token: process.env.MERCADOPAGO_ACCESS_TOKEN,
 });
 
-export async function POST(request) {
+// Exporta el manejador de la ruta como un endpoint de Next.js
+export async function POST(req) {
   try {
-    const body = await request.json();
+    const body = await req.json(); // Parsear el cuerpo de la solicitud
+    const { items } = body;
 
-    // Preferencia de pago
+    console.log("Request body:", body);
+
+    // Configuración de la preferencia
     const preference = {
-      items: body.items, // Productos que envía el frontend
-      payer: {
-        name: body.payer.name,
-        email: body.payer.email,
-      },
+      items: items.map((item) => ({
+        title: item.title,
+        quantity: item.quantity,
+        unit_price: item.unit_price,
+        currency_id: "ARS",
+        description: item.description.slice(0, 256), // Limitar a 256 caracteres
+      })),
       back_urls: {
-        success: `${process.env.BASE_URL}/success`,
-        failure: `${process.env.BASE_URL}/failure`,
-        pending: `${process.env.BASE_URL}/pending`,
+        success: `${process.env.NEXT_PUBLIC_API_URL}/success`,
+        failure: `${process.env.NEXT_PUBLIC_API_URL}/failure`,
+        pending: `${process.env.NEXT_PUBLIC_API_URL}/pending`,
       },
       auto_return: "approved",
     };
 
+    // Crear preferencia
     const response = await mercadopago.preferences.create(preference);
 
-    return NextResponse.json(
-      { init_point: response.body.init_point },
-      { status: 200 }
-    );
+    // Verifica si recibiste el init_point
+    if (!response.body.init_point) {
+      throw new Error("No se recibió init_point de Mercado Pago");
+    }
+
+    return new Response(JSON.stringify({ init_point: response.body.init_point }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
-    console.error("Error al crear la preferencia:", error);
-    return NextResponse.json(
-      { error: "Error al procesar el pago" },
-      { status: 500 }
+    console.error("Error en la creación de la preferencia:", error.message);
+    return new Response(
+      JSON.stringify({ error: "Error al crear la preferencia de pago" }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
     );
   }
 }

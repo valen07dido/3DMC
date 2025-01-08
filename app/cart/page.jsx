@@ -34,37 +34,38 @@ const CartPage = () => {
 
   // Manejar el proceso de pago
   const handlePayment = async () => {
-    if (cart.length === 0) {
-      alert("El carrito está vacío. Agrega productos antes de proceder al pago.");
-      return;
-    }
-
-    setLoading(true);
+    const items = cart.map((item) => ({
+      title: item.name,
+      description: item.description || "Sin descripción",
+      picture_url: item.image?.[0] || "/default-image.jpg",
+      quantity: item.quantity,
+      unit_price: item.price,
+      currency_id: "ARS", // Moneda obligatoria
+    }));
+  
     try {
       const response = await fetch("/api/payment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cart }), // Enviar el carrito al backend
+        body: JSON.stringify({ items }),
       });
-
+  
       const data = await response.json();
-
-      if (data.init_point) {
-        window.location.href = data.init_point; // Redirigir al usuario a Mercado Pago
-      } else {
-        console.error("Error: No se recibió init_point");
-        alert("Hubo un problema al generar el pago. Intenta nuevamente.");
+  
+      if (!data.init_point) {
+        throw new Error("No se recibió init_point");
       }
+  
+      window.location.href = data.init_point;
     } catch (error) {
-      console.error("Error en la creación de la preferencia:", error);
-      alert("Ocurrió un error al procesar el pago. Intenta nuevamente más tarde.");
-    } finally {
-      setLoading(false);
+      console.error("Error en la creación de la preferencia:", error.message);
+      alert("Ocurrió un error al procesar el pago.");
     }
   };
-
+  
+  
   // Mostrar mensaje si el carrito está vacío
   if (cart.length === 0) {
     return <div className={styles.emptyCart}>No hay productos en el carrito</div>;
