@@ -96,6 +96,7 @@ const ProductsPage = () => {
                 img={item.image[0]} // Asegúrate de usar la primera imagen o la principal
                 title={item.name}
                 className={styles.cartas}
+                price={item.price}
               />
             </Link>
           ))}

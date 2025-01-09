@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import Carousel from "../Carousel/Carousel";
 import GridProduct from "../GridProduct/GridProduct";
-
+import { useRouter } from "next/navigation";
 const NavBar = () => {
   const pathname = usePathname();
   const [activePanel, setActivePanel] = useState(null);
@@ -21,6 +21,7 @@ const NavBar = () => {
   const [search, setSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchHistory, setSearchHistory] = useState([]);
+  const router=useRouter()
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,21 +42,22 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+    const savedHistory =
+      JSON.parse(localStorage.getItem("searchHistory")) || [];
     setSearchHistory(savedHistory);
   }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim() === "") return;
-  
+
     // Verificar si el término de búsqueda ya está en el historial
     if (!searchHistory.includes(searchTerm)) {
       const updatedHistory = [searchTerm, ...searchHistory].slice(0, 5);
       setSearchHistory(updatedHistory);
       localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
     }
-  
+    router.push(`/search?query=${searchTerm}`)
     setSearchTerm("");
     setSearch(false); // Cambiado de setIsSearchVisible
   };

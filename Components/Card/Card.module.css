@@ -1,76 +1,66 @@
 /* Contenedor principal de la tarjeta */
 .container {
+  position: relative; /* Relativo para posicionar elementos dentro */
+  width: 85%;
+  height: 350px; /* Tamaño de la tarjeta */
+  background-color: #5c5c5d; /* Fondo por defecto */
+  border-radius: 5px; /* Bordes redondeados */
+  margin: 15px;
+  overflow: hidden; /* Ocultar el contenido que se desborda */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto hover en la tarjeta */
+.container:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Imagen de la tarjeta */
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra todo el área sin deformarse */
+  transition: transform 0.3s ease-in-out; /* Transición para el zoom */
+}
+
+.container:hover .image {
+  transform: scale(1.05); /* Zoom al pasar el cursor */
+}
+
+/* Contenedor de contenido */
+.content {
+  position: absolute; /* Posicionado sobre la imagen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 85%;
-  height: 450px;
-  background-color: #5c5c5d; /* Fondo más suave */
-  border-radius: 5px; /* Bordes más redondeados */
-  margin: 15px;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Transiciones más suaves */
-  overflow: hidden; /* Asegurarse de que los elementos no se desborden */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera por defecto */
+  opacity: 0; /* Invisible por defecto */
+  transition: opacity 0.3s ease-in-out; /* Transición para la visibilidad */
 }
 
-/* Efecto hover */
-.container:hover {
-  cursor: pointer;
-  transform: translateY(-6px);
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Sombra más fuerte */
-}
-
-/* Estilo de la imagen dentro de la tarjeta */
-.image {
-  border-radius: 12px;
-  width: 100%;
-  height: 300px; /* Fijo para mantener la proporción */
-  object-fit: cover; /* Asegura que la imagen cubra todo el área sin deformarse */
-  transform: scale(1); /* Revertir escala para evitar que se vea pequeña */
-  transition: transform 0.3s ease-in-out; /* Transición suave */
-}
-
-/* Transformación de la imagen cuando el cursor está sobre la tarjeta */
-.container:hover .image {
-  transform: scale(1.05); /* Un ligero zoom en la imagen cuando se pasa el cursor */
-}
-
-/* Contenedor de contenido (texto y botón) */
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin: 15px;
-  padding-top: 10px;
-  text-align: left; /* Alinea los textos a la izquierda */
+.container:hover .content {
+  opacity: 1; /* Visible al pasar el cursor */
 }
 
 /* Título de la tarjeta */
 .title {
   font-weight: 700;
   font-size: 18px;
-  color: #0d0d0d; /* Un color de texto más oscuro para mayor contraste */
-  margin-bottom: 15px; /* Espacio entre el título y el botón */
-  line-height: 1.2;
+  color: #ffffff; /* Texto blanco */
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-/* Estilo del botón "Ver Más" */
-.button {
-  color: #d9d9d9;
+/* Precio de la tarjeta */
+.price {
   font-size: 16px;
+  color: #ffffff; /* Texto blanco */
   font-weight: 600;
-  cursor: pointer;
-  transition: color 0.3s ease-in-out; /* Efecto de transición para el color */
-}
-
-.button:hover {
-  color: #8c8c8c; /* Cambio de color al pasar el cursor */
-}
-
-/* Enlaces */
-.links {
-  text-decoration: none;
-  color: inherit; /* Para heredar el color del elemento padre */
 }

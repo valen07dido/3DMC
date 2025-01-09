@@ -116,7 +116,7 @@ const Page = () => {
   if (loading) {
     return (
       <div className={styles.loading}>
-        <h1>Cargando...</h1>
+        <h1 className={styles.info}>Cargando...</h1>
       </div>
     );
   }
@@ -124,7 +124,7 @@ const Page = () => {
   if (error) {
     return (
       <div className={styles.error}>
-        <h1>Error: {error}</h1>
+        <h1  className={styles.info}>Error: {error}</h1>
       </div>
     );
   }
@@ -133,7 +133,7 @@ const Page = () => {
   if (!productExist) {
     return (
       <div className={styles.noProduct}>
-        <h1>El producto no existe</h1>
+        <h1  className={styles.info}>El producto no existe</h1>
       </div>
     );
   }
@@ -208,7 +208,7 @@ const Page = () => {
             <Slider {...carouselSettings} className={styles.carousel}>
               {relatedProducts.map((related) => (
                 <Link key={related.id} href={`/productos/${related.id}`}>
-                  <Card title={related.name} img={related.image[0]} />
+                  <Card title={related.name} img={related.image[0]} price={related.price} />
                 </Link>
               ))}
             </Slider>
@@ -222,6 +222,7 @@ const Page = () => {
                 <Card
                   title={relatedProducts[0].name}
                   img={relatedProducts[0].image[0]}
+                  price={relatedProducts[0].price}
                 />
               </Link>
             </div>

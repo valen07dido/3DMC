@@ -81,6 +81,7 @@ export default function Carousel() {
               img={item.image[0]}
               title={item.name}
               className={styles.cartas}
+              price={item.price}
             />
           </Link>
         ))}
