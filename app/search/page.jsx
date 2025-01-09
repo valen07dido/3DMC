@@ -45,7 +45,7 @@ const SearchPage = () => {
       <h1>Resultados para "{term}"</h1>
       <div className={styles.box}>
         {results.map((item) => (
-          <Link href={`/productos/${item.id}`} className={styles.cardContainer}>
+          <Link href={`/productos/${item.id}`} className={styles.cardContainer} key={item.id}>
             <Card title={item.name} price={item.price} img={item.image[0]} />
           </Link>
         ))}
