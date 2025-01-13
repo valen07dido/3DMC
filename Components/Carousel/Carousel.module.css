@@ -1,6 +1,5 @@
 .carouselContainer {
-  overflow: hidden; 
-  max-width: 1300px;
+  overflow: hidden;
 }
 
 .carousel :global(.slick-dots li button:before) {
@@ -19,18 +18,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .cardContainer {
-  margin-left: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
   justify-items: center;
-  height: 516px;
-  margin-top: 30px;
+  margin-bottom: 30px;
   text-decoration: none;
 }
-.cartas{
-  width: 300px;
+.cartas {
+  width: 200px;
+
 }

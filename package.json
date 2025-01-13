@@ -11,7 +11,8 @@
   "dependencies": {
     "@vercel/postgres": "^0.10.0",
     "axios": "^1.7.2",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "mercadopago": "^1.5.10",
     "next": "^14.2.3",

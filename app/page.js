@@ -11,10 +11,12 @@ import HorizontalCard from "@/Components/HorizontalCard/HorizontalCard";
 export default function Home() {
   const arr = [
     {
+      id:"a9e51f80-431d-4dcd-86cf-be7fa8f2052e",
       img: img1,
       text: "Goku",
     },
     {
+      id:"a9e51f80-431d-4dcd-86cf-be7fa8f2052e",
       img: img2,
       text: "Groot articulado",
     },
@@ -53,7 +55,7 @@ export default function Home() {
       <div className={styles.products}>
         {arr.map((item, index) => (
           <div key={index} className={styles.cardContainer}>
-            <CardConoceMas img={item.img} text={item.text} />
+            <CardConoceMas img={item.img} text={item.text} id={item.id}/>
           </div>
         ))}
       </div>

@@ -7,13 +7,19 @@ import { PiShoppingCart } from "react-icons/pi";
 import { FiUser } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import UserLoginModal from "@/Components/UserLoginModal/UserLoginModal";
+import UserSidebar from "@/Components/UserSidebar/UserSidebar";
+import UserRegisterModal from "@/Components/UserRegisterModal/UserRegisterModal";
 
 const NavBar = () => {
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchHistory, setSearchHistory] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está logueado
+  const [showLoginModal, setShowLoginModal] = useState(false); // Mostrar modal de login
+  const [showRegisterModal, setShowRegisterModal] = useState(false); // Mostrar modal de registro
+  const [showSidebar, setShowSidebar] = useState(false); // Mostrar sidebar
   const router = useRouter();
 
   const handleSearch = (e) => {
@@ -23,10 +29,14 @@ const NavBar = () => {
     setSearchTerm("");
   };
 
-  const handleRemoveHistory = (term) => {
-    const updatedHistory = searchHistory.filter((item) => item !== term);
-    setSearchHistory(updatedHistory);
-    localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+  const handleUserIconClick = () => {
+    if (isLoggedIn) {
+      // Si está logueado, muestra el sidebar
+      setShowSidebar(!showSidebar);
+    } else {
+      // Si no está logueado, muestra el modal de login
+      setShowLoginModal(true);
+    }
   };
 
   return (
@@ -69,22 +79,11 @@ const NavBar = () => {
               Nosotros
             </div>
           </Link>
-          <Link href="/noticias" className={styles.links}>
-            <div
-              className={
-                pathname == "/noticias"
-                  ? styles.navigationActive
-                  : styles.navigation
-              }
-            >
-              Noticias
-            </div>
-          </Link>
         </div>
 
         <div className={styles.box3}>
           <div className={styles.searchBox}>
-            <form onSubmit={handleSearch}>
+            <form onSubmit={handleSearch} className={styles.searchForm}>
               <input
                 type="text"
                 className={styles.searchInput}
@@ -92,23 +91,16 @@ const NavBar = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <button type="submit" className={styles.searchButton}>
+                <IoSearchSharp />
+              </button>
             </form>
-            <ul className={styles.searchHistory}>
-              {searchHistory.map((term, index) => (
-                <li key={index}>
-                  <span onClick={() => setSearchTerm(term)}>{term}</span>
-                  <span
-                    className={styles.removeHistory}
-                    onClick={() => handleRemoveHistory(term)}
-                  >
-                    X
-                  </span>
-                </li>
-              ))}
-            </ul>
           </div>
 
-          <button className={styles.buttons}>
+          <button
+            className={styles.buttons}
+            onClick={handleUserIconClick}
+          >
             <FiUser className={styles.icon} />
           </button>
           <button className={styles.buttons}>
@@ -116,6 +108,32 @@ const NavBar = () => {
           </button>
         </div>
       </div>
+
+      {/* Modal para login */}
+      {showLoginModal && (
+        <UserLoginModal
+          onClose={() => setShowLoginModal(false)}
+          onLoginSuccess={() => {
+            setIsLoggedIn(true);
+            setShowLoginModal(false);
+          }}
+        >
+        </UserLoginModal>
+      )}
+
+      {/* Modal para registro */}
+      {showRegisterModal && (
+        <UserRegisterModal
+          onClose={() => setShowRegisterModal(false)}
+          onRegisterSuccess={() => {
+            setIsLoggedIn(true);
+            setShowRegisterModal(false);
+          }}
+        />
+      )}
+
+      {/* Sidebar para usuario logueado */}
+      {showSidebar && <UserSidebar onClose={() => setShowSidebar(false)} />}
     </nav>
   );
 };

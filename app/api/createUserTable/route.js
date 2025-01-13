@@ -10,6 +10,7 @@ export async function GET(request) {
         email VARCHAR(255) UNIQUE NOT NULL,
         password TEXT NOT NULL,
         name VARCHAR(255),
+        username VARCHAR(255) UNIQUE NOT NULL,
         rol VARCHAR(255) CHECK (rol IN ('client', 'admin')) DEFAULT 'client',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );

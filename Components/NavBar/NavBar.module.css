@@ -65,6 +65,8 @@
 .box3 {
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
+  width: 500px;
 }
 
 .buttons {
@@ -95,16 +97,40 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  justify-items: center;
   flex-direction: column;
-  width: 300px; /* Tamaño ajustado para que esté visible */
+  width: 300px;
+  margin-right: 60px;
+  position: relative; /* Posición relativa para manejar elementos hijos */
+}
+
+.searchForm {
+  width: 100%;
+  height: 100%;
+  position: relative; /* Necesario para el botón */
 }
 
 .searchInput {
-  padding: 8px;
-  border-radius: 4px;
-  height: 100%;
-  margin: 10% 0 0 0 ;
+  width: 100%;
+  padding: 8px 12px; /* Ajustar para dar espacio al botón */
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.searchButton {
+  position: absolute;
+  top: 55%;
+  left: 290px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #5c5c5d;
+  font-size: 18px;
+}
+
+.searchButton:hover {
+  color: #483d8b;
 }
 
 .searchHistory {
@@ -119,6 +145,21 @@
   display: flex;
   justify-content: space-between;
   padding: 4px 0;
+}
+
+.removeHistory {
+  color: #fff;
+  cursor: pointer;
+}
+
+.removeHistory:hover {
+  color: #ff6347;
+}
+
+@media (max-width: 900px) {
+  .searchBox {
+    width: 90%;
+  }
 }
 
 .removeHistory {
