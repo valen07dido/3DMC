@@ -30,7 +30,7 @@ export async function POST(request) {
       SECRET_KEY,
       { expiresIn: "2h" }
     );
-
+    
     // Configura la cookie en la respuesta
     const response = NextResponse.json({ message: "Inicio de sesión exitoso" });
     response.cookies.set("authToken", token, {

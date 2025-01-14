@@ -1,11 +1,10 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export async function POST(request) {
   try {
     const { email, password, name, username } = await request.json();
-
     // Validar que todos los campos estén presentes
     if (!email || !password || !name || !username) {
       return NextResponse.json(

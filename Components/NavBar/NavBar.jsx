@@ -4,11 +4,13 @@ import styles from "@/Components/NavBar/NavBar.module.css";
 import logo from "@/public/logos/logo_horizontal_sin_fondo.png";
 import { IoSearchSharp } from "react-icons/io5";
 import { PiShoppingCart } from "react-icons/pi";
-import { FiUser } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { decode } from "jwt-decode";
+import { FiUser } from "react-icons/fi";
 import UserLoginModal from "@/Components/UserLoginModal/UserLoginModal";
 import UserSidebar from "@/Components/UserSidebar/UserSidebar";
 import UserRegisterModal from "@/Components/UserRegisterModal/UserRegisterModal";
@@ -17,11 +19,13 @@ const NavBar = () => {
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está logueado
+  const [userInitial, setUserInitial] = useState(null); // Inicial del usuario
   const [showLoginModal, setShowLoginModal] = useState(false); // Mostrar modal de login
   const [showRegisterModal, setShowRegisterModal] = useState(false); // Mostrar modal de registro
   const [showSidebar, setShowSidebar] = useState(false); // Mostrar sidebar
   const router = useRouter();
 
+  // Función para manejar el envío del formulario de búsqueda
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim() === "") return;
@@ -29,6 +33,7 @@ const NavBar = () => {
     setSearchTerm("");
   };
 
+  // Función para manejar el clic en el icono de usuario
   const handleUserIconClick = () => {
     if (isLoggedIn) {
       // Si está logueado, muestra el sidebar
@@ -38,6 +43,22 @@ const NavBar = () => {
       setShowLoginModal(true);
     }
   };
+
+  // Efecto para leer el token de la cookie y obtener la inicial del usuario
+  useEffect(() => {
+    const token = Cookies.get("authToken");
+    if (token) {
+      try {
+        const decoded = decode(token); // Decodifica el token
+        const initial = decoded.name?.charAt(0).toUpperCase();
+        setUserInitial(initial || null);
+        setIsLoggedIn(!!initial);
+      } catch (error) {
+        console.error("Error al decodificar el token:", error);
+      }
+    }
+  }, []);
+  
 
   return (
     <nav className={styles.containerGlobal}>
@@ -97,11 +118,15 @@ const NavBar = () => {
             </form>
           </div>
 
-          <button
-            className={styles.buttons}
-            onClick={handleUserIconClick}
-          >
-            <FiUser className={styles.icon} />
+          <button className={styles.buttons} onClick={handleUserIconClick}>
+            {isLoggedIn && userInitial ? (
+              <div className={styles.userInitial}>
+                {console.log("Inicial del usuario:", userInitial)}
+                {userInitial}
+              </div>
+            ) : (
+              <FiUser className={styles.icon} />
+            )}
           </button>
           <button className={styles.buttons}>
             <PiShoppingCart className={styles.icon} />
@@ -117,8 +142,7 @@ const NavBar = () => {
             setIsLoggedIn(true);
             setShowLoginModal(false);
           }}
-        >
-        </UserLoginModal>
+        />
       )}
 
       {/* Modal para registro */}
