@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { decode } from "jwt-decode";
+import jwtDecode from "jwt-decode"; // Importación corregida
 import { FiUser } from "react-icons/fi";
 import UserLoginModal from "@/Components/UserLoginModal/UserLoginModal";
 import UserSidebar from "@/Components/UserSidebar/UserSidebar";
@@ -49,7 +49,7 @@ const NavBar = () => {
     const token = Cookies.get("authToken");
     if (token) {
       try {
-        const decoded = decode(token); // Decodifica el token
+        const decoded = jwtDecode(token); // Uso de jwtDecode
         const initial = decoded.name?.charAt(0).toUpperCase();
         setUserInitial(initial || null);
         setIsLoggedIn(!!initial);
