@@ -37,12 +37,12 @@ const SearchPage = () => {
   }
 
   if (results.length === 0) {
-    return <div>No se encontraron resultados para "{term}"</div>;
+    return <div>{`No se encontraron resultados para ${term}`}</div>;
   }
 
   return (
     <div>
-      <h1>Resultados para "{term}"</h1>
+      <h1>{`Resultados para ${term}`}</h1>
       <div className={styles.box}>
         {results.map((item) => (
           <Link href={`/productos/${item.id}`} className={styles.cardContainer} key={item.id}>
