@@ -24,7 +24,7 @@ const NavBar = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false); // Mostrar modal de registro
   const [showSidebar, setShowSidebar] = useState(false); // Mostrar sidebar
   const router = useRouter();
-
+console.log(userInitial,isLoggedIn)
   // Función para manejar el envío del formulario de búsqueda
   const handleSearch = (e) => {
     e.preventDefault();
@@ -45,21 +45,38 @@ const NavBar = () => {
   };
 
   // Efecto para leer el token de la cookie y obtener la inicial del usuario
+  const parseJwt = (token) => {
+    console.log(token)
+    try {
+      const base64Url = token.split('.')[1]; // Parte del payload
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(atob(base64));
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      return null;
+    }
+  };
+  
   useEffect(() => {
-    const token = Cookies.get("authToken");
+    const cookies = Cookies.get();
+    const token = cookies["authToken"] || cookies["tuCookieConToken"]; // Cambia el nombre aquí si el token tiene otro nombre
+    
     if (token) {
-      try {
-        const decoded = jwtDecode(token); // Uso de jwtDecode
+      const decoded = parseJwt(token);
+      if (decoded) {
         const initial = decoded.name?.charAt(0).toUpperCase();
         setUserInitial(initial || null);
         setIsLoggedIn(!!initial);
-      } catch (error) {
-        console.error("Error al decodificar el token:", error);
       }
     }
   }, []);
+  const cookies = document.cookie;
+  console.log(cookies);
+  console.log("Cookies disponibles:", Cookies.get("authToken")); // Asegúrate de ver todas las cookies disponibles
   
-
+  
+  
+  console.log(Cookies.get(""))
   return (
     <nav className={styles.containerGlobal}>
       <div className={styles.container}>

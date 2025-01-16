@@ -17,7 +17,7 @@ const UserLoginModal = ({ onClose, onLoginSuccess }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+ 
   // Maneja el inicio de sesión
   const handleLogin = async () => {
     setLoading(true);
@@ -26,7 +26,11 @@ const UserLoginModal = ({ onClose, onLoginSuccess }) => {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email, password: formData.password }),
+        credentials: "include", // Asegura que las cookies se incluyan
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
       });
 
       const result = await response.json();
@@ -110,7 +114,11 @@ const UserLoginModal = ({ onClose, onLoginSuccess }) => {
                 onChange={handleChange}
                 className={styles.input}
               />
-              <button onClick={handleLogin} className={styles.loginButton} disabled={loading}>
+              <button
+                onClick={handleLogin}
+                className={styles.loginButton}
+                disabled={loading}
+              >
                 Iniciar Sesión
               </button>
               <p>
@@ -160,7 +168,11 @@ const UserLoginModal = ({ onClose, onLoginSuccess }) => {
                 onChange={handleChange}
                 className={styles.input}
               />
-              <button onClick={handleRegister} className={styles.registerButton} disabled={loading}>
+              <button
+                onClick={handleRegister}
+                className={styles.registerButton}
+                disabled={loading}
+              >
                 Registrarse
               </button>
               <p>
