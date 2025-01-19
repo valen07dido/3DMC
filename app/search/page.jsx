@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Card from "@/Components/Card/Card";
 import Link from "next/link";
 import styles from "./page.module.css";
 
 const SearchPage = () => {
-  const searchParams = useSearchParams(); // Hook para obtener los parámetros de consulta
-  const term = searchParams.get("query"); // Obtiene el valor de 'term'
+  const searchParams = useSearchParams();
+  const term = searchParams.get("query");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Para manejar errores
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (term) {
@@ -19,7 +19,6 @@ const SearchPage = () => {
         try {
           const response = await fetch(`/api/search?query=${term}`);
           const data = await response.json();
-
           if (response.ok) {
             setResults(data);
           } else {
@@ -44,7 +43,7 @@ const SearchPage = () => {
   }
 
   if (error) {
-    return <div>{error}</div>; // Mostrar el error si ocurre
+    return <div>{error}</div>;
   }
 
   if (results.length === 0) {
@@ -65,4 +64,10 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default function SearchPageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <SearchPage />
+    </Suspense>
+  );
+}
