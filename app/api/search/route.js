@@ -5,9 +5,9 @@ export async function GET(request) {
   try {
     // Obtiene los parámetros de la URL
     const { searchParams } = new URL(request.url);
+
     const term = searchParams.get("query");
 
-    // Valida el término de búsqueda
     if (!term) {
       return NextResponse.json(
         { message: "El término de búsqueda es obligatorio." },
@@ -15,7 +15,7 @@ export async function GET(request) {
       );
     }
 
-    // Ejecuta la consulta con parámetros
+    // Realiza la consulta en la base de datos
     const { rows } = await sql`
       SELECT * 
       FROM "Models" 
@@ -23,7 +23,7 @@ export async function GET(request) {
       OR LOWER(description) LIKE ${`%${term.toLowerCase()}%`}
     `;
 
-    // Responde con los resultados
+    // Devuelve los resultados en formato JSON
     return NextResponse.json(rows, { status: 200 });
   } catch (error) {
     console.error("Error en la búsqueda:", error.message);
