@@ -1,6 +1,9 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
+// Forzar la ejecución dinámica de la ruta
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     // Extraemos los parámetros de la URL
