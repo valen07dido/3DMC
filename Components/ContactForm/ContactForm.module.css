@@ -1,0 +1,93 @@
+/* form.module.css */
+
+/* Contenedor principal */
+.form {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 30px auto;
+  }
+  
+  /* Título del formulario */
+  .form h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para los campos del formulario */
+  .form input,
+  .form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Estilo para el placeholder */
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: #bbb;
+  }
+  
+  /* Estilo cuando los campos tienen foco */
+  .form input:focus,
+  .form textarea:focus {
+    border-color: #aaa;
+    outline: none;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botón de envío */
+  .form button {
+    background-color: #888;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Estilo cuando el botón está en hover */
+  .form button:hover {
+    background-color: #555;
+  }
+  
+  /* Estilo del input de archivo */
+  .form input[type="file"] {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #777;
+    font-size: 16px;
+  }
+  
+  /* Estilo cuando el input de archivo tiene foco */
+  .form input[type="file"]:focus {
+    border-color: #aaa;
+    outline: none;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Respuesta del formulario */
+  .form .response-message {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .form .response-message.success {
+    color: #4caf50;
+  }
+  
+  .form .response-message.error {
+    color: #f44336;
+  }
+  
