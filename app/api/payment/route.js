@@ -11,7 +11,6 @@ export async function POST(req) {
     const body = await req.json(); // Parsear el cuerpo de la solicitud
     const { items } = body;
 
-    console.log("Request body:", body);
 
     // Configuración de la preferencia
     const preference = {

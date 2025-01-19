@@ -9,7 +9,9 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode"; // Importación corregida
+import { decode } from "jwt-decode";
+
+
 import { FiUser } from "react-icons/fi";
 import UserLoginModal from "@/Components/UserLoginModal/UserLoginModal";
 import UserSidebar from "@/Components/UserSidebar/UserSidebar";
@@ -24,7 +26,6 @@ const NavBar = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false); // Mostrar modal de registro
   const [showSidebar, setShowSidebar] = useState(false); // Mostrar sidebar
   const router = useRouter();
-console.log(userInitial,isLoggedIn)
   // Función para manejar el envío del formulario de búsqueda
   const handleSearch = (e) => {
     e.preventDefault();
@@ -46,37 +47,41 @@ console.log(userInitial,isLoggedIn)
 
   // Efecto para leer el token de la cookie y obtener la inicial del usuario
   const parseJwt = (token) => {
-    console.log(token)
     try {
-      const base64Url = token.split('.')[1]; // Parte del payload
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      return JSON.parse(atob(base64));
+      const base64Url = token.split(".")[1]; // Obtén la parte del payload
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // Normaliza el formato
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => `%${("00" + c.charCodeAt(0).toString(16)).slice(-2)}`)
+          .join("")
+      );
+      return JSON.parse(jsonPayload); // Convierte el payload a un objeto JSON
     } catch (error) {
       console.error("Error al decodificar el token:", error);
-      return null;
+      return null; // Retorna null si el token no es válido
     }
   };
   
+  
   useEffect(() => {
     const cookies = Cookies.get();
-    const token = cookies["authToken"] || cookies["tuCookieConToken"]; // Cambia el nombre aquí si el token tiene otro nombre
+    const token = cookies["authToken"] || cookies["tuCookieConToken"]; // Cambia el nombre según tu cookie real
     
     if (token) {
-      const decoded = parseJwt(token);
-      if (decoded) {
-        const initial = decoded.name?.charAt(0).toUpperCase();
+      try {
+        const decoded = parseJwt(token); // Usa la nueva función parseJwt
+        const initial = decoded?.name?.charAt(0).toUpperCase(); // Extrae la inicial del nombre
         setUserInitial(initial || null);
         setIsLoggedIn(!!initial);
+      } catch (error) {
+        console.error("Error al decodificar el token:", error);
       }
     }
   }, []);
-  const cookies = document.cookie;
-  console.log(cookies);
-  console.log("Cookies disponibles:", Cookies.get("authToken")); // Asegúrate de ver todas las cookies disponibles
   
   
   
-  console.log(Cookies.get(""))
   return (
     <nav className={styles.containerGlobal}>
       <div className={styles.container}>
@@ -138,16 +143,17 @@ console.log(userInitial,isLoggedIn)
           <button className={styles.buttons} onClick={handleUserIconClick}>
             {isLoggedIn && userInitial ? (
               <div className={styles.userInitial}>
-                {console.log("Inicial del usuario:", userInitial)}
                 {userInitial}
               </div>
             ) : (
               <FiUser className={styles.icon} />
             )}
           </button>
+         <Link href="/cart">
           <button className={styles.buttons}>
             <PiShoppingCart className={styles.icon} />
           </button>
+         </Link>
         </div>
       </div>
 

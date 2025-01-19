@@ -4,7 +4,6 @@ import styles from "./UserSidebar.module.css";
 const UserSidebar = ({ onClose }) => {
   const handleLogout = () => {
     // Lógica para cerrar sesión
-    console.log("Cerrando sesión...");
     onClose();
   };
 

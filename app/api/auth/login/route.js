@@ -39,7 +39,7 @@ export async function POST(request) {
     // Configura la cookie en la respuesta
     const response = NextResponse.json({ message: "Inicio de sesión exitoso" });
     response.cookies.set("authToken", token, {
-      httpOnly: true, // No accesible desde JavaScript
+      httpOnly: false, // No accesible desde JavaScript
       secure: process.env.NODE_ENV === "production", // Solo en HTTPS en producción
       maxAge: 2 * 60 * 60, // 2 horas
       path: "/", // Disponible para toda la aplicación

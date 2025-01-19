@@ -56,7 +56,6 @@ export default function Carousel() {
         }
 
         const data = await response.json();
-        console.log(data)
         const filteredData = data.products.filter(item => item.carrousel);
         setArray(filteredData);
       } catch (error) {

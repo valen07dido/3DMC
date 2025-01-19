@@ -11,7 +11,6 @@ const SearchPage = () => {
   const term = searchParams.get("query"); // Obtiene el valor de 'term'
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(term);
   useEffect(() => {
     if (term) {
       const fetchResults = async () => {
