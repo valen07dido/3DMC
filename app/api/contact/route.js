@@ -1,7 +1,7 @@
 import multer from "multer";
 import nextConnect from "next-connect";
 import nodemailer from "nodemailer";
-import { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
 // Configuración de almacenamiento de multer
 const upload = multer({
@@ -28,7 +28,7 @@ const apiRoute = nextConnect({
 
 apiRoute.use(uploadMiddleware);
 
-apiRoute.post(async (req, res = NextApiResponse) => {
+apiRoute.post(async (req, res) => {
   const { name, email, message } = req.body;
   const { file } = req;
 
@@ -69,11 +69,6 @@ apiRoute.post(async (req, res = NextApiResponse) => {
   }
 });
 
-// Exportar el handler como predeterminado
-export const config = {
-  api: {
-    bodyParser: false, // Necesario para manejar form-data
-  },
-};
-
+// Exporta la configuración según las nuevas convenciones
+export const runtime = "nodejs"; // Para indicar que se usa Node.js como entorno
 export default apiRoute;
