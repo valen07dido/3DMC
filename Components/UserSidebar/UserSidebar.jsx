@@ -1,10 +1,19 @@
 "use client";
 import styles from "./UserSidebar.module.css";
+import Cookies from "js-cookie";
 
-const UserSidebar = ({ onClose }) => {
+const UserSidebar = ({ onClose, onLogout }) => {
   const handleLogout = () => {
-    // Lógica para cerrar sesión
+    console.log("handleLogout se ejecutó");
+    // Elimina el token de las cookies
+    Cookies.remove("authToken");
+    console.log("Token eliminado de las cookies");
+    // Llama la función pasada por props para actualizar el estado en NavBar
+    onLogout();
+    console.log("onLogout ejecutado");
+    // Cierra el sidebar
     onClose();
+    console.log("onClose ejecutado");
   };
 
   return (

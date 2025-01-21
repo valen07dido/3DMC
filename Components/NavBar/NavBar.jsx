@@ -9,8 +9,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { decode } from "jwt-decode";
-
 
 import { FiUser } from "react-icons/fi";
 import UserLoginModal from "@/Components/UserLoginModal/UserLoginModal";
@@ -20,12 +18,27 @@ import UserRegisterModal from "@/Components/UserRegisterModal/UserRegisterModal"
 const NavBar = () => {
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está logueado
-  const [userInitial, setUserInitial] = useState(null); // Inicial del usuario
-  const [showLoginModal, setShowLoginModal] = useState(false); // Mostrar modal de login
-  const [showRegisterModal, setShowRegisterModal] = useState(false); // Mostrar modal de registro
-  const [showSidebar, setShowSidebar] = useState(false); // Mostrar sidebar
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInitial, setUserInitial] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
   const router = useRouter();
+
+  // Función reutilizable para actualizar el estado del usuario
+  const updateUserState = () => {
+    const token = Cookies.get("authToken");
+    if (token) {
+      const decoded = parseJwt(token);
+      const initial = decoded?.name?.charAt(0).toUpperCase();
+      setUserInitial(initial || null);
+      setIsLoggedIn(!!initial);
+    } else {
+      setUserInitial(null);
+      setIsLoggedIn(false);
+    }
+  };
+
   // Función para manejar el envío del formulario de búsqueda
   const handleSearch = (e) => {
     e.preventDefault();
@@ -37,51 +50,35 @@ const NavBar = () => {
   // Función para manejar el clic en el icono de usuario
   const handleUserIconClick = () => {
     if (isLoggedIn) {
-      // Si está logueado, muestra el sidebar
       setShowSidebar(!showSidebar);
     } else {
-      // Si no está logueado, muestra el modal de login
       setShowLoginModal(true);
     }
   };
 
-  // Efecto para leer el token de la cookie y obtener la inicial del usuario
+  // Decodificador de JWT para obtener datos del token
   const parseJwt = (token) => {
     try {
-      const base64Url = token.split(".")[1]; // Obtén la parte del payload
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // Normaliza el formato
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
       const jsonPayload = decodeURIComponent(
         atob(base64)
           .split("")
           .map((c) => `%${("00" + c.charCodeAt(0).toString(16)).slice(-2)}`)
           .join("")
       );
-      return JSON.parse(jsonPayload); // Convierte el payload a un objeto JSON
+      return JSON.parse(jsonPayload);
     } catch (error) {
       console.error("Error al decodificar el token:", error);
-      return null; // Retorna null si el token no es válido
+      return null;
     }
   };
-  
-  
+
+  // Efecto para obtener el estado del usuario desde las cookies al cargar el componente
   useEffect(() => {
-    const cookies = Cookies.get();
-    const token = cookies["authToken"] || cookies["tuCookieConToken"]; // Cambia el nombre según tu cookie real
-    
-    if (token) {
-      try {
-        const decoded = parseJwt(token); // Usa la nueva función parseJwt
-        const initial = decoded?.name?.charAt(0).toUpperCase(); // Extrae la inicial del nombre
-        setUserInitial(initial || null);
-        setIsLoggedIn(!!initial);
-      } catch (error) {
-        console.error("Error al decodificar el token:", error);
-      }
-    }
+    updateUserState();
   }, []);
-  
-  
-  
+
   return (
     <nav className={styles.containerGlobal}>
       <div className={styles.container}>
@@ -92,7 +89,7 @@ const NavBar = () => {
           <Link className={styles.links} href="/productos">
             <div
               className={
-                pathname == "/productos"
+                pathname === "/productos"
                   ? styles.navigationActive
                   : styles.navigation
               }
@@ -103,7 +100,7 @@ const NavBar = () => {
           <Link className={styles.links} href="/peticiones">
             <div
               className={
-                pathname == "/peticiones"
+                pathname === "/peticiones"
                   ? styles.navigationActive
                   : styles.navigation
               }
@@ -114,7 +111,7 @@ const NavBar = () => {
           <Link className={styles.links} href="/nosotros">
             <div
               className={
-                pathname == "/nosotros"
+                pathname === "/nosotros"
                   ? styles.navigationActive
                   : styles.navigation
               }
@@ -142,18 +139,16 @@ const NavBar = () => {
 
           <button className={styles.buttons} onClick={handleUserIconClick}>
             {isLoggedIn && userInitial ? (
-              <div className={styles.userInitial}>
-                {userInitial}
-              </div>
+              <div className={styles.userInitial}>{userInitial}</div>
             ) : (
               <FiUser className={styles.icon} />
             )}
           </button>
-         <Link href="/cart">
-          <button className={styles.buttons}>
-            <PiShoppingCart className={styles.icon} />
-          </button>
-         </Link>
+          <Link href="/cart">
+            <button className={styles.buttons}>
+              <PiShoppingCart className={styles.icon} />
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -162,7 +157,7 @@ const NavBar = () => {
         <UserLoginModal
           onClose={() => setShowLoginModal(false)}
           onLoginSuccess={() => {
-            setIsLoggedIn(true);
+            updateUserState();
             setShowLoginModal(false);
           }}
         />
@@ -173,14 +168,23 @@ const NavBar = () => {
         <UserRegisterModal
           onClose={() => setShowRegisterModal(false)}
           onRegisterSuccess={() => {
-            setIsLoggedIn(true);
+            updateUserState();
             setShowRegisterModal(false);
           }}
         />
       )}
 
       {/* Sidebar para usuario logueado */}
-      {showSidebar && <UserSidebar onClose={() => setShowSidebar(false)} />}
+      {showSidebar && (
+        <UserSidebar
+          onClose={() => setShowSidebar(false)}
+          onLogout={() => {
+            setIsLoggedIn(false);
+            setUserInitial(null);
+            Cookies.remove("authToken");
+          }}
+        />
+      )}
     </nav>
   );
 };
