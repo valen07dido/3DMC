@@ -1,93 +1,123 @@
-/* form.module.css */
+/* Establecer box-sizing global */
 
+.container{
+  display: flex;
+  justify-content: center;
+}
 /* Contenedor principal */
 .form {
-    background-color: #f7f7f7;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 30px auto;
+  background-color: #ffffff;
+  margin: 100px 0 30px 0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Título del formulario */
+.form h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Estilo para los campos del formulario */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #555;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box; /* Asegúrate de incluir el padding y border en el cálculo de ancho */
+}
+
+/* Placeholder */
+.form input::placeholder,
+.form textarea::placeholder {
+  color: #aaa;
+}
+
+/* Foco en los campos */
+.form input:focus,
+.form textarea:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.2);
+  outline: none;
+}
+
+/* Botón de envío */
+.form button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  text-transform: uppercase;
+  font-weight: bold;
+  box-sizing: border-box; /* Asegúrate de incluir el padding en el cálculo de ancho */
+}
+
+/* Hover en el botón */
+.form button:hover {
+  background-color: #43a047;
+  transform: translateY(-2px);
+}
+
+/* Deshabilitar botón */
+.form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Input de archivo */
+.form input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #555;
+  box-sizing: border-box; /* Incluir el padding en el cálculo del ancho */
+}
+
+/* Respuesta del formulario */
+.form .response-message {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.form .response-message.success {
+  color: #4caf50;
+}
+
+.form .response-message.error {
+  color: #f44336;
+}
+
+/* Estilo responsivo */
+@media (max-width: 768px) {
+  .form {
+    padding: 15px;
   }
-  
-  /* Título del formulario */
+
   .form h2 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
   }
-  
-  /* Estilo para los campos del formulario */
-  .form input,
-  .form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #555;
-  }
-  
-  /* Estilo para el placeholder */
-  .form input::placeholder,
-  .form textarea::placeholder {
-    color: #bbb;
-  }
-  
-  /* Estilo cuando los campos tienen foco */
-  .form input:focus,
-  .form textarea:focus {
-    border-color: #aaa;
-    outline: none;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Botón de envío */
+
   .form button {
-    background-color: #888;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 14px;
   }
-  
-  /* Estilo cuando el botón está en hover */
-  .form button:hover {
-    background-color: #555;
-  }
-  
-  /* Estilo del input de archivo */
-  .form input[type="file"] {
-    background-color: #f0f0f0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    color: #777;
-    font-size: 16px;
-  }
-  
-  /* Estilo cuando el input de archivo tiene foco */
-  .form input[type="file"]:focus {
-    border-color: #aaa;
-    outline: none;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Respuesta del formulario */
-  .form .response-message {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .form .response-message.success {
-    color: #4caf50;
-  }
-  
-  .form .response-message.error {
-    color: #f44336;
-  }
-  
+}

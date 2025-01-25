@@ -1,74 +1,68 @@
-import multer from "multer";
-import nextConnect from "next-connect";
 import nodemailer from "nodemailer";
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-// Configuración de almacenamiento de multer
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: "./public/uploads/", // Directorio donde se almacenarán los archivos
-    filename: (req, file, cb) => {
-      cb(null, `${Date.now()}-${file.originalname}`); // Nombre único para el archivo
-    },
-  }),
-});
-
-// Middleware para manejar la carga del archivo
-const uploadMiddleware = upload.single("image");
-
-// Usamos nextConnect para manejar el middleware
-const apiRoute = nextConnect({
-  onError(error, req, res) {
-    res.status(500).json({ error: `Algo salió mal: ${error.message}` });
-  },
-  onNoMatch(req, res) {
-    res.status(405).json({ error: `Método ${req.method} no permitido` });
-  },
-});
-
-apiRoute.use(uploadMiddleware);
-
-apiRoute.post(async (req, res) => {
-  const { name, email, message } = req.body;
-  const { file } = req;
-
-  if (!file) {
-    return res.status(400).json({ message: "Debe subir una imagen" });
-  }
-
-  // Configuración de nodemailer
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL_USER, // Asegúrate de configurar estas variables de entorno
-      pass: process.env.GMAIL_PASS,
-    },
-  });
-
-  // Configura el correo con el archivo adjunto
-  const mailOptions = {
-    from: email,
-    to: "contacto@tupagina.com",
-    subject: "Solicitud de Impresión 3D",
-    text: `${message}\n\nDe: ${name} (${email})`,
-    attachments: [
-      {
-        filename: file.filename,
-        path: file.path,
-      },
-    ],
-  };
-
+export async function POST(req) {
   try {
-    // Enviar correo
+    const formData = await req.formData();
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const message = formData.get("message");
+    const file = formData.get("image");
+
+    // Validaciones
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { message: "Todos los campos son obligatorios" },
+        { status: 400 }
+      );
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { message: "El correo electrónico no es válido" },
+        { status: 400 }
+      );
+    }
+
+    // Procesar el archivo si existe
+    let attachments = [];
+    if (file) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      attachments.push({
+        filename: file.name,
+        content: buffer,
+        contentType: file.type,
+      });
+    }
+
+    // Configurar transporte de correo
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
+    });
+
+    // Configurar el correo
+    const mailOptions = {
+      from: email,
+      to: "valendido69@gmail.com",
+      subject: "Nuevo mensaje desde el formulario",
+      text: `Nombre: ${name}\nCorreo: ${email}\nMensaje: ${message}`,
+      attachments,
+    };
+
+    // Enviar el correo
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: "Correo enviado con éxito" });
+
+    return NextResponse.json({ message: "Correo enviado con éxito" });
   } catch (error) {
     console.error("Error al enviar el correo:", error);
-    res.status(500).json({ message: "Error al enviar el correo" });
+    return NextResponse.json(
+      { message: "Error al enviar el correo" },
+      { status: 500 }
+    );
   }
-});
-
-// Exporta la configuración según las nuevas convenciones
-export const runtime = "nodejs"; // Para indicar que se usa Node.js como entorno
-export default apiRoute;
+}
