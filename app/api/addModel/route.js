@@ -1,8 +1,29 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
+import jwt from 'jsonwebtoken';  // Importa jwt si estás usando JSON Web Tokens para la autenticación
 
 export async function POST(request) {
   try {
+    // Obtener el token desde los encabezados de la solicitud
+    const token = request.headers.get("Authorization")?.split(" ")[1];
+    if (!token) {
+      return NextResponse.json({ error: "No se proporcionó token de autenticación" }, { status: 401 });
+    }
+
+    // Verificar el token y obtener el payload
+    let user;
+    try {
+      user = jwt.verify(token, process.env.JWT_SECRET);  // Asegúrate de usar la clave secreta correcta
+    } catch (error) {
+      return NextResponse.json({ error: "Token inválido o expirado" }, { status: 401 });
+    }
+
+    // Verificar si el usuario tiene el rol adecuado (por ejemplo, 'admin')
+    if (user.role !== 'admin') {
+      return NextResponse.json({ error: "No tienes permiso para realizar esta acción" }, { status: 403 });
+    }
+
+    // Continuar con la creación de producto si el rol es válido
     const data = await request.json();
 
     if (Array.isArray(data)) {

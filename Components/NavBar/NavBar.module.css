@@ -20,7 +20,16 @@
   width: 150px;
   height: auto;
 }
-
+.cartBadge {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 5px;
+  font-size: 12px;
+}
 .bar {
   display: flex;
   gap: 20px;

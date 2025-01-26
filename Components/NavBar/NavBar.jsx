@@ -17,6 +17,8 @@ import UserRegisterModal from "@/Components/UserRegisterModal/UserRegisterModal"
 
 const NavBar = () => {
   const pathname = usePathname();
+  const [suggestions, setSuggestions] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInitial, setUserInitial] = useState(null);
@@ -38,7 +40,22 @@ const NavBar = () => {
       setIsLoggedIn(false);
     }
   };
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartItems(storedCart);
+  }, []);
+  const handleSearchChange = async (e) => {
+    const query = e.target.value;
+    setSearchTerm(query);
 
+    if (query.length > 2) {
+      const response = await fetch(`/api/search-suggestions?query=${query}`);
+      const data = await response.json();
+      setSuggestions(data);
+    } else {
+      setSuggestions([]);
+    }
+  };
   // Función para manejar el envío del formulario de búsqueda
   const handleSearch = (e) => {
     e.preventDefault();
@@ -147,6 +164,9 @@ const NavBar = () => {
           <Link href="/cart">
             <button className={styles.buttons}>
               <PiShoppingCart className={styles.icon} />
+              {cartItems.length > 0 && (
+                <span className={styles.cartBadge}>{cartItems.length}</span>
+              )}
             </button>
           </Link>
         </div>
@@ -175,6 +195,7 @@ const NavBar = () => {
       )}
 
       {/* Sidebar para usuario logueado */}
+      {/* Sidebar para usuario logueado */}
       {showSidebar && (
         <UserSidebar
           onClose={() => setShowSidebar(false)}
@@ -183,6 +204,7 @@ const NavBar = () => {
             setUserInitial(null);
             Cookies.remove("authToken");
           }}
+          userRole={parseJwt(Cookies.get("authToken"))?.role}
         />
       )}
     </nav>
