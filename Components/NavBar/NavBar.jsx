@@ -18,6 +18,7 @@ import UserRegisterModal from "@/Components/UserRegisterModal/UserRegisterModal"
 const NavBar = () => {
   const pathname = usePathname();
   const [suggestions, setSuggestions] = useState([]);
+  const [userRole,setUserRole]=useState("")
   const [cartItems, setCartItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,13 +26,15 @@ const NavBar = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [userId,setUserId]=useState("")
   const router = useRouter();
-
   // Función reutilizable para actualizar el estado del usuario
   const updateUserState = () => {
     const token = Cookies.get("authToken");
     if (token) {
       const decoded = parseJwt(token);
+      setUserRole(decoded?.rol)
+      setUserId(decoded?.id)
       const initial = decoded?.name?.charAt(0).toUpperCase();
       setUserInitial(initial || null);
       setIsLoggedIn(!!initial);
@@ -40,6 +43,7 @@ const NavBar = () => {
       setIsLoggedIn(false);
     }
   };
+
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(storedCart);
@@ -72,7 +76,7 @@ const NavBar = () => {
       setShowLoginModal(true);
     }
   };
-
+  
   // Decodificador de JWT para obtener datos del token
   const parseJwt = (token) => {
     try {
@@ -204,7 +208,8 @@ const NavBar = () => {
             setUserInitial(null);
             Cookies.remove("authToken");
           }}
-          userRole={parseJwt(Cookies.get("authToken"))?.role}
+          userRole={userRole}
+          id={userId}
         />
       )}
     </nav>

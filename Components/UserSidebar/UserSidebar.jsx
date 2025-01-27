@@ -1,34 +1,44 @@
 "use client";
 import styles from "./UserSidebar.module.css";
 import Cookies from "js-cookie";
+import Link from "next/link"; // Importa Link para manejar navegación en Next.js
 
-const UserSidebar = ({ onClose, onLogout, userRole }) => {
+const UserSidebar = ({ onClose, onLogout, userRole, id }) => {
   const handleLogout = () => {
     console.log("handleLogout se ejecutó");
     // Elimina el token de las cookies
     Cookies.remove("authToken");
-    console.log("Token eliminado de las cookies");
     // Llama la función pasada por props para actualizar el estado en NavBar
     onLogout();
-    console.log("onLogout ejecutado");
     // Cierra el sidebar
     onClose();
-    console.log("onClose ejecutado");
   };
 
   const adminMenu = (
     <ul className={styles.sidebarMenu}>
-      <li>Gestión de Usuarios</li>
-      <li>Gestión de Productos</li>
-      <li>Pedidos Pendientes</li>
+      <h1>{`Menú de Administrador (${id})`}</h1>
+      <li>
+        <Link href={`/admin/users`}>Gestión de Usuarios</Link>
+      </li>
+      <li>
+        <Link href={`/admin/products`}>Gestión de Productos</Link>
+      </li>
+      <li>
+        <Link href={`/admin/orders`}>Pedidos Pendientes</Link>
+      </li>
       <li onClick={handleLogout}>Cerrar Sesión</li>
     </ul>
   );
 
   const clientMenu = (
     <ul className={styles.sidebarMenu}>
-      <li>Mi Perfil</li>
-      <li>Mis Pedidos</li>
+      <h1>{`Bienvenido Usuario (${id})`}</h1>
+      <li>
+        <Link href={`/profile/${id}`}>Mi Perfil</Link>
+      </li>
+      <li>
+        <Link href={`/orders/${id}`}>Mis Pedidos</Link>
+      </li>
       <li onClick={handleLogout}>Cerrar Sesión</li>
     </ul>
   );
