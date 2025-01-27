@@ -18,13 +18,13 @@ const UserSidebar = ({ onClose, onLogout, userRole, id }) => {
     <ul className={styles.sidebarMenu}>
       <h1>{`Menú de Administrador (${id})`}</h1>
       <li>
-        <Link href={`/admin/users`}>Gestión de Usuarios</Link>
+        <Link href={`/admin/usuarios`}>Gestión de Usuarios</Link>
       </li>
       <li>
-        <Link href={`/admin/products`}>Gestión de Productos</Link>
+        <Link href={`/admin/productos`}>Gestión de Productos</Link>
       </li>
       <li>
-        <Link href={`/admin/orders`}>Pedidos Pendientes</Link>
+        <Link href={`/admin/pedidos`}>Pedidos Pendientes</Link>
       </li>
       <li onClick={handleLogout}>Cerrar Sesión</li>
     </ul>
