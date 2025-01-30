@@ -1,0 +1,49 @@
+/* OrderBoard.module.css */
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .statusColumn {
+    background-color: #f3f4f6;
+    padding: 16px;
+    border-radius: 8px;
+    min-height: 300px;
+  }
+  
+  .statusTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .orderCard {
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8px;
+    cursor: move;
+  }
+  
+  .dragging {
+    opacity: 0.5;
+  }
+  
+  .itemList {
+    margin-top: 8px;
+  }
+  
+  .itemText {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+  
+  .itemHeader {
+    font-weight: 600;
+    color: #374151;
+  }
+  
