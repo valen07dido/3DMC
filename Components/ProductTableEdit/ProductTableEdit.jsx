@@ -10,7 +10,7 @@ export default function ProductTableEdit() {
   const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
-    fetch("/api/getModel")
+    fetch("/api/getModel", { credentials: "include" }) // Incluir cookies en la solicitud
       .then((res) => res.json())
       .then((data) => {
         if (data && Array.isArray(data.products)) {
@@ -38,7 +38,6 @@ export default function ProductTableEdit() {
       return;
     }
 
-    // Construir el objeto con solo los valores que han cambiado
     const updatedFields = {};
     if (editingProduct.name !== productToUpdate.name)
       updatedFields.name = editingProduct.name;
@@ -63,25 +62,22 @@ export default function ProductTableEdit() {
     }
 
     try {
-      const token = localStorage.getItem("token");
-
-      const response = await axios.put(
-        `/api/addModel/${id}`,
-        updatedFields, // Aquí enviamos el body correctamente
-
-        { withCredentials: true } // Incluir cookies si es necesario
-      );
+      const response = await axios.put(`/api/addModel/${id}`, updatedFields, {
+        withCredentials: true, // Enviar cookies con la solicitud
+      });
 
       console.log("Producto actualizado correctamente:", response.data);
 
-      // Actualizar la lista de productos en el estado
       setProducts((prevProducts) =>
         prevProducts.map((p) => (p.id === id ? { ...p, ...updatedFields } : p))
       );
 
       setEditingProduct(null);
     } catch (error) {
-      console.error("Error al actualizar el producto:", error);
+      console.error(
+        "Error al actualizar el producto:",
+        error.response?.data || error
+      );
     }
   };
 
@@ -91,13 +87,12 @@ export default function ProductTableEdit() {
         product.id === id ? { ...product, [field]: value } : product
       )
     );
-    2;
   };
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Lista de Productos</h2>
-      {!Array.isArray(products) && products.length < 0 ? (
+      {!Array.isArray(products) || products.length === 0 ? (
         <p className="text-center">No hay productos disponibles.</p>
       ) : (
         <div className="overflow-x-auto">
@@ -118,10 +113,13 @@ export default function ProductTableEdit() {
                     {editingProduct?.id === product.id ? (
                       <input
                         type="text"
-                        value={product.name}
+                        value={editingProduct.name}
                         className={styles.input}
                         onChange={(e) =>
-                          handleChange(product.id, "name", e.target.value)
+                          setEditingProduct({
+                            ...editingProduct,
+                            name: e.target.value,
+                          })
                         }
                       />
                     ) : (
@@ -132,10 +130,13 @@ export default function ProductTableEdit() {
                     {editingProduct?.id === product.id ? (
                       <input
                         type="number"
-                        value={product.price}
+                        value={editingProduct.price}
                         className={styles.input}
                         onChange={(e) =>
-                          handleChange(product.id, "price", e.target.value)
+                          setEditingProduct({
+                            ...editingProduct,
+                            price: e.target.value,
+                          })
                         }
                       />
                     ) : (

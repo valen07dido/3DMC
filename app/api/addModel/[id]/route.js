@@ -1,43 +1,47 @@
-import jwt from 'jsonwebtoken';
-import { NextResponse } from 'next/server';
+import { sql } from "@vercel/postgres";
+import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers"; // Importamos el manejo de cookies
 
-// Esta función decodifica y verifica el token
+// Función para verificar el token
 async function verifyToken(token) {
   try {
-    // Verifica el token usando tu clave secreta
-    const decoded = jwt.verify(token, 'YOUR_SECRET_KEY');
-    
-    // La información del usuario (como el rol y el id) ahora está disponible en `decoded`
-    return decoded; // Retorna el objeto decodificado que contiene la información del usuario
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Ahora verifica correctamente
+    return decoded; // Retorna el usuario decodificado
   } catch (error) {
-    // Si el token es inválido o expiró, lanza un error
-    throw new Error('Token inválido o expirado');
+    throw new Error("Token inválido o expirado");
   }
 }
 
-// Ejemplo de la ruta PUT para actualizar productos con verificación de rol
+// Ruta PUT para actualizar productos
 export async function PUT(request) {
   const url = new URL(request.url);
   const pathname = url.pathname;
   const id = pathname.split("/").pop();
 
   try {
-    // Obtén el token de la solicitud (por ejemplo, desde las cabeceras)
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    // Obtener el token desde las cookies
+    const authToken = (await cookies()).get("authToken")?.value;
 
-    // Verificar si el token está presente
-    if (!token) {
-      return NextResponse.json({ error: "No se proporcionó el token de autenticación" }, { status: 401 });
+    // Si no hay token, retornar error
+    if (!authToken) {
+      return NextResponse.json(
+        { error: "No estás autenticado" },
+        { status: 401 }
+      );
     }
 
-    // Decodificar y verificar el token
-    const user = await verifyToken(token);
-    
-    // Verificar si el usuario tiene el rol de admin
-    if (user.role !== 'admin') {
-      return NextResponse.json({ error: "No tienes permisos suficientes para actualizar productos" }, { status: 403 });
+    // Verificar y decodificar el token
+    const user = await verifyToken(authToken);
+    // Verificar permisos de admin
+    if (user.rol !== "admin") {
+      return NextResponse.json(
+        { error: "No tienes permisos para actualizar productos" },
+        { status: 403 }
+      );
     }
 
+    // Obtener los datos del request
     const {
       name,
       description,
@@ -46,45 +50,47 @@ export async function PUT(request) {
       solutions,
       characteristics,
       carrousel,
+      price
     } = await request.json();
 
-    // Construir un objeto con solo los campos definidos
+    // Filtrar los campos definidos
     const fieldsToUpdate = {
-      ...(name !== undefined && { name }),
-      ...(description !== undefined && { description }),
-      ...(image !== undefined && { image }),
-      ...(categories !== undefined && { categories }),
-      ...(solutions !== undefined && { solutions }),
-      ...(characteristics !== undefined && { characteristics }),
-      ...(carrousel !== undefined && { carrousel }),
+      ...(name && { name }),
+      ...(description && { description }),
+      ...(image && { image }),
+      ...(categories && { categories }),
+      ...(solutions && { solutions }),
+      ...(characteristics && { characteristics }),
+      ...(carrousel && { carrousel }),
+      ...(price && {price})
     };
 
-    // Verificar si hay campos para actualizar
+    // Si no hay campos para actualizar, retornar error
     if (Object.keys(fieldsToUpdate).length === 0) {
-      return NextResponse.json({ error: "No fields to update" }, { status: 400 });
+      return NextResponse.json(
+        { error: "No hay campos para actualizar" },
+        { status: 400 }
+      );
     }
 
-    // Construir las cláusulas SET dinámicamente
+    // Construir consulta SQL dinámicamente
     const setClauses = Object.entries(fieldsToUpdate)
       .map(([key], index) => `"${key}" = $${index + 1}`)
       .join(", ");
 
-    // Construir los valores para los placeholders
     const values = Object.values(fieldsToUpdate);
-
-    // Construir la consulta completa
     const query = `
       UPDATE "Models"
       SET ${setClauses}
       WHERE id = $${values.length + 1}
     `;
 
-    // Ejecutar la consulta
+    // Ejecutar la consulta en la base de datos
     await sql.query(query, [...values, id]);
 
     return NextResponse.json({ update: "ok" }, { status: 200 });
   } catch (error) {
-    console.error('Error processing request:', error);
+    console.error("Error al procesar la solicitud:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
