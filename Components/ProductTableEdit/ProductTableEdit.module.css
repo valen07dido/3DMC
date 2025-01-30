@@ -1,0 +1,29 @@
+/* ProductTableEdit.module.css */
+.input {
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    width: 100%;
+  }
+  
+  .saveButton {
+    background-color: #38a169; /* Green */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+  }
+  
+  .editButton {
+    background-color: #3182ce; /* Blue */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .editButton:hover,
+  .saveButton:hover {
+    opacity: 0.8;
+  }
+  
