@@ -22,7 +22,9 @@ export async function POST(request) {
       WHERE created_at::date = CURRENT_DATE;
     `;
     const orderCount = parseInt(rows[0].count) + 1;
-    const orderNumber = `ORD-${dateStr}-${orderCount.toString().padStart(3, "0")}`;
+    const orderNumber = `ORD-${dateStr}-${orderCount
+      .toString()
+      .padStart(3, "0")}`;
 
     // Insertar la orden en la base de datos
     const result = await sql`
@@ -40,8 +42,6 @@ export async function POST(request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-
-
 
 export async function GET(request) {
   try {
@@ -64,6 +64,40 @@ export async function GET(request) {
     return NextResponse.json(result.rows, { status: 200 });
   } catch (error) {
     console.error("Error al obtener órdenes:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+export async function PUT(request) {
+  try {
+    const { order_id, status } = await request.json();
+
+    if (!order_id || !status) {
+      return NextResponse.json(
+        { message: "Faltan datos requeridos" },
+        { status: 400 }
+      );
+    }
+
+    const result = await sql`
+      UPDATE "Orders"
+      SET status = ${status}, updated_at = NOW()
+      WHERE id = ${order_id}
+      RETURNING *;
+    `;
+
+    if (result.rowCount === 0) {
+      return NextResponse.json(
+        { message: "Orden no encontrada" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Estado de la orden actualizado", order: result.rows[0] },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error al actualizar la orden:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -1,11 +1,14 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';  // Importa jwt si estás usando JSON Web Tokens para la autenticación
+import { cookies } from "next/headers"; // Importamos el manejo de cookies
+
 
 export async function POST(request) {
   try {
     // Obtener el token desde los encabezados de la solicitud
-    const token = request.headers.get("Authorization")?.split(" ")[1];
+    const token = (await cookies()).get("authToken")?.value;
+    console.log(token)
     if (!token) {
       return NextResponse.json({ error: "No se proporcionó token de autenticación" }, { status: 401 });
     }
@@ -19,13 +22,13 @@ export async function POST(request) {
     }
 
     // Verificar si el usuario tiene el rol adecuado (por ejemplo, 'admin')
-    if (user.role !== 'admin') {
+    if (user.rol !== 'admin') {
       return NextResponse.json({ error: "No tienes permiso para realizar esta acción" }, { status: 403 });
     }
 
     // Continuar con la creación de producto si el rol es válido
     const data = await request.json();
-
+console.log(data)
     if (Array.isArray(data)) {
       const results = await Promise.all(
         data.map(async (item) => {
@@ -147,6 +150,7 @@ export async function POST(request) {
       );
     }
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

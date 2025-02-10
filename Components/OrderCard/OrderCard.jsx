@@ -1,17 +1,25 @@
-import { useDraggable } from "@dnd-kit/core";
-import styles from "../OrderBoard/OrderBoard.module.css"; // Importamos los estilos
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import styles from "../OrderBoard/OrderBoard.module.css";
 
 export default function OrderCard({ order }) {
-  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-    id: order.id,
-    data: { status: order.status },
-  });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({
+      id: order.id,
+      data: { status: order.status },
+    });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   return (
     <div
       ref={setNodeRef}
       {...listeners}
       {...attributes}
+      style={style}
       className={`${styles.orderCard} ${isDragging ? styles.dragging : ""}`}
     >
       <h3 className="font-semibold text-gray-800">Order #{order.order_number}</h3>

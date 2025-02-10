@@ -1,28 +1,39 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Pencil } from "lucide-react";
-import axios from "axios"; // Asegúrate de importar axios
-import styles from "./ProductTableEdit.module.css"; // Importar los estilos del módulo CSS
+import { Pencil, Plus } from "lucide-react";
+import axios from "axios";
+import styles from "./ProductTableEdit.module.css";
 
 export default function ProductTableEdit() {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    description: "",
+    image: [],
+    categories: "",
+    type: "",
+    characteristics: "",
+    carrousel: "",
+    price: "",
+  });
 
   useEffect(() => {
-    fetch("/api/getModel", { credentials: "include" }) // Incluir cookies en la solicitud
+    fetch("/api/getModel", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         if (data && Array.isArray(data.products)) {
           setProducts(data.products);
         } else {
           console.error("Error: La API no devolvió un array válido", data);
-          setProducts([]); // Evita errores asignando un array vacío
+          setProducts([]);
         }
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
-        setProducts([]); // Si hay un error, evita que products sea undefined
+        setProducts([]);
       });
   }, []);
 
@@ -32,140 +43,119 @@ export default function ProductTableEdit() {
 
   const handleSave = async (id) => {
     const productToUpdate = products.find((p) => p.id === id);
+    if (!productToUpdate) return;
 
-    if (!productToUpdate) {
-      console.error("Producto no encontrado");
-      return;
-    }
+    const updatedFields = Object.fromEntries(
+      Object.entries(editingProduct).filter(
+        ([key, value]) => value !== productToUpdate[key]
+      )
+    );
 
-    const updatedFields = {};
-    if (editingProduct.name !== productToUpdate.name)
-      updatedFields.name = editingProduct.name;
-    if (editingProduct.description !== productToUpdate.description)
-      updatedFields.description = editingProduct.description;
-    if (editingProduct.image !== productToUpdate.image)
-      updatedFields.image = editingProduct.image;
-    if (editingProduct.categories !== productToUpdate.categories)
-      updatedFields.categories = editingProduct.categories;
-    if (editingProduct.solutions !== productToUpdate.solutions)
-      updatedFields.solutions = editingProduct.solutions;
-    if (editingProduct.characteristics !== productToUpdate.characteristics)
-      updatedFields.characteristics = editingProduct.characteristics;
-    if (editingProduct.carrousel !== productToUpdate.carrousel)
-      updatedFields.carrousel = editingProduct.carrousel;
-    if (editingProduct.price !== productToUpdate.price)
-      updatedFields.price = editingProduct.price;
-
-    if (Object.keys(updatedFields).length === 0) {
-      console.log("No hay cambios para actualizar");
-      return;
-    }
+    if (Object.keys(updatedFields).length === 0) return;
 
     try {
       const response = await axios.put(`/api/addModel/${id}`, updatedFields, {
-        withCredentials: true, // Enviar cookies con la solicitud
+        withCredentials: true,
       });
-
-      console.log("Producto actualizado correctamente:", response.data);
-
-      setProducts((prevProducts) =>
-        prevProducts.map((p) => (p.id === id ? { ...p, ...updatedFields } : p))
+      setProducts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updatedFields } : p))
       );
-
       setEditingProduct(null);
     } catch (error) {
-      console.error(
-        "Error al actualizar el producto:",
-        error.response?.data || error
-      );
+      console.error("Error al actualizar el producto:", error);
     }
   };
 
-  const handleChange = (id, field, value) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id ? { ...product, [field]: value } : product
-      )
-    );
+  const handleCreateProduct = async () => {
+    try {
+      const response = await axios.post("/api/addModel", newProduct, {
+        withCredentials: true,
+      });
+      setProducts([...products, response.data]);
+      setShowPopup(false);
+    } catch (error) {
+      console.error("Error al crear el producto:", error);
+    }
   };
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Lista de Productos</h2>
-      {!Array.isArray(products) || products.length === 0 ? (
-        <p className="text-center">No hay productos disponibles.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 bg-white">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2">ID</th>
-                <th className="border p-2">Nombre</th>
-                <th className="border p-2">Precio</th>
-                <th className="border p-2">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product.id} className="border">
-                  <td className="p-2">{product.id}</td>
-                  <td className="p-2">
-                    {editingProduct?.id === product.id ? (
-                      <input
-                        type="text"
-                        value={editingProduct.name}
-                        className={styles.input}
-                        onChange={(e) =>
-                          setEditingProduct({
-                            ...editingProduct,
-                            name: e.target.value,
-                          })
-                        }
-                      />
-                    ) : (
-                      product.name
-                    )}
-                  </td>
-                  <td className="p-2">
-                    {editingProduct?.id === product.id ? (
-                      <input
-                        type="number"
-                        value={editingProduct.price}
-                        className={styles.input}
-                        onChange={(e) =>
-                          setEditingProduct({
-                            ...editingProduct,
-                            price: e.target.value,
-                          })
-                        }
-                      />
-                    ) : (
-                      `$${product.price}`
-                    )}
-                  </td>
-                  <td className="p-2 flex gap-2">
-                    {editingProduct?.id === product.id ? (
-                      <button
-                        className={styles.saveButton}
-                        onClick={() => handleSave(product.id)}
-                      >
-                        Guardar
-                      </button>
-                    ) : (
-                      <button
-                        className={styles.editButton}
-                        onClick={() => handleEdit(product)}
-                      >
-                        <Pencil size={16} /> Editar
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <button className={styles.addButton} onClick={() => setShowPopup(true)}>
+        <Plus size={16} /> Agregar Producto
+      </button>
+      {showPopup && (
+        <div className={styles.popup}>
+          <div className={styles.popupContent}>
+            <h3>Crear Nuevo Producto</h3>
+            {Object.keys(newProduct).map((key) => (
+              <input
+                key={key}
+                type={key === "price" ? "number" : "text"}
+                placeholder={key}
+                value={newProduct[key]}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, [key]: e.target.value })
+                }
+              />
+            ))}
+            <button onClick={handleCreateProduct}>Crear</button>
+            <button onClick={() => setShowPopup(false)}>Cancelar</button>
+          </div>
         </div>
       )}
+      <table className="min-w-full border border-gray-300 bg-white">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border p-2">ID</th>
+            <th className="border p-2">Nombre</th>
+            <th className="border p-2">Precio</th>
+            <th className="border p-2">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id} className="border">
+              <td className="p-2">{product.id}</td>
+              <td className="p-2">
+                {editingProduct?.id === product.id ? (
+                  <input
+                    type="text"
+                    value={editingProduct.name}
+                    onChange={(e) =>
+                      setEditingProduct({ ...editingProduct, name: e.target.value })
+                    }
+                  />
+                ) : (
+                  product.name
+                )}
+              </td>
+              <td className="p-2">
+                {editingProduct?.id === product.id ? (
+                  <input
+                    type="number"
+                    value={editingProduct.price}
+                    onChange={(e) =>
+                      setEditingProduct({ ...editingProduct, price: e.target.value })
+                    }
+                  />
+                ) : (
+                  `$${product.price}`
+                )}
+              </td>
+              <td className="p-2 flex gap-2">
+                {editingProduct?.id === product.id ? (
+                  <button onClick={() => handleSave(product.id)}>Guardar</button>
+                ) : (
+                  <button onClick={() => handleEdit(product)}>
+                    <Pencil size={16} /> Editar
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
