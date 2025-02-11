@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Pencil, Plus } from "lucide-react";
 import axios from "axios";
 import styles from "./ProductTableEdit.module.css";
+import Swal from "sweetalert2";
 
 export default function ProductTableEdit() {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,9 @@ export default function ProductTableEdit() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("/api/getModel", { credentials: "include" });
+      const res = await fetch("/api/getModel?limit=999999", {
+        credentials: "include",
+      });
       const data = await res.json();
       if (data?.products && Array.isArray(data.products)) {
         setProducts(data.products);
@@ -47,30 +50,44 @@ export default function ProductTableEdit() {
   const handleSave = async (id) => {
     const productToUpdate = products.find((p) => p.id === id);
     if (!productToUpdate) return;
-
+  
     const updatedFields = Object.fromEntries(
       Object.entries(editingProduct).filter(
         ([key, value]) => value !== productToUpdate[key]
       )
     );
-
+  
     if (Object.keys(updatedFields).length === 0) {
       setEditingProduct(null);
       return;
     }
-
+  
     try {
       await axios.put(`/api/addModel/${id}`, updatedFields, {
         withCredentials: true,
       });
-
+  
       setProducts((prev) =>
         prev.map((p) => (p.id === id ? { ...p, ...updatedFields } : p))
       );
-
+  
       setEditingProduct(null);
+  
+      // Mostrar éxito con SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto actualizado con éxito',
+        text: 'Los cambios del producto han sido guardados.',
+      });
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
+  
+      // Mostrar error con SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al actualizar el producto',
+        text: 'Hubo un error al intentar actualizar el producto.',
+      });
     }
   };
 
@@ -86,7 +103,7 @@ export default function ProductTableEdit() {
   const handleCreateProduct = async () => {
     const imagePromises = newProduct.image.map((file) => convertToBase64(file));
     const imagesBase64 = await Promise.all(imagePromises);
-
+  
     const data = {
       name: newProduct.name,
       description: newProduct.description,
@@ -99,16 +116,16 @@ export default function ProductTableEdit() {
       carrousel: newProduct.carrousel,
       price: newProduct.price,
     };
-
+  
     try {
       const response = await axios.post("/api/addModel", data, {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },
       });
-
+  
       // Recargar la lista de productos
       await fetchProducts();
-
+  
       setShowPopup(false);
       setNewProduct({
         name: "",
@@ -120,13 +137,26 @@ export default function ProductTableEdit() {
         carrousel: "",
         price: "",
       });
+  
+      // Mostrar éxito con SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto creado con éxito',
+        text: 'El nuevo producto ha sido agregado correctamente.',
+      });
     } catch (error) {
       console.error("Error al crear el producto:", error);
+  
+      // Mostrar error con SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al crear el producto',
+        text: 'Hubo un error al intentar agregar el producto.',
+      });
     }
   };
-
   return (
-    <div className="p-6">
+    <div className={styles.root}>
       <h2 className="text-2xl font-bold mb-4">Lista de Productos</h2>
       <button className={styles.addButton} onClick={() => setShowPopup(true)}>
         <Plus size={16} /> Agregar Producto
@@ -162,8 +192,20 @@ export default function ProductTableEdit() {
                 />
               )
             )}
-            <button className={styles.createButton} onClick={handleCreateProduct}>Crear</button>
-            <button className={styles.cancelButton} onClick={() => setShowPopup(false)}>Cancelar</button>
+            <div className={styles.divButtons}>
+              <button
+                className={styles.createButton}
+                onClick={handleCreateProduct}
+              >
+                Crear
+              </button>
+              <button
+                className={styles.cancelButton}
+                onClick={() => setShowPopup(false)}
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -215,14 +257,22 @@ export default function ProductTableEdit() {
               </td>
               <td className={styles.td}>
                 {editingProduct?.id === product.id ? (
-                  <button className={styles.saveButton} onClick={() => handleSave(product.id)}>Guardar</button>
+                  <button
+                    className={styles.saveButton}
+                    onClick={() => handleSave(product.id)}
+                  >
+                    Guardar
+                  </button>
                 ) : (
-                  <button className={styles.editButton} onClick={() => handleEdit(product)}>
+                  <button
+                    className={styles.editButton}
+                    onClick={() => handleEdit(product)}
+                  >
                     <Pencil size={16} /> Editar
                   </button>
                 )}
               </td>
-            </tr> 
+            </tr>
           ))}
         </tbody>
       </table>
