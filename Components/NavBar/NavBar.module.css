@@ -49,6 +49,7 @@
 
 .navigationActive {
   border-bottom: 4px solid #f2f4f8;
+  color: white;
 }
 
 /* Nueva animación para el subrayado */

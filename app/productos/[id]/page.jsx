@@ -124,7 +124,7 @@ const Page = () => {
   if (error) {
     return (
       <div className={styles.error}>
-        <h1  className={styles.info}>Error: {error}</h1>
+        <h1 className={styles.info}>Error: {error}</h1>
       </div>
     );
   }
@@ -133,7 +133,7 @@ const Page = () => {
   if (!productExist) {
     return (
       <div className={styles.noProduct}>
-        <h1  className={styles.info}>El producto no existe</h1>
+        <h1 className={styles.info}>El producto no existe</h1>
       </div>
     );
   }
@@ -150,14 +150,21 @@ const Page = () => {
             </div>
             <div className={styles.gallery}>
               <div className={styles.selectedImage}>
-                <Image src={selectedImage} alt={product.name} width={200} height={200}/>
+                <Image
+                  src={selectedImage}
+                  alt={product.name}
+                  width={200}
+                  height={200}
+                  quality={100}
+                />
               </div>
               <div className={styles.thumbnailGallery}>
                 {product.image.map((image, index) => (
                   <Image
-                  height={100}
-                  width={100}
-                  key={index}
+                    height={100}
+                    width={100}
+                    quality={100} 
+                    key={index}
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
                     className={styles.thumbnail}
@@ -208,7 +215,11 @@ const Page = () => {
             <Slider {...carouselSettings} className={styles.carousel}>
               {relatedProducts.map((related) => (
                 <Link key={related.id} href={`/productos/${related.id}`}>
-                  <Card title={related.name} img={related.image[0]} price={related.price} />
+                  <Card
+                    title={related.name}
+                    img={related.image[0]}
+                    price={related.price}
+                  />
                 </Link>
               ))}
             </Slider>

@@ -15,30 +15,42 @@ cloudinary.v2.config({
 // Función para subir imágenes a Cloudinary
 async function uploadImages(images, folderName) {
   try {
-    console.log("Iniciando la subida de imágenes a Cloudinary...");
+    console.log("Iniciando la subida de imágenes a Cloudinary con transformación...");
 
     const uploadPromises = images.map((imageBase64) => {
       return new Promise((resolve, reject) => {
         const uploadStream = cloudinary.v2.uploader.upload_stream(
-          { folder: `models/${folderName}` },
+          {
+            folder: `models/${folderName}`,
+            transformation: [
+              { width: 500, height: 500, crop: "fill", gravity: "auto" }, // Recorte cuadrado centrado
+              { quality: "auto:best" }, // Calidad máxima
+              { fetch_format: "auto" }, // Formato óptimo
+              { dpr: "auto" }, // Densidad de píxeles automática
+              { effect: "enhance" }, // Mejora automática
+              { effect: "sharpen" }, // Nitidez extra
+            ],
+          },
           (error, result) => {
             if (error) reject(error);
             else resolve(result.secure_url);
           }
         );
+
         const buffer = Buffer.from(imageBase64.split(",")[1], "base64");
         uploadStream.end(buffer);
       });
     });
 
     const uploadedImages = await Promise.all(uploadPromises);
-    console.log("Imágenes subidas:", uploadedImages);
+    console.log("Imágenes subidas con transformación:", uploadedImages);
     return uploadedImages;
   } catch (error) {
     console.error("Error subiendo imágenes a Cloudinary:", error);
     throw new Error("Error subiendo imágenes a Cloudinary");
   }
 }
+
 
 export async function POST(request) {
   try {

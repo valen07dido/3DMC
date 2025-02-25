@@ -27,6 +27,18 @@
   flex-direction: column;
 }
 
+.links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: large;
+}
+.link {
+  color: #f2f4f8;
+  text-decoration: none;
+  margin: 10px 0px;
+}
 .line {
   flex-grow: 1;
   height: 1px;
