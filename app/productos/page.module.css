@@ -10,8 +10,8 @@
 /* Estilo del título principal */
 .title {
   color: #c2c2c2;
-  background-image: url("../../public/banner.png");
-  background-position: center bottom; /* Comienza desde la parte inferior */
+  background-image: url("../../public/DummyEscena2.jpeg");
+  background-position: center top; /* Comienza desde la parte inferior */
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -29,10 +29,10 @@
 /* Definición de la animación */
 @keyframes moveBackground {
   from {
-    background-position: center top; /* Comienza desde abajo */
+    background-position: center bottom; /* Comienza desde abajo */
   }
   to {
-    background-position: center bottom; /* Finaliza en la parte superior */
+    background-position: center top; /* Finaliza en la parte superior */
   }
 }
 

@@ -9,13 +9,6 @@ const nextConfig = {
     });
     return config;
   },
-  experimental: {
-    appDir: true, // Si usas la carpeta `/app`
-  },
-  api: {
-    bodyParser: true, // Asegura que se puedan procesar datos JSON en el backend
-    externalResolver: true, // Permite que Next.js no maneje las respuestas automáticamente
-  },
   async headers() {
     return [
       {

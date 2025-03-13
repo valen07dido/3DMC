@@ -19,7 +19,6 @@ export async function POST(req) {
         quantity: item.quantity,
         unit_price: item.unit_price,
         currency_id: "ARS",
-        description: item.description.slice(0, 256), // Limitar a 256 caracteres
       })),
       back_urls: {
         success: `${process.env.NEXT_PUBLIC_API_URL}/success`,
@@ -27,7 +26,9 @@ export async function POST(req) {
         pending: `${process.env.NEXT_PUBLIC_API_URL}/pending`,
       },
       auto_return: "approved",
+      notification_url: `${process.env.NEXT_PUBLIC_API_URL}/api/mercadopago-webhook`, // URL de tu webhook
     };
+    
 
     // Crear preferencia
     const response = await mercadopago.preferences.create(preference);

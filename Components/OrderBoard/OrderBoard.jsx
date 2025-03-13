@@ -1,11 +1,22 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import axios from "axios";
 import OrderCard from "../OrderCard/OrderCard";
-import styles from "./OrderBoard.module.css"; // Importamos el archivo de estilos
+import { useDroppable } from "@dnd-kit/core"; // Importar useDroppable
+import styles from "./OrderBoard.module.css";
+
+function DroppableColumn({ status, children }) {
+  const { setNodeRef } = useDroppable({ id: status });
+
+  return (
+    <div ref={setNodeRef} className={styles.statusColumn}>
+      <h2 className={styles.statusTitle}>{status}</h2>
+      {children}
+    </div>
+  );
+}
 
 export default function OrderBoard() {
   const [orders, setOrders] = useState({
@@ -40,7 +51,7 @@ export default function OrderBoard() {
     if (!over) return;
 
     const sourceColumn = active.data.current?.status;
-    const targetColumn = over.data.current?.status;
+    const targetColumn = over.id;  // Ahora debería ser el ID de la columna (gracias a useDroppable)
 
     if (sourceColumn === targetColumn) return;
 
@@ -48,6 +59,9 @@ export default function OrderBoard() {
     const orderIndex = updatedOrders[sourceColumn].findIndex(
       (o) => o.id === active.id
     );
+
+    if (orderIndex === -1 || !updatedOrders[targetColumn]) return; // Evitar errores
+
     const [movedOrder] = updatedOrders[sourceColumn].splice(orderIndex, 1);
     movedOrder.status = targetColumn;
     updatedOrders[targetColumn].push(movedOrder);
@@ -65,14 +79,13 @@ export default function OrderBoard() {
     <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
       <div className={styles.container}>
         {Object.entries(orders).map(([status, orders]) => (
-          <div key={status} className={styles.statusColumn}>
-            <h2 className={styles.statusTitle}>{status}</h2>
-            <SortableContext items={orders} strategy={verticalListSortingStrategy}>
+          <DroppableColumn key={status} status={status}>
+            <SortableContext items={orders.map((o) => o.id)} strategy={verticalListSortingStrategy}>
               {orders.map((order) => (
                 <OrderCard key={order.id} order={order} />
               ))}
             </SortableContext>
-          </div>
+          </DroppableColumn>
         ))}
       </div>
     </DndContext>

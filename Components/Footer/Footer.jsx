@@ -11,6 +11,7 @@ import {
   FaRegCopyright,
 } from "react-icons/fa";
 import Image from "next/image";
+import img from "@/public/logos/3dmc.svg"
 
 const Footer = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -42,9 +43,13 @@ const Footer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.chest}>
-
+      <Image src={img} width={200} height={200} alt="Logo"/>
+      <div className={styles.links}>
+        <Link href={"/productos"} className={styles.link}>Productos</Link>
+        <Link href={"/peticiones"}  className={styles.link}>Peticiones</Link>
+        <Link href={"/nosotros"}  className={styles.link}>Nosotros</Link>
       </div>
-
+      </div>
       <div className={styles.chest2}>
         <div className={styles.icons}>
           <FaYoutube className={styles.icon} />
@@ -55,7 +60,7 @@ const Footer = () => {
         <div className={styles.line}></div>
       </div>
 
-      {/* <div className={styles.navbar2}>
+     {/* <div className={styles.navbar2}>
         <p className={styles.componentNav}>Preguntas Frecuentes</p>
         <p className={styles.componentNav}>Políticas de privacidad</p>
         <p className={styles.componentNav}>Políticas de devolución</p>

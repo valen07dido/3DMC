@@ -1,5 +1,10 @@
 .main {
   background-color: #8c8c8c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
 }
 
 .title {
@@ -16,10 +21,21 @@
   align-items: center;
   width: 100%;
 }
-
+.box {
+  background-color: #c2c2c2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin: 20px 0;
+  text-align: center;
+  width: 60%;
+  border-radius: 25px;
+}
 .banner {
-  background-image: url("../public/banner.png");
-  background-position: center bottom; /* Comienza desde la parte inferior */
+  background-image: url("../public/DummyEscena.jpeg");
+  background-position: center top; /* Comienza desde la parte inferior */
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -33,12 +49,81 @@
   text-align: center;
   animation: moveBackground 3s ease-out forwards; /* Añade la animación */
 }
+.processSection {
+  background-color: #c2c2c2;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  border-radius: 25px;
+}
+
+.stepsContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 40px;
+  width:100%;
+}
+.title4{
+  font-size: xx-large;
+}
+.subtitle{
+  font-size: x-large;
+  text-align: center;
+}
+.step {
+  width: 250px;
+  text-align: center;
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.step p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.cta {
+  text-align: center;
+  margin-top: 20px;
+}
+.cta2 {
+  text-align: center;
+  margin: 20px;
+}
+
+.ctaButton {
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ctaButton:hover {
+  background-color: #218838;
+}
+
 @keyframes moveBackground {
   from {
-    background-position: center top; /* Comienza desde abajo */
+    background-position: center bottom; /* Comienza desde abajo */
   }
   to {
-    background-position: center bottom; /* Finaliza en la parte superior */
+    background-position: center top; /* Finaliza en la parte superior */
   }
 }
 
