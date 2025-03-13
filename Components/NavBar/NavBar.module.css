@@ -1,3 +1,5 @@
+/* Estilos generales */
+
 .containerGlobal {
   background: linear-gradient(90deg, #d3d3d1, #5c5c5d);
   height: 70px;
@@ -9,6 +11,7 @@
   z-index: 3;
   justify-content: center;
 }
+
 .container {
   display: flex;
   justify-content: space-between;
@@ -20,6 +23,7 @@
   width: 150px;
   height: auto;
 }
+
 .cartBadge {
   position: absolute;
   top: 5px;
@@ -30,6 +34,7 @@
   padding: 2px 5px;
   font-size: 12px;
 }
+
 .bar {
   display: flex;
   gap: 20px;
@@ -52,7 +57,6 @@
   color: white;
 }
 
-/* Nueva animación para el subrayado */
 .navigation::after {
   content: "";
   position: absolute;
@@ -61,14 +65,14 @@
   width: 100%;
   height: 2px;
   background-color: #fff;
-  transform: scaleX(0); /* Inicialmente está colapsado */
+  transform: scaleX(0);
   transition: transform 0.3s ease-in-out;
   transform-origin: bottom right;
 }
 
 .navigation:hover::after,
 .navigationActive::after {
-  transform: scaleX(1); /* Expande la línea al hacer hover o estar activo */
+  transform: scaleX(1);
   transform-origin: bottom left;
 }
 
@@ -76,7 +80,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  width: 500px;
+  width: 150px;
 }
 
 .buttons {
@@ -94,9 +98,11 @@
   color: #f2f4f8;
   transition: color 0.3s ease-in-out;
 }
-.links{
+
+.links {
   text-decoration: none;
 }
+
 .buttons:hover .icon {
   cursor: pointer;
   color: #6a5acd;
@@ -110,18 +116,18 @@
   flex-direction: column;
   width: 300px;
   margin-right: 60px;
-  position: relative; /* Posición relativa para manejar elementos hijos */
+  position: relative;
 }
 
 .searchForm {
   width: 100%;
   height: 100%;
-  position: relative; /* Necesario para el botón */
+  position: relative;
 }
 
 .searchInput {
-  width: 100%;
-  padding: 8px 12px; /* Ajustar para dar espacio al botón */
+  width: 120%;
+  padding: 8px 12px;
   border-radius: 50px;
   border: 1px solid #ccc;
   outline: none;
@@ -129,8 +135,8 @@
 
 .searchButton {
   position: absolute;
-  top: 55%;
-  left: 290px;
+  top: 60%;
+  right: -80px;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -143,56 +149,68 @@
   color: #483d8b;
 }
 
-.searchHistory {
-  margin-top: 8px;
-  list-style: none;
-  padding: 0;
-  max-height: 150px;
-  overflow-y: auto;
+/* Ocultamos el menú hamburguesa en escritorio */
+.menuButton {
+  display: none;
 }
 
-.searchHistory li {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 0;
-}
-
-.removeHistory {
-  color: #fff;
-  cursor: pointer;
-}
-
-.removeHistory:hover {
-  color: #ff6347;
-}
-
-@media (max-width: 900px) {
-  .searchBox {
-    width: 90%;
-  }
-}
-
-.removeHistory {
-  color: #fff;
-  cursor: pointer;
-}
-
-.removeHistory:hover {
-  color: #ff6347;
-}
-
+/* Media Queries para dispositivos móviles */
 @media (max-width: 900px) {
   .container {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    padding: 0 10px;
+  }
+
+  /* Mostramos el menú hamburguesa y ocultamos la barra en móvil */
+  .menuButton {
+    display: block;
+    background: none;
+    border: none;
+    color: #f2f4f8;
+    font-size: 28px;
+    cursor: pointer;
   }
 
   .bar {
-    flex-direction: column;
-    gap: 10px;
+    display: none;
   }
 
+  .bar.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: #5c5c5d;
+    z-index: 2;
+    padding-bottom: 20px;
+  }
+
+  .navigation {
+    padding: 15px 0;
+    font-size: 18px;
+  }
+
+  /* Ajustamos la barra de búsqueda dentro del menú */
   .searchBox {
-    width: 90%; /* Ajustar para pantallas más pequeñas */
+    width: 90%;
+    margin: 10px 0;
+  }
+
+  .bar.active .searchBox {
+    display: flex;
+  }
+
+  /* Ocultamos los botones de usuario y carrito en móvil */
+  .box3 {
+    display: flex;
+    align-items: center;
+  }
+
+  .box3 .buttons {
+    margin-left: 15px;
   }
 }
+

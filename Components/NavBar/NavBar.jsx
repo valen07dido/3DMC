@@ -2,7 +2,7 @@
 import Image from "next/image";
 import styles from "@/Components/NavBar/NavBar.module.css";
 import logo from "@/public/logos/logo_horizontal_sin_fondo.png";
-import { IoSearchSharp } from "react-icons/io5";
+import { IoSearchSharp, IoMenu, IoClose } from "react-icons/io5";
 import { PiShoppingCart } from "react-icons/pi";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -18,7 +18,7 @@ import UserRegisterModal from "@/Components/UserRegisterModal/UserRegisterModal"
 const NavBar = () => {
   const pathname = usePathname();
   const [suggestions, setSuggestions] = useState([]);
-  const [userRole,setUserRole]=useState("")
+  const [userRole, setUserRole] = useState("");
   const [cartItems, setCartItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,15 +26,16 @@ const NavBar = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-  const [userId,setUserId]=useState("")
+  const [userId, setUserId] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  // Función reutilizable para actualizar el estado del usuario
+
   const updateUserState = () => {
     const token = Cookies.get("authToken");
     if (token) {
       const decoded = parseJwt(token);
-      setUserRole(decoded?.rol)
-      setUserId(decoded?.id)
+      setUserRole(decoded?.rol);
+      setUserId(decoded?.id);
       const initial = decoded?.name?.charAt(0).toUpperCase();
       setUserInitial(initial || null);
       setIsLoggedIn(!!initial);
@@ -48,6 +49,7 @@ const NavBar = () => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(storedCart);
   }, []);
+
   const handleSearchChange = async (e) => {
     const query = e.target.value;
     setSearchTerm(query);
@@ -60,7 +62,7 @@ const NavBar = () => {
       setSuggestions([]);
     }
   };
-  // Función para manejar el envío del formulario de búsqueda
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim() === "") return;
@@ -68,7 +70,6 @@ const NavBar = () => {
     setSearchTerm("");
   };
 
-  // Función para manejar el clic en el icono de usuario
   const handleUserIconClick = () => {
     if (isLoggedIn) {
       setShowSidebar(!showSidebar);
@@ -76,8 +77,7 @@ const NavBar = () => {
       setShowLoginModal(true);
     }
   };
-  
-  // Decodificador de JWT para obtener datos del token
+
   const parseJwt = (token) => {
     try {
       const base64Url = token.split(".")[1];
@@ -95,7 +95,6 @@ const NavBar = () => {
     }
   };
 
-  // Efecto para obtener el estado del usuario desde las cookies al cargar el componente
   useEffect(() => {
     updateUserState();
   }, []);
@@ -106,7 +105,11 @@ const NavBar = () => {
         <Link href="/">
           <Image src={logo} className={styles.image} alt="logo" />
         </Link>
-        <div className={styles.bar}>
+
+        {/* Botón del menú hamburguesa */}
+
+        {/* Barra de navegación */}
+        <div className={`${styles.bar} ${menuOpen ? styles.active : ""}`}>
           <Link className={styles.links} href="/productos">
             <div
               className={
@@ -140,9 +143,8 @@ const NavBar = () => {
               Nosotros
             </div>
           </Link>
-        </div>
 
-        <div className={styles.box3}>
+          {/* Barra de búsqueda */}
           <div className={styles.searchBox}>
             <form onSubmit={handleSearch} className={styles.searchForm}>
               <input
@@ -157,7 +159,10 @@ const NavBar = () => {
               </button>
             </form>
           </div>
+        </div>
 
+        {/* Botones de usuario y carrito */}
+        <div className={styles.box3}>
           <button className={styles.buttons} onClick={handleUserIconClick}>
             {isLoggedIn && userInitial ? (
               <div className={styles.userInitial}>{userInitial}</div>
@@ -174,9 +179,19 @@ const NavBar = () => {
             </button>
           </Link>
         </div>
+        <button
+          className={styles.menuButton}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? (
+            <IoClose className={styles.icon} />
+          ) : (
+            <IoMenu className={styles.icon} />
+          )}
+        </button>
       </div>
 
-      {/* Modal para login */}
+      {/* Modales y Sidebar */}
       {showLoginModal && (
         <UserLoginModal
           onClose={() => setShowLoginModal(false)}
@@ -187,7 +202,6 @@ const NavBar = () => {
         />
       )}
 
-      {/* Modal para registro */}
       {showRegisterModal && (
         <UserRegisterModal
           onClose={() => setShowRegisterModal(false)}
@@ -198,8 +212,6 @@ const NavBar = () => {
         />
       )}
 
-      {/* Sidebar para usuario logueado */}
-      {/* Sidebar para usuario logueado */}
       {showSidebar && (
         <UserSidebar
           onClose={() => setShowSidebar(false)}

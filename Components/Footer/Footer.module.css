@@ -1,139 +1,180 @@
+/* Estilos Generales */
 .container {
   background-color: #5c5c5d;
+  padding: 20px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-}
-.chest {
-  display: flex;
-  padding-top: 10px;
-  justify-content: space-evenly;
-  margin-bottom: 15px;
-}
-.Box1 {
-  background-color: #c4c2c2;
-  border-top-left-radius: 30px;
-  border-bottom-right-radius: 30px;
-  width: 416px;
-  text-align: center;
-  align-content: center;
-}
-.Box2 {
-  text-align: center;
-  align-content: center;
-  align-items: center;
-}
-.navbar {
-  display: flex;
-  flex-direction: column;
+  color: #f2f4f8;
 }
 
-.links {
+.mainSection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo y Lema */
+.logoContainer {
+  flex: 1 1 200px;
+  text-align: center;
+}
+
+.lema {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+/* Links de Navegación */
+.linksContainer {
+  flex: 1 1 150px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  font-size: large;
+  align-items: center;
 }
+
 .link {
   color: #f2f4f8;
   text-decoration: none;
-  margin: 10px 0px;
+  margin: 10px 0;
+  font-size: 16px;
+  transition: color 0.3s ease;
 }
+
+.link:hover {
+  color: #ff6347;
+}
+
+/* Mapa */
+.mapContainer {
+  flex: 1 1 300px;
+}
+
+.mapContainer iframe {
+  width: 100%;
+  height: 200px;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Formulario de WhatsApp */
+.whatsappContainer {
+  flex: 1 1 200px;
+  background-color: #8a8889;
+  border-radius: 20px;
+  padding: 15px;
+  text-align: center;
+}
+
+.whatsappTitle {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.whatsappInput {
+  width: 100%;
+  padding: 10px 0px 10px 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 14px;
+}
+
+.whatsappButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #25d366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.whatsappButton:hover {
+  background-color: #1ebe5d;
+}
+
+.whatsappIcon {
+  font-size: 20px;
+}
+
+/* Sección Social */
+.socialSection {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.icons {
+  display: flex;
+  gap: 15px;
+}
+
+.icon {
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon:hover {
+  color: #ff6347;
+}
+
 .line {
   flex-grow: 1;
   height: 1px;
   background-color: grey;
-  margin: 0 15px 0 0;
+  margin-left: 20px;
 }
-.navbar2 {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  align-content: center;
+
+/* Footer Inferior */
+.footerBottom {
   text-align: center;
-  height: 50px;
-  margin: 0 150px 30px 0;
-}
-.chest2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.chest3 {
-  display: flex;
-  justify-content: space-between;
   background-color: #8a8889;
-  height: 100px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-}
-.links {
-  color: #cdd3de;
-  margin: 5px;
-  font-size: 15px;
-  text-decoration: none;
-}
-.icon {
-  font-size: 21.03px;
-  margin: 10px;
-  color: #ffff;
-  cursor: pointer;
+  padding: 15px;
+  border-radius: 20px;
 }
 
-.icons {
-  margin: 0 20px 0 80px;
+.speech {
+  margin-bottom: 5px;
+  font-size: 18px;
 }
 
-.copyright {
-  margin: 0 60px 0 0;
-  color: #f2f4f8;
-}
-.componentNav {
-  color: #cdd3de;
-  margin: 10px;
-  cursor: pointer;
-}
-.text {
-  color: #cdd3de;
-  margin: 10px 0 10px 0;
-}
-.location {
-  width: 350px;
-  margin: -13px;
-}
-.title {
-  color: #0064ff;
-}
-.mail {
-  color: #0064ff;
-}
-
-.speach {
-  color: #f2f4f8;
-}
-.logoContainer {
-  display: flex;
-  align-items: center; /* Alinea verticalmente la imagen y el lema */
-  gap: 10px; /* Espacio entre el logo y el lema */
-}
-
-.lema {
-  width: 400px;
-  font-size: 18px; /* Tamaño de fuente del lema */
-  color: #ffff; /* Color del lema */
-  font-weight: 400; /* Peso de la fuente (puedes ajustarlo) */
-}
-
-/* Responsividad */
+/* Media Queries para Responsividad */
 @media (max-width: 900px) {
-  .logoContainer {
-    flex-direction: column; /* En pantallas pequeñas, coloca el logo y lema en columna */
+  .mainSection {
+    flex-direction: column;
     align-items: center;
   }
 
+  .linksContainer,
+  .whatsappContainer {
+    width: 90%;
+  }
+
   .lema {
-    font-size: 16px; /* Tamaño más pequeño del lema en móviles */
-    margin-top: 10px; /* Separación entre el logo y el lema */
+    font-size: 16px;
+  }
+
+  .icon {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .whatsappInput,
+  .whatsappButton {
+    width: 100%;
+  }
+
+  .whatsappButton {
+    padding: 8px;
   }
 }

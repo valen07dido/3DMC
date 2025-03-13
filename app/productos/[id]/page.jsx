@@ -8,16 +8,14 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Page = () => {
-  const id = usePathname().split("/").pop(); // Obtener el ID de la URL
+  const id = usePathname().split("/").pop();
   const [loading, setLoading] = useState(false);
-  const [product, setProduct] = useState(null); // Usar null en lugar de [] para un producto
-  const [productExist, setProductExist] = useState(true); // Estado para controlar si el producto existe
-  const [relatedProducts, setRelatedProducts] = useState([]); // Estado para productos relacionados
+  const [product, setProduct] = useState(null);
+  const [productExist, setProductExist] = useState(true);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const router = useRouter();
-
-  // Configuración del carrusel
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -44,7 +42,6 @@ const Page = () => {
     ],
   };
 
-  // Función para manejar el carrito en localStorage
   const getCartFromLocalStorage = () => {
     const cart = localStorage.getItem("cart");
     return cart ? JSON.parse(cart) : [];
@@ -55,19 +52,19 @@ const Page = () => {
     const existingProduct = cart.find((item) => item.id === product.id);
 
     if (existingProduct) {
-      existingProduct.quantity += 1; // Si el producto ya existe, se incrementa la cantidad
+      existingProduct.quantity += 1;
     } else {
-      cart.push({ ...product, quantity: 1 }); // Si no, se añade al carrito con cantidad 1
+      cart.push({ ...product, quantity: 1 });
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart)); // Guardamos el carrito en localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
     alert("Producto añadido al carrito");
   };
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
-      setError(null); // Reiniciar el error en una nueva solicitud
+      setError(null);
       try {
         const response = await fetch(`/api/getModel/${id}`);
         if (!response.ok) {
@@ -75,16 +72,16 @@ const Page = () => {
         }
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
-          setProduct(data[0]); // Asumimos que el primer elemento es el producto
-          setSelectedImage(data[0].image[0]); // Establecer la primera imagen como la predeterminada
-          fetchRelatedProducts(data[0].categories); // Obtener productos relacionados
+          setProduct(data[0]);
+          setSelectedImage(data[0].image[0]);
+          fetchRelatedProducts(data[0].categories);
         } else {
-          setProductExist(false); // Si el producto no se encuentra, actualizamos el estado
-          setProduct(null); // Aseguramos que product sea null cuando no existe
+          setProductExist(false);
+          setProduct(null);
         }
       } catch (error) {
         setError(error.message);
-        setProductExist(false); // También aseguramos que el producto no existe en caso de error
+        setProductExist(false);
       } finally {
         setLoading(false);
       }
@@ -98,7 +95,6 @@ const Page = () => {
         }
         const data = await response.json();
 
-        // Filtrar productos relacionados que pertenezcan a la misma categoría
         const filteredProducts = data.products.filter(
           (prod) => prod.categories === category && prod.id !== id
         );
@@ -112,7 +108,6 @@ const Page = () => {
     fetchProduct();
   }, [id]);
 
-  // Manejo de los mensajes de carga y error
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -129,7 +124,6 @@ const Page = () => {
     );
   }
 
-  // Si no existe el producto
   if (!productExist) {
     return (
       <div className={styles.noProduct}>
@@ -140,7 +134,6 @@ const Page = () => {
 
   return (
     <div className={styles.container}>
-      {/* Detalles del producto */}
       {product && (
         <div className={styles.productDetails}>
           <div className={styles.flex1}>
@@ -163,7 +156,7 @@ const Page = () => {
                   <Image
                     height={100}
                     width={100}
-                    quality={100} 
+                    quality={100}
                     key={index}
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
@@ -205,12 +198,10 @@ const Page = () => {
         </div>
       )}
 
-      {/* Carrusel de productos relacionados */}
       {relatedProducts.length > 0 ? (
         <div className={styles.relatedProducts}>
           <h2>Productos Relacionados</h2>
 
-          {/* Solo renderizamos el Slider si hay más de 1 producto relacionado */}
           {relatedProducts.length > 1 ? (
             <Slider {...carouselSettings} className={styles.carousel}>
               {relatedProducts.map((related) => (
@@ -224,7 +215,6 @@ const Page = () => {
               ))}
             </Slider>
           ) : (
-            // Si solo hay un producto, lo mostramos sin el Slider
             <div className={styles.singleProduct}>
               <Link
                 key={relatedProducts[0].id}
