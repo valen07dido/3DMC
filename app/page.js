@@ -5,8 +5,8 @@ import Carousel from "@/Components/Carousel/Carousel";
 import img3 from "@/public/products/batman/batman1.png";
 import img4 from "../public/products/harry_potter/harrypotter1.png";
 import img5 from "../public/products/trex/trex1.png";
-import HorizontalCard from "@/Components/HorizontalCard/HorizontalCard";
 import Link from "next/link";
+import { FaArrowUp } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css"; // Importa los estilos de AOS
 
@@ -17,30 +17,14 @@ export default function Home() {
       once: true, // Solo se activa una vez
     });
   }, []);
-  const horizontalArr = [
-    {
-      img: img5,
-      title: "T-REX",
-      text: "Un poderoso tiranosaurio para espantar a todas tus visitas!",
-      orientation: "D",
-    },
-    {
-      img: img3,
-      title: "Batman",
-      text: "Figura de accion super-realista del caballero de la noche",
-      orientation: "D",
-    },
-    {
-      img: img4,
-      title: "Funko Harry Potter",
-      text: "Un Excelente adorno para tener en tu repisa y coleccionarlos",
-      orientation: "I",
-    },
-  ];
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+ 
   return (
     <main className={styles.main}>
       <div className={styles.banner}>
-        <h1 className={styles.title}>Soluciones 3D</h1>
+        <h1 className={styles.title}>Articulos 3D</h1>
       </div>
       <div>
         <h1 className={styles.title2}>Quienes somos?</h1>
@@ -117,6 +101,9 @@ export default function Home() {
           </Link>
         </div>
       </div>
+      <button className={styles.scrollToTopButton} onClick={scrollToTop}>
+        <FaArrowUp />
+      </button>
     </main>
   );
 }
