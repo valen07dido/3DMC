@@ -3,52 +3,55 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  justify-items: center;
   align-items: center;
 }
 
 .title {
   height: 10%;
   color: #c2c2c2;
-  font-size: 64px;
+  font-size: 4vw; /* Adaptable al ancho de la pantalla */
   font-weight: 700;
+  text-align: center;
 }
 
 .carousel {
-  margin: 50px 0 30px 0;
+  margin: 50px 0 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
+
 .box {
   background-color: #c2c2c2;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-items: center;
   margin: 20px 0;
   text-align: center;
   width: 60%;
+  max-width: 800px; /* Limita el tamaño en pantallas grandes */
   border-radius: 25px;
 }
+
 .banner {
   background-image: url("../public/DummyEscena.jpeg");
-  background-position: center top; /* Comienza desde la parte inferior */
+  background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   width: 100%;
   height: 550px;
   font-weight: 700;
-  font-size: 64px;
+  font-size: 4vw;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  animation: moveBackground 3s ease-out forwards; /* Añade la animación */
+  animation: moveBackground 3s ease-in-out forwards; /* Ajuste de animación */
 }
+
 .processSection {
   background-color: #c2c2c2;
   padding: 40px 0;
@@ -56,6 +59,7 @@
   flex-direction: column;
   align-items: center;
   width: 60%;
+  max-width: 800px;
   border-radius: 25px;
 }
 
@@ -65,15 +69,18 @@
   flex-wrap: wrap;
   gap: 40px;
   margin-top: 40px;
-  width:100%;
+  width: 100%;
 }
-.title4{
+
+.title4 {
   font-size: xx-large;
 }
-.subtitle{
+
+.subtitle {
   font-size: x-large;
   text-align: center;
 }
+
 .step {
   width: 250px;
   text-align: center;
@@ -83,21 +90,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.step h3 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.step p {
-  font-size: 1rem;
-  color: #666;
-}
-
-.cta {
-  text-align: center;
-  margin-top: 20px;
-}
+.cta,
 .cta2 {
   text-align: center;
   margin: 20px;
@@ -120,10 +113,10 @@
 
 @keyframes moveBackground {
   from {
-    background-position: center bottom; /* Comienza desde abajo */
+    background-position: center bottom;
   }
   to {
-    background-position: center top; /* Finaliza en la parte superior */
+    background-position: center top;
   }
 }
 
@@ -131,7 +124,8 @@
   color: #c2c2c2;
   text-align: center;
   font-weight: 700;
-  margin: 30px 0 30px 0;
+  margin: 30px 0;
+  font-size: 3vw;
 }
 
 .products {
@@ -139,16 +133,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-items: center;
   margin-bottom: 20px;
 }
-@media (max-width: 999px) {
-  .title {
-    display: flex;
-    align-items: center;
-    text-align: center;
-  }
-}
+
 .scrollToTopButton {
   position: fixed;
   bottom: 20px;
@@ -157,12 +144,12 @@
   color: white;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s ease;
@@ -171,13 +158,14 @@
 .scrollToTopButton:hover {
   background-color: #0056b3;
 }
-/* General adjustments for responsiveness */
+
+/* Media Queries para Responsividad */
 @media (max-width: 1200px) {
   .title {
-    font-size: 48px;
+    font-size: 3.5vw;
   }
   .title2 {
-    font-size: 32px;
+    font-size: 2.5vw;
   }
   .step {
     width: 200px;
@@ -187,7 +175,6 @@
 @media (max-width: 992px) {
   .banner {
     height: 400px;
-    background-size: cover;
   }
   .title {
     font-size: 40px;
@@ -208,10 +195,12 @@
 @media (max-width: 768px) {
   .banner {
     height: 300px;
-    background-size: cover;
   }
   .title {
     font-size: 32px;
+  }
+  .title4{
+    text-align: center;
   }
   .title2 {
     font-size: 24px;
@@ -219,6 +208,7 @@
   .stepsContainer {
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
   .step {
     width: 90%;
@@ -236,6 +226,16 @@
   .title2 {
     font-size: 20px;
   }
+  .processSection{
+    width: 90%;
+  }
+  .title4{
+    font-size: 25px;
+    text-align: center;
+  }
+  .subtitle{
+    font-size: 20px;
+  }
   .banner {
     height: 250px;
   }
@@ -243,7 +243,7 @@
     width: 90%;
   }
   .step {
-    width: 100%;
+    width: 70%;
   }
   .ctaButton {
     padding: 8px 16px;

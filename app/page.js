@@ -20,7 +20,7 @@ export default function Home() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
- 
+
   return (
     <main className={styles.main}>
       <div className={styles.banner}>
@@ -63,14 +63,6 @@ export default function Home() {
               tomar desde horas hasta días dependiendo del modelo.
             </p>
           </div>
-
-          <div className={styles.step}>
-            <h3>4. Postprocesamiento</h3>
-            <p>
-              Tras la impresión, realizamos los detalles finales como el
-              acabado, pintado o ensamblaje si es necesario.
-            </p>
-          </div>
         </div>
         <p className={styles.subtitle}>
           Queres un proyecto personalizado? pedilo haciendo click en el
@@ -89,15 +81,14 @@ export default function Home() {
         data-aos="fade-right"
         data-aos-duration="1000"
       >
-        <h1>Conoce Nuestros diseños mas vendidos?</h1>
+        <h1>Queres saber cuales son nuestros diseños mas vendidos?</h1>
         <h3>
-          Haciendo click en el siguiente boton vas a conocer la magia de nuestros mejores articulos.
-         </h3>
-         <div className={styles.cta2}>
+          Haciendo click en el siguiente boton vas a conocer la magia de
+          nuestros mejores articulos.
+        </h3>
+        <div className={styles.cta2}>
           <Link href="/productos">
-            <button className={styles.ctaButton}>
-              Productos
-            </button>
+            <button className={styles.ctaButton}>Productos</button>
           </Link>
         </div>
       </div>

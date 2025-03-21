@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Slider from "react-slick"; // Importar react-slick
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import styles from "./page.module.css";
 import Card from "@/Components/Card/Card";
 import Link from "next/link";
@@ -18,9 +20,9 @@ const Page = () => {
   const router = useRouter();
   const carouselSettings = {
     dots: true,
-    infinite: true,
+    infinite: relatedProducts.length > 3,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow:3,
     slidesToScroll: 1,
     swipeToSlide: true,
     autoplay: true,
@@ -30,7 +32,7 @@ const Page = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: relatedProducts.length >= 2 ? 2 : 1,
         },
       },
       {
@@ -41,7 +43,8 @@ const Page = () => {
       },
     ],
   };
-
+  
+  
   const getCartFromLocalStorage = () => {
     const cart = localStorage.getItem("cart");
     return cart ? JSON.parse(cart) : [];
@@ -94,11 +97,10 @@ const Page = () => {
           throw new Error("Failed to fetch related products");
         }
         const data = await response.json();
-
         const filteredProducts = data.products.filter(
-          (prod) => prod.categories === category && prod.id !== id
+          (prod) => prod.categories.includes(category) && prod.id !== id
         );
-
+        console.log(filteredProducts)
         setRelatedProducts(filteredProducts);
       } catch (error) {
         console.error("Error fetching related products:", error);
@@ -205,7 +207,7 @@ const Page = () => {
           {relatedProducts.length > 1 ? (
             <Slider {...carouselSettings} className={styles.carousel}>
               {relatedProducts.map((related) => (
-                <Link key={related.id} href={`/productos/${related.id}`}>
+                <Link key={related.id} href={`/productos/${related.id}`} className={styles.relatedCont}>
                   <Card
                     title={related.name}
                     img={related.image[0]}

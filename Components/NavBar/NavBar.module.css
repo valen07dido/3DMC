@@ -189,14 +189,18 @@
   }
 
   .navigation {
+    margin-top: 20px;
     padding: 15px 0;
     font-size: 18px;
   }
-
+.navigationActive{
+  margin-top: 20px;
+  padding: 15px 0;
+  font-size: 18px;
+}
   /* Ajustamos la barra de búsqueda dentro del menú */
   .searchBox {
-    width: 90%;
-    margin: 10px 0;
+    width: 70%;
   }
 
   .bar.active .searchBox {
