@@ -52,19 +52,29 @@ export async function PUT(request) {
       carrousel,
       price
     } = await request.json();
+    console.log({
+      name,
+      description,
+      image,
+      categories,
+      solutions,
+      characteristics,
+      carrousel,
+      price
+    })
 
     // Filtrar los campos definidos
     const fieldsToUpdate = {
-      ...(name && { name }),
-      ...(description && { description }),
-      ...(image && { image }),
-      ...(categories && { categories }),
-      ...(solutions && { solutions }),
-      ...(characteristics && { characteristics }),
-      ...(carrousel && { carrousel }),
-      ...(price && {price})
+      ...(name !== undefined ? { name } : {}),
+      ...(description !== undefined ? { description } : {}),
+      ...(image !== undefined ? { image } : {}),
+      ...(categories !== undefined ? { categories } : {}),
+      ...(solutions !== undefined ? { solutions } : {}),
+      ...(characteristics !== undefined ? { characteristics } : {}),
+      ...(typeof carrousel === 'boolean' ? { carrousel } : {}),
+      ...(price !== undefined ? { price } : {}),
     };
-
+    
     // Si no hay campos para actualizar, retornar error
     if (Object.keys(fieldsToUpdate).length === 0) {
       return NextResponse.json(

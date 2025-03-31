@@ -45,12 +45,12 @@ const UserSidebar = ({ onClose, onLogout, userRole, id }) => {
     <ul className={styles.sidebarMenu}>
       <h1>Bienvenido Usuario</h1>
       <li>
-        <Link href={`/profile/${id}`} onClick={onClose}>
+        <Link href={`/perfil/${id}`} onClick={onClose}>
           Mi Perfil
         </Link>
       </li>
       <li>
-        <Link href={`/orders/${id}`} onClick={onClose}>
+        <Link href={`/ordenes/${id}`} onClick={onClose}>
           Mis Pedidos
         </Link>
       </li>

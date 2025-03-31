@@ -1,12 +1,13 @@
 .root {
   margin-top: 80px;
-  --primary-color: #4CAF50; /* Verde */
+  --primary-color: #4caf50; /* Verde */
   --secondary-color: #f44336; /* Rojo */
   --background-light: #f8f9fa;
   --border-color: #ddd;
   --text-dark: #333;
   --transition-speed: 0.3s;
   padding: 1rem;
+  background-color: #fff;
 }
 
 /* Botón principal */
@@ -20,7 +21,7 @@
   cursor: pointer;
   border-radius: 6px;
   transition: background-color var(--transition-speed), transform 0.1s;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
 }
@@ -49,7 +50,7 @@
 }
 
 .popupContent {
-  background: white;
+  background: #fff;
   padding: 24px;
   border-radius: 8px;
   width: 90%;
@@ -67,7 +68,10 @@
   color: var(--text-dark);
 }
 
-.popupContent input {
+/* Inputs dentro del modal */
+.popupContent input[type="text"],
+.popupContent input[type="number"],
+.popupContent input[type="file"] {
   width: 100%;
   padding: 12px;
   margin-bottom: 12px;
@@ -82,7 +86,7 @@
   outline: none;
 }
 
-/* Botones dentro del modal */
+/* Botones del modal */
 .popupContent button {
   padding: 10px 16px;
   font-size: 14px;
@@ -90,6 +94,7 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background-color var(--transition-speed);
+  min-width: 100px;
 }
 
 .createButton {
@@ -112,15 +117,23 @@
   background-color: #d32f2f;
 }
 
-/* Tabla */
-.tableWrapper {
-  overflow-x: auto; /* Permite scroll horizontal en dispositivos pequeños */
+.divButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
 }
 
+/* Contenedor de la tabla */
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+/* Tabla en sí */
 .table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
+  background-color: #fff;
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
@@ -131,34 +144,47 @@
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+  color: var(--text-dark);
 }
 
 .th {
   background-color: var(--background-light);
   font-weight: bold;
-  color: var(--text-dark);
 }
 
 .tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #f9f9f9;
 }
 
 .tr:hover {
   background-color: #e9ecef;
 }
 
-/* Botones en la tabla */
+/* Estilos para los inputs en modo edición (dentro de la tabla) */
+.td input[type="text"],
+.td input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Botones para la edición y borrado en la tabla */
 .saveButton,
-.editButton {
+.editButton,
+.deleteButton {
   padding: 8px 14px;
   font-size: 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color var(--transition-speed);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  margin: 2px;
 }
 
 .saveButton {
@@ -179,6 +205,34 @@
   background-color: #0056b3;
 }
 
+.deleteButton {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #d32f2f;
+}
+/* Contenedor del checkbox y su etiqueta */
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Estilo para la etiqueta, para mantener la consistencia */
+.checkboxContainer label {
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+/* Estilos para el checkbox */
+.checkboxContainer input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
 /* Animaciones */
 @keyframes fadeIn {
   from {
@@ -200,30 +254,61 @@
   }
 }
 
-/* ========================= Responsividad ========================= */
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 8px;
+}
 
-/* Pantallas medianas */
+.pageButton {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 4px;
+}
+
+.pageButton:hover {
+  background-color: #f0f0f0;
+}
+
+.pageButton.active {
+  background-color: var(--primary-color);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+}
+
+.pageButton:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
   .root {
     margin-top: 60px;
     padding: 0.75rem;
   }
-  
+
   .addButton {
     padding: 10px 20px;
     font-size: 14px;
   }
-  
+
   .popupContent {
     width: 95%;
     max-width: none;
     padding: 16px;
   }
-  
+
   .tableWrapper {
     margin-top: 1rem;
   }
-  
+
   .th,
   .td {
     padding: 8px;
@@ -231,29 +316,28 @@
   }
 }
 
-/* Pantallas pequeñas */
 @media (max-width: 480px) {
   .root {
     margin-top: 40px;
     padding: 0.5rem;
   }
-  
+
   .addButton {
     padding: 8px 16px;
     font-size: 12px;
   }
-  
+
   .popupContent {
     width: 100%;
     max-width: none;
     padding: 12px;
   }
-  
+
   .divButtons {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .th,
   .td {
     padding: 6px;
