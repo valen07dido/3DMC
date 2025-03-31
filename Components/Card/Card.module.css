@@ -5,7 +5,6 @@
   height: 350px;
   background-color: #5c5c5d;
   border-radius: 5px;
-  margin: 15px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
