@@ -9,6 +9,7 @@ import Link from "next/link";
 import { FaArrowUp } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css"; // Importa los estilos de AOS
+import CookieBanner from "@/Components/CookieBanner/CookieBanner";
 
 export default function Home() {
   useEffect(() => {
@@ -95,6 +96,7 @@ export default function Home() {
       <button className={styles.scrollToTopButton} onClick={scrollToTop}>
         <FaArrowUp />
       </button>
+      <CookieBanner />
     </main>
   );
 }
