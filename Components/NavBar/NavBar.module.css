@@ -45,6 +45,7 @@
   color: #f2f4f8;
   font-size: 13px;
   font-weight: 500;
+  font-size: medium;
   text-decoration: none;
   height: 100%;
   padding: 10px 15px;
@@ -55,6 +56,8 @@
 .navigationActive {
   border-bottom: 4px solid #f2f4f8;
   color: white;
+  font-size: medium;
+
 }
 
 .navigation::after {
