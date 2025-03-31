@@ -1,9 +1,13 @@
 "use client";
 import styles from "./UserSidebar.module.css";
 import Cookies from "js-cookie";
-import Link from "next/link"; // Importa Link para manejar navegación en Next.js
+import Link from "next/link";
+import { FiLogOut } from "react-icons/fi"; // Importa el ícono para cerrar sesión
+import { useRouter } from "next/navigation"; // O bien de "next/router" según tu versión
 
 const UserSidebar = ({ onClose, onLogout, userRole, id }) => {
+  const router = useRouter();
+
   const handleLogout = () => {
     console.log("handleLogout se ejecutó");
     // Elimina el token de las cookies
@@ -12,34 +16,44 @@ const UserSidebar = ({ onClose, onLogout, userRole, id }) => {
     onLogout();
     // Cierra el sidebar
     onClose();
+    // Redirige al home
+    router.push("/");
   };
 
   const adminMenu = (
     <ul className={styles.sidebarMenu}>
-      <h1>{`Menú de Administrador (${id})`}</h1>
+      <h1>Menú de Administrador</h1>
       <li>
-        <Link href={`/admin/usuarios`}>Gestión de Usuarios</Link>
+        <Link href={`/admin/usuarios`} onClick={onClose}>
+          Gestión de Usuarios
+        </Link>
       </li>
       <li>
-        <Link href={`/admin/productos`}>Gestión de Productos</Link>
+        <Link href={`/admin/productos`} onClick={onClose}>
+          Gestión de Productos
+        </Link>
       </li>
       <li>
-        <Link href={`/admin/pedidos`}>Pedidos Pendientes</Link>
+        <Link href={`/admin/pedidos`} onClick={onClose}>
+          Pedidos Pendientes
+        </Link>
       </li>
-      <li onClick={handleLogout}>Cerrar Sesión</li>
     </ul>
   );
 
   const clientMenu = (
     <ul className={styles.sidebarMenu}>
-      <h1>{`Bienvenido Usuario (${id})`}</h1>
+      <h1>Bienvenido Usuario</h1>
       <li>
-        <Link href={`/profile/${id}`}>Mi Perfil</Link>
+        <Link href={`/profile/${id}`} onClick={onClose}>
+          Mi Perfil
+        </Link>
       </li>
       <li>
-        <Link href={`/orders/${id}`}>Mis Pedidos</Link>
+        <Link href={`/orders/${id}`} onClick={onClose}>
+          Mis Pedidos
+        </Link>
       </li>
-      <li onClick={handleLogout}>Cerrar Sesión</li>
     </ul>
   );
 
@@ -52,6 +66,11 @@ const UserSidebar = ({ onClose, onLogout, userRole, id }) => {
         </button>
       </div>
       {userRole === "admin" ? adminMenu : clientMenu}
+      
+      {/* Botón de cerrar sesión posicionado abajo a la izquierda */}
+      <div className={styles.logoutIcon} onClick={handleLogout}>
+        <FiLogOut />
+      </div>
     </div>
   );
 };

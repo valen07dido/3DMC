@@ -27,7 +27,7 @@ export default function Home() {
         <h1 className={styles.title}>Articulos 3D</h1>
       </div>
       <div>
-        <h1 className={styles.title2}>Quienes somos?</h1>
+        <h1 className={styles.title2}>Nuestros Productos</h1>
       </div>
       <div className={styles.carousel}>
         <Carousel className={styles.carouselcomp} />

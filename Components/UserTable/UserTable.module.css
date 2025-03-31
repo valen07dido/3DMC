@@ -1,48 +1,66 @@
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-  
-  .tableHeader {
-    background-color: #f8f8f8;
-  }
-  
-  .table {
-    min-width: 100%;
-    background-color: #fff;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+}
+
+.tableHeader {
+  background-color: #f8f8f8;
+}
+
+.table {
+  min-width: 100%;
+  background-color: #fff;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  font-weight: bold;
+  background-color: #f1f1f1;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.error {
+  color: #e74c3c;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.loading {
+  color: #7f8c8d;
+  text-align: center;
+}
+
+/* Ajustes para pantallas medianas */
+@media (max-width: 768px) {
   .table th,
   .table td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 8px;
+    font-size: 14px;
   }
-  
-  .table th {
-    font-weight: bold;
-    background-color: #f1f1f1;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+  .table th,
+  .table td {
+    padding: 6px;
+    font-size: 12px;
   }
-  
-  .table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .error {
-    color: #e74c3c;
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .loading {
-    color: #7f8c8d;
-    text-align: center;
-  }
-  
+}

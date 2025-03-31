@@ -1,5 +1,3 @@
-/* ProductTableEdit.module.css */
-
 .root {
   margin-top: 80px;
   --primary-color: #4CAF50; /* Verde */
@@ -8,6 +6,7 @@
   --border-color: #ddd;
   --text-dark: #333;
   --transition-speed: 0.3s;
+  padding: 1rem;
 }
 
 /* Botón principal */
@@ -70,8 +69,6 @@
 
 .popupContent input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 8px;
   padding: 12px;
   margin-bottom: 12px;
   border: 1px solid var(--border-color);
@@ -116,6 +113,10 @@
 }
 
 /* Tabla */
+.tableWrapper {
+  overflow-x: auto; /* Permite scroll horizontal en dispositivos pequeños */
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -124,12 +125,7 @@
   overflow: hidden;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 }
-.divButtons{
-  width: 90%;
-  display: flex;
-  justify-content: space-evenly;
 
-}
 .th,
 .td {
   text-align: left;
@@ -201,5 +197,66 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+/* ========================= Responsividad ========================= */
+
+/* Pantallas medianas */
+@media (max-width: 768px) {
+  .root {
+    margin-top: 60px;
+    padding: 0.75rem;
+  }
+  
+  .addButton {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .popupContent {
+    width: 95%;
+    max-width: none;
+    padding: 16px;
+  }
+  
+  .tableWrapper {
+    margin-top: 1rem;
+  }
+  
+  .th,
+  .td {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+/* Pantallas pequeñas */
+@media (max-width: 480px) {
+  .root {
+    margin-top: 40px;
+    padding: 0.5rem;
+  }
+  
+  .addButton {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  
+  .popupContent {
+    width: 100%;
+    max-width: none;
+    padding: 12px;
+  }
+  
+  .divButtons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .th,
+  .td {
+    padding: 6px;
+    font-size: 12px;
   }
 }

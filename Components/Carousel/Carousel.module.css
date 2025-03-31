@@ -1,5 +1,6 @@
 .carouselContainer {
   overflow: hidden;
+  padding: 0 10px; /* Agrega un poco de padding lateral para evitar que se pegue a los bordes en móvil */
 }
 
 .carousel :global(.slick-dots li button:before) {
@@ -25,11 +26,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  justify-items: center;
   margin-bottom: 30px;
   text-decoration: none;
 }
+
 .cartas {
   width: 200px;
+  transition: width 0.3s ease;
+}
 
+/* Ajustes para pantallas menores */
+@media (max-width: 600px) {
+  .cartas {
+    width: 90%;      /* Se adapta al 90% del contenedor */
+    max-width: 200px; /* Para no exceder el ancho original */
+  }
+  .carousel :global(.slick-dots li button:before),
+  .carousel :global(.slick-dots li.slick-active button:before) {
+    margin-top: -20px;
+    font-size: 8px;
+  }
 }

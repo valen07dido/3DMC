@@ -1,49 +1,97 @@
-/* OrderBoard.module.css */
-
 .container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+  margin-top: 70px;
+}
+
+.statusColumn {
+  background-color: #f3f4f6;
+  padding: 16px;
+  border-radius: 8px;
+  min-height: 300px;
+}
+
+.statusTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.orderCard {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+  cursor: move;
+}
+
+.dragging {
+  opacity: 0.5;
+}
+
+.itemList {
+  margin-top: 8px;
+}
+
+.itemText {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.itemHeader {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ================== Responsividad ================== */
+
+/* Para pantallas medianas */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px;
   }
   
   .statusColumn {
-    background-color: #f3f4f6;
-    padding: 16px;
-    border-radius: 8px;
-    min-height: 300px;
+    padding: 12px;
+    min-height: 250px;
   }
   
   .statusTitle {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-size: 1rem;
+    margin-bottom: 6px;
   }
   
   .orderCard {
-    background-color: white;
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 8px;
-    cursor: move;
+    padding: 12px;
+    margin-bottom: 6px;
+  }
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 480px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 8px;
   }
   
-  .dragging {
-    opacity: 0.5;
+  .statusColumn {
+    padding: 8px;
+    min-height: 200px;
   }
   
-  .itemList {
-    margin-top: 8px;
-  }
-  
-  .itemText {
+  .statusTitle {
     font-size: 0.875rem;
-    color: #4b5563;
+    margin-bottom: 4px;
   }
   
-  .itemHeader {
-    font-weight: 600;
-    color: #374151;
+  .orderCard {
+    padding: 8px;
+    margin-bottom: 4px;
   }
-  
+}

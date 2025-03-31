@@ -6,11 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 import styles from "./Carousel.module.css";
 import Card from "@/Components/Card/Card";
 import Image from "next/image";
-import imageLoading from "@/public/loading.svg"
+import imageLoading from "@/public/loading.svg";
 import Link from "next/link";
 
 export default function Carousel() {
-  var settings = {
+  const settings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -34,6 +34,7 @@ export default function Carousel() {
       },
     ],
   };
+
   const url = process.env.NEXT_PUBLIC_API_URL;
   const [array, setArray] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,21 +71,22 @@ export default function Carousel() {
 
   return (
     <div className={styles.carouselContainer}>
-          {loading ? (
-      <Image src={imageLoading} width={50} height={50} alt="cargando"/>
-    ) : (
-      <Slider {...settings} className={styles.carousel}>
-        {array.map((item, index) => (
-          <Link  href={`/productos/${item.id}`} key={index} className={styles.cardContainer}>
-            <Card
-              img={item.image[0]}
-              title={item.name}
-              className={styles.cartas}
-              price={item.price}
-            />
-          </Link>
-        ))}
-      </Slider>)}
+      {loading ? (
+        <Image src={imageLoading} width={50} height={50} alt="cargando" />
+      ) : (
+        <Slider {...settings} className={styles.carousel}>
+          {array.map((item, index) => (
+            <Link href={`/productos/${item.id}`} key={index} className={styles.cardContainer}>
+              <Card
+                img={item.image[0]}
+                title={item.name}
+                className={styles.cartas}
+                price={item.price}
+              />
+            </Link>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 }

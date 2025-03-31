@@ -15,7 +15,7 @@
 }
 
 .carousel {
-  margin: 50px 0 30px;
+  margin: 0 0 35px 5%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,6 +195,9 @@
 @media (max-width: 768px) {
   .banner {
     height: 300px;
+  }
+  .carouselcomp{
+    width: 100%;
   }
   .title {
     font-size: 32px;

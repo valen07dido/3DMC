@@ -105,49 +105,49 @@ const NavBar = () => {
     <nav className={styles.containerGlobal}>
       <div className={styles.container}>
         <Link href="/">
-          <Image src={logo} className={styles.image} alt="logo" />
+          <Image src={logo} className={styles.image} alt="logo" priority/>
         </Link>
 
         {/* Botón del menú hamburguesa */}
 
-      {/* Barra de navegación */}
-      <div className={`${styles.bar} ${menuOpen ? styles.active : ""}`}>
-        <Link className={styles.links} href="/productos">
-          <div
-            className={
-              pathname === "/productos"
-                ? styles.navigationActive
-                : styles.navigation
-            }
-            onClick={closeMenu} // Cierra el menú al hacer clic en este enlace
-          >
-            Productos
-          </div>
-        </Link>
-        <Link className={styles.links} href="/peticiones">
-          <div
-            className={
-              pathname === "/peticiones"
-                ? styles.navigationActive
-                : styles.navigation
-            }
-            onClick={closeMenu} // Cierra el menú al hacer clic en este enlace
-          >
-            Peticiones
-          </div>
-        </Link>
-        <Link className={styles.links} href="/nosotros">
-          <div
-            className={
-              pathname === "/nosotros"
-                ? styles.navigationActive
-                : styles.navigation
-            }
-            onClick={closeMenu} // Cierra el menú al hacer clic en este enlace
-          >
-            Nosotros
-          </div>
-        </Link>
+        {/* Barra de navegación */}
+        <div className={`${styles.bar} ${menuOpen ? styles.active : ""}`}>
+          <Link className={styles.links} href="/productos">
+            <div
+              className={
+                pathname === "/productos"
+                  ? styles.navigationActive
+                  : styles.navigation
+              }
+              onClick={closeMenu} // Cierra el menú al hacer clic en este enlace
+            >
+              Productos
+            </div>
+          </Link>
+          <Link className={styles.links} href="/peticiones">
+            <div
+              className={
+                pathname === "/peticiones"
+                  ? styles.navigationActive
+                  : styles.navigation
+              }
+              onClick={closeMenu} // Cierra el menú al hacer clic en este enlace
+            >
+              Peticiones
+            </div>
+          </Link>
+          <Link className={styles.links} href="/nosotros">
+            <div
+              className={
+                pathname === "/nosotros"
+                  ? styles.navigationActive
+                  : styles.navigation
+              }
+              onClick={closeMenu} // Cierra el menú al hacer clic en este enlace
+            >
+              Nosotros
+            </div>
+          </Link>
 
           {/* Barra de búsqueda */}
           <div className={styles.searchBox}>
