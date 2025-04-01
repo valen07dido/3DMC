@@ -43,11 +43,11 @@ export default function Carousel() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/api/getModel?t=${new Date().getTime()}`,
+          `/api/getModel?limit=999999"?`, // Añadir un query para evitar el cache
           {
             method: "GET",
             headers: {
-              "Cache-Control": "no-cache",
+              "Cache-Control": "no-cache", // Para evitar la caché
             },
           }
         );
@@ -57,7 +57,13 @@ export default function Carousel() {
         }
 
         const data = await response.json();
-        const filteredData = data.products.filter(item => item.carrousel);
+        console.log(data)
+        console.log("Productos recibidos:", data.products); // Verifica los datos que recibes
+
+        // Filtrar los productos que tienen 'carrousel' como true
+        const filteredData = data.products.filter(item => item.carrousel === true);
+
+        // Actualizar el estado con los productos filtrados
         setArray(filteredData);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
@@ -67,7 +73,7 @@ export default function Carousel() {
     };
 
     fetchData();
-  }, [url]);
+  }, []); // El array vacío asegura que esto solo se ejecute al montar el componente
 
   return (
     <div className={styles.carouselContainer}>
@@ -75,16 +81,20 @@ export default function Carousel() {
         <Image src={imageLoading} width={50} height={50} alt="cargando" />
       ) : (
         <Slider {...settings} className={styles.carousel}>
-          {array.map((item, index) => (
-            <Link href={`/productos/${item.id}`} key={index} className={styles.cardContainer}>
-              <Card
-                img={item.image[0]}
-                title={item.name}
-                className={styles.cartas}
-                price={item.price}
-              />
-            </Link>
-          ))}
+          {array.length > 0 ? (
+            array.map((item, index) => (
+              <Link href={`/productos/${item.id}`} key={index} className={styles.cardContainer}>
+                <Card
+                  img={item.image[0]}
+                  title={item.name}
+                  className={styles.cartas}
+                  price={item.price}
+                />
+              </Link>
+            ))
+          ) : (
+            <p>No hay productos en el carrusel.</p> // Mensaje si no hay productos para mostrar
+          )}
         </Slider>
       )}
     </div>
