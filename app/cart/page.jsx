@@ -6,10 +6,8 @@ import Image from "next/image";
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [total, setTotal] = useState(0); // Agregar estado para total
+  const [total, setTotal] = useState(0);
 
-  // Cargar el carrito desde localStorage al montar el componente
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
     try {
@@ -21,100 +19,58 @@ const CartPage = () => {
     }
   }, []);
 
-  // Calcular el total del carrito
   useEffect(() => {
     const calculatedTotal = cart.reduce((acc, item) => {
-      const itemPrice = parseFloat(item.price) || 0; // Asegura que el precio sea un número válido
-      const itemQuantity = item.quantity || 0; // Asegura que la cantidad sea un número válido
+      const itemPrice = parseFloat(item.price) || 0;
+      const itemQuantity = item.quantity || 0;
       return acc + itemPrice * itemQuantity;
     }, 0);
     setTotal(calculatedTotal);
-  }, [cart]); // Este useEffect se ejecuta cada vez que el carrito cambia
+  }, [cart]);
 
-  // Eliminar un producto del carrito
   const removeFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  // Vaciar el carrito completamente
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem("cart");
   };
 
-  // Actualizar la cantidad de un producto
-// Actualizar la cantidad de un producto
-const handleQuantityChange = (productId, newQuantity) => {
-  // Convierte la cantidad a un número entero
-  const parsedQuantity = parseInt(newQuantity, 10);
+  const handleQuantityChange = (productId, newQuantity) => {
+    const parsedQuantity = parseInt(newQuantity, 10);
+    if (isNaN(parsedQuantity) || parsedQuantity < 1) return;
 
-  // Verificar si la cantidad es válida (no NaN) y dentro del rango permitido
-  if (isNaN(parsedQuantity) || parsedQuantity < 1) {
-    // Si la cantidad es inválida, asignar el valor mínimo de 1
-    return;
-  }
+    const updatedCart = cart.map((item) =>
+      item.id === productId
+        ? {
+            ...item,
+            quantity: Math.min(parsedQuantity, item.stock || Infinity),
+          }
+        : item
+    );
 
-  // Asegurarse de que cada producto tenga un stock disponible y no modificar si no hay stock
-  const updatedCart = cart.map((item) =>
-    item.id === productId
-      ? {
-          ...item,
-          quantity: Math.min(parsedQuantity, item.stock || Infinity), // Limitar la cantidad al stock disponible, Infinity si no hay stock
-        }
-      : item
-  );
-
-  // Actualizar el carrito en el estado y en localStorage
-  setCart(updatedCart);
-  localStorage.setItem("cart", JSON.stringify(updatedCart));
-
-  // Recalcular el total después de actualizar la cantidad
-  const calculatedTotal = updatedCart.reduce((acc, item) => {
-    const itemPrice = parseFloat(item.price) || 0; // Asegura que el precio sea un número válido
-    const itemQuantity = item.quantity || 0; // Asegura que la cantidad sea un número válido
-    return acc + itemPrice * itemQuantity;
-  }, 0);
-
-  // Actualizar el total en el estado
-  setTotal(calculatedTotal);
-};
-
-  // Manejar el proceso de pago
-  const handlePayment = async () => {
-    const items = cart.map((item) => ({
-      title: item.name,
-      description: item.description || "Sin descripción",
-      picture_url: item.image?.[0] || "/default-image.jpg",
-      quantity: item.quantity,
-      unit_price: item.price,
-      currency_id: "ARS", // Moneda obligatoria
-    }));
-
-    try {
-      const response = await fetch("/api/payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ items }),
-      });
-
-      const data = await response.json();
-
-      if (!data.init_point) {
-        throw new Error("No se recibió init_point");
-      }
-
-      window.location.href = data.init_point;
-    } catch (error) {
-      console.error("Error en la creación de la preferencia:", error.message);
-      alert("Ocurrió un error al procesar el pago.");
-    }
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  // Mostrar mensaje si el carrito está vacío
+  const generateWhatsAppMessage = () => {
+    let message = "Hola! Vi tus productos y quisiera:%0A";
+    cart.forEach((item) => {
+      message += `-${item.quantity}un ${item.name} x $${item.price * item.quantity}%0A`;
+    });
+    message += "%0AEspero tus datos para realizar la transferencia!!";
+    return message;
+  };
+
+  const handleWhatsAppPayment = () => {
+    const phoneNumber = "+5493415077065"; // Reemplaza con el número de WhatsApp del negocio
+    const message = generateWhatsAppMessage();
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+  };
+
   if (cart.length === 0) {
     return (
       <div className={styles.emptyCart}>
@@ -173,13 +129,13 @@ const handleQuantityChange = (productId, newQuantity) => {
           <button onClick={clearCart} className={styles.clearButton}>
             Vaciar carrito
           </button>
-          <button
-            onClick={handlePayment}
-            disabled={loading}
+          <a
+            href="#"
+            onClick={handleWhatsAppPayment}
             className={styles.payButton}
           >
-            {loading ? "Procesando..." : "Proceder al pago"}
-          </button>
+            Comprar por WhatsApp
+          </a>
         </div>
       </div>
     </div>
