@@ -7,15 +7,19 @@ const SECRET_KEY = process.env.JWT_SECRET; // Usa una variable de entorno
 
 export async function POST(request) {
   try {
-    const { email, password } = await request.json();
-
+    const { identifier, password } = await request.json();
+    console.log(identifier,password)
     // Validación de entrada
-    if (!email || !password) {
+    if (!identifier || !password) {
       return NextResponse.json({ message: "Faltan datos requeridos" }, { status: 400 });
     }
 
-    // Consulta el usuario en la base de datos
-    const result = await sql`SELECT id, email, name, password, rol FROM "Users" WHERE email = ${email}`;
+    // Buscar usuario por email o username
+    const result = await sql`
+      SELECT id, email, username, name, password, rol 
+      FROM "Users" 
+      WHERE email = ${identifier} OR username = ${identifier}`;
+
     const user = result.rows[0];
 
     // Verifica si el usuario existe
@@ -31,7 +35,7 @@ export async function POST(request) {
 
     // Genera el token JWT
     const token = jwt.sign(
-      { id: user.id, email: user.email, name: user.name, rol: user.rol },
+      { id: user.id, email: user.email, username: user.username, name: user.name, rol: user.rol },
       SECRET_KEY,
       { expiresIn: "2h" }
     );
@@ -39,11 +43,11 @@ export async function POST(request) {
     // Configura la cookie en la respuesta
     const response = NextResponse.json({ message: "Inicio de sesión exitoso" });
     response.cookies.set("authToken", token, {
-      httpOnly: false, // No accesible desde JavaScript
-      secure: process.env.NODE_ENV === "production", // Solo en HTTPS en producción
+      httpOnly: false, // Solo accesible en el servidor
+      secure: process.env.NODE_ENV === "production",
       maxAge: 2 * 60 * 60, // 2 horas
-      path: "/", // Disponible para toda la aplicación
-      sameSite: "lax", // Evita problemas con peticiones cruzadas
+      path: "/",
+      sameSite: "lax",
     });
 
     return response;

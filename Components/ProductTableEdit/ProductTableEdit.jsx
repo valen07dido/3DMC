@@ -133,29 +133,74 @@ export default function ProductTableEdit() {
   };
 
   const handleCreateProduct = async () => {
-    const imagePromises = newProduct.image.map((file) => convertToBase64(file));
-    const imagesBase64 = await Promise.all(imagePromises);
-
-    const data = {
-      name: newProduct.name,
-      description: newProduct.description,
-      images: imagesBase64,
-      categories: newProduct.categories,
-      type: newProduct.type,
-      characteristics: Array.isArray(newProduct.characteristics)
-        ? newProduct.characteristics
-        : newProduct.characteristics.split(",").map((s) => s.trim()),
-      carrousel: newProduct.carrousel,
-      price: Number(newProduct.price),
-    };
-
+    // Validaciones previas
+    if (
+      !newProduct.name.trim() ||
+      !newProduct.description.trim() ||
+      !newProduct.categories.trim() ||
+      !newProduct.type.trim()
+    ) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, completa todos los campos obligatorios.",
+      });
+    }
+  
+    if (isNaN(newProduct.price) || newProduct.price <= 0) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Precio inválido",
+        text: "El precio debe ser un número positivo.",
+      });
+    }
+  
+    if (newProduct.image.length > 3) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Demasiadas imágenes",
+        text: "Solo puedes subir un máximo de 3 imágenes.",
+      });
+    }
+  
     try {
+      // Mostrar alerta de carga
+      Swal.fire({
+        title: "Creando producto...",
+        text: "Por favor, espera mientras se crea el producto.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+  
+      // Convertir imágenes a Base64
+      const imagePromises = newProduct.image.map((file) => convertToBase64(file));
+      const imagesBase64 = await Promise.all(imagePromises);
+  
+      const data = {
+        name: newProduct.name,
+        description: newProduct.description,
+        images: imagesBase64,
+        categories: newProduct.categories,
+        type: newProduct.type,
+        characteristics: Array.isArray(newProduct.characteristics)
+          ? newProduct.characteristics
+          : newProduct.characteristics.split(",").map((s) => s.trim()),
+        carrousel: newProduct.carrousel,
+        price: Number(newProduct.price),
+      };
+  
+      // Enviar producto al backend
       await axios.post("/api/addModel", data, {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },
       });
+  
       await fetchProducts();
       setShowPopup(false);
+  
+      // Resetear formulario
       setNewProduct({
         name: "",
         description: "",
@@ -166,6 +211,8 @@ export default function ProductTableEdit() {
         carrousel: false,
         price: "",
       });
+  
+      // Cerrar alerta de carga y mostrar éxito
       Swal.fire({
         icon: "success",
         title: "Producto creado con éxito",
@@ -173,6 +220,8 @@ export default function ProductTableEdit() {
       });
     } catch (error) {
       console.error("Error al crear el producto:", error);
+  
+      // Cerrar alerta de carga y mostrar error
       Swal.fire({
         icon: "error",
         title: "Error al crear el producto",
@@ -180,7 +229,8 @@ export default function ProductTableEdit() {
       });
     }
   };
-
+  
+  
   // Paginación
   const totalPages = Math.ceil(products.length / itemsPerPage);
   const paginatedProducts = products.slice(

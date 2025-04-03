@@ -17,7 +17,7 @@ const UserLoginModal = ({ onClose, onLoginSuccess }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
- 
+
   // Maneja el inicio de sesión
   const handleLogin = async () => {
     setLoading(true);
@@ -28,12 +28,12 @@ const UserLoginModal = ({ onClose, onLoginSuccess }) => {
         headers: { "Content-Type": "application/json" },
         credentials: "include", // Asegura que las cookies se incluyan
         body: JSON.stringify({
-          email: formData.email,
+          identifier: formData.email,
           password: formData.password,
         }),
       });
-
       const result = await response.json();
+      console.log(result);
       if (response.ok) {
         onLoginSuccess(result.user); // Pasar el usuario logueado al componente padre
         onClose(); // Cerrar el modal
@@ -101,7 +101,7 @@ const UserLoginModal = ({ onClose, onLoginSuccess }) => {
               <input
                 type="email"
                 name="email"
-                placeholder="Correo electrónico"
+                placeholder="Correo electrónico o usuario"
                 value={formData.email}
                 onChange={handleChange}
                 className={styles.input}
