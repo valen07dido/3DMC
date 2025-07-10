@@ -16,7 +16,7 @@ const Footer = () => {
   const [whatsappMessage, setWhatsappMessage] = useState("");
 
   const handleSendMessage = () => {
-    const phoneNumber = "543413164761"; // Número de WhatsApp sin el "+"
+    const phoneNumber = "5493412604338"; // Número de WhatsApp sin el "+"
     const encodedMessage = encodeURIComponent(whatsappMessage);
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappURL, "_blank");

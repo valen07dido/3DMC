@@ -66,7 +66,7 @@ const CartPage = () => {
   };
 
   const handleWhatsAppPayment = () => {
-    const phoneNumber = "+5493415077065"; // Reemplaza con el número de WhatsApp del negocio
+    const phoneNumber = "+5493412604338"; // Reemplaza con el número de WhatsApp del negocio
     const message = generateWhatsAppMessage();
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   };
